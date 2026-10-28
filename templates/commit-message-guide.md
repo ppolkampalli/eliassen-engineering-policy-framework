@@ -1,14 +1,14 @@
 # Commit Message Guide
 
-Conventional Commits, constitution-extended. Commit messages are part of the audit
-trail: they carry AI provenance (LAW-7.3) and amendment enactments.
+Conventional Commits, policy-framework-extended. Commit messages are part of the audit
+trail: they carry AI provenance (POL-7.3) and policy change enactments.
 
 ## Format
 
 ```text
 <type>(<optional scope>): <imperative summary ≤72 chars> [Claude-assisted]?
 
-<body: the WHY — context, constraint, trade-off (LAW-6.4 applies to commits too)>
+<body: the WHY — context, constraint, trade-off (POL-6.4 applies to commits too)>
 
 <footer: ticket refs, breaking changes>
 ```
@@ -19,15 +19,15 @@ trail: they carry AI provenance (LAW-7.3) and amendment enactments.
 |---|---|
 | `feat` | New behavior |
 | `fix` | Bug fix |
-| `test` | Tests only (red commits in TDD, LAW-3.1) |
+| `test` | Tests only (red commits in TDD, POL-3.1) |
 | `refactor` | Structure change, behavior identical |
 | `docs` | Documentation only |
 | `chore` | Tooling, deps, scaffolding |
 | `perf` | Performance change (with measurements) |
 | `ci` | Pipeline/workflow changes |
-| `law` | **Reserved: amendment enactments only** |
+| `policy` | **Reserved: policy change enactments only** |
 
-## The `[Claude-assisted]` tag (LAW-7.3)
+## The `[Claude-assisted]` tag (POL-7.3)
 
 Any commit containing AI-generated code carries the tag in the subject line:
 
@@ -39,19 +39,19 @@ Threshold: AI produced code that survived into the commit. When in doubt, tag.
 Other approved tools use their own tag (`[Copilot-assisted]`). Undisclosed AI
 involvement is the violation — never the involvement itself.
 
-## The `law:` prefix (reserved)
+## The `policy:` prefix (reserved)
 
-Used exclusively for amendment enactments, by the exact format in
-[AMENDMENT-PROCESS.md](../amendments/AMENDMENT-PROCESS.md):
+Used exclusively for policy change enactments, by the exact format in
+[POLICY-CHANGE-PROCESS.md](../policy-changes/POLICY-CHANGE-PROCESS.md):
 
 ```text
-law: amend LAW-X.Y via AMD-YYYY-NNN — <summary>
+policy: amend POL-X.Y via AMD-YYYY-NNN — <summary>
 ```
 
-A `law:` commit must contain the law file change, registry updates, the ENACTED
-amendment record, and the CHANGELOG entry — one commit, per the enactment stage.
+A `policy:` commit must contain the policy file change, registry updates, the ENACTED
+policy change record, and the CHANGELOG entry — one commit, per the enactment stage.
 
-## TDD commit rhythm (LAW-3.1)
+## TDD commit rhythm (POL-3.1)
 
 ```text
 test(pricing): proration charges partial month at daily rate (red)
@@ -70,5 +70,5 @@ revocation. JIRA-2231.
 ```
 
 ```text
-law: amend LAW-2.4 via AMD-2026-002 — extend explicit return types to public class accessors
+policy: amend POL-2.4 via AMD-2026-002 — extend explicit return types to public class accessors
 ```

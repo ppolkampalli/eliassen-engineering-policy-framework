@@ -4,7 +4,7 @@ status: PROPOSED          # PROPOSED | APPROVED | REJECTED | ENACTED
 proposed_by: ""
 proposed_date: ""
 laws_affected: []
-reviewers_required: []     # owner personas of affected laws
+reviewers_required: []     # owner roles of affected policies
 decision_by: ""
 decision_date: ""
 ---
@@ -15,18 +15,18 @@ decision_date: ""
 Why is this change needed? What problem, incident, or learning prompted it?
 
 ## Changes
-For each affected law:
-### LAW-X.Y (vCURRENT → vNEW)
+For each affected policy:
+### POL-X.Y (vCURRENT → vNEW)
 **Before:** <exact current statement>
 **After:** <exact new statement>
 
 ## Impact Analysis
 - Projects affected and migration effort
 - Configs/tooling that must change (eslint, CI, etc.)
-- Personas whose mandates change
+- Roles whose mandates change
 
 ## Review Record
-| Persona/Role | Reviewer | Verdict | Date | Notes |
+| Role/Role | Reviewer | Verdict | Date | Notes |
 |---|---|---|---|---|
 
 ## Decision

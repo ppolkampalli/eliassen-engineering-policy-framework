@@ -2,14 +2,14 @@
 
 - **Status:** PROPOSED | ACCEPTED | SUPERSEDED by ADR-NNNN
 - **Date:** YYYY-MM-DD
-- **Deciders:** <names/roles; personas consulted>
+- **Deciders:** <names/roles; roles consulted>
 - **Work item:** <ticket/PR>
 
 ## Context
 
 <!-- The problem and its forces, measured where possible: SLO breach numbers,
      scaling limits, requirement constraints. What makes this decision necessary
-     NOW (LAW-1.4: decisions are deliberate, not accreted)? -->
+     NOW (POL-1.4: decisions are deliberate, not accreted)? -->
 
 ## Options Considered
 
@@ -28,13 +28,13 @@
 
 ## Consequences
 
-<!-- Costs accepted, risks created, follow-up work required (ticketed per LAW-1.2),
+<!-- Costs accepted, risks created, follow-up work required (ticketed per POL-1.2),
      what becomes easier/harder. -->
 
-## Laws Considered
+## Policies Considered
 
-<!-- Required section (LAW-4.5). Citations relevant to this decision, e.g.:
-- [LAW-4.1 v1.0] — layering impact of the new component
-- [LAW-9.3 v1.0] — cost estimate: <figure>, FinOps review <status>
-- [LAW-5.6 v1.0] — data in transit between new components
+<!-- Required section (POL-4.5). Citations relevant to this decision, e.g.:
+- [POL-4.1 v1.0] — layering impact of the new component
+- [POL-9.3 v1.0] — cost estimate: <figure>, FinOps review <status>
+- [POL-5.6 v1.0] — data in transit between new components
 -->

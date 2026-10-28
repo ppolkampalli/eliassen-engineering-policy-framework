@@ -1,8 +1,8 @@
 {
-  "name": "engineering-constitution",
-  "displayName": "Eliassen Group · Engineering Constitution",
-  "description": "Develop under the Eliassen Group Engineering Constitution: assume 8 governance personas (security, architect, quality, software-engineer, product-owner, industry-sme, devops, finops), run citation-aware enforcement skills, orchestrate the defined workflows, and look up the 57 citable laws — all from inside Claude Code.",
-  "version": "1.2.0",
+  "name": "engineering-policy-framework",
+  "displayName": "Eliassen Group · Engineering Policy Framework",
+  "description": "Develop under the Eliassen Group Engineering Policy Framework: assume 8 governance roles (security, architect, quality, software-engineer, product-owner, industry-sme, devops, finops), run citation-aware enforcement skills, orchestrate the defined workflows, and look up the 57 citable policies — all from inside Claude Code.",
+  "version": "2.0.0",
   "author": {
     "name": "Pramod Polkampalli",
     "email": "PPolkampalli@eliassen.com"
@@ -12,10 +12,10 @@
   "license": "SEE LICENSE IN LICENSE",
   "keywords": [
     "governance",
-    "personas",
+    "roles",
     "sdlc",
     "agentic",
-    "engineering-constitution",
+    "engineering-policy-framework",
     "code-review",
     "tdd",
     "security"

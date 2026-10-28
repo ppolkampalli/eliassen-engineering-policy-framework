@@ -1,5 +1,5 @@
-# Enforces: LAW-6.2 (Quality Gates Are Inviolable) — lint, type-check,
-# tests+coverage (LAW-3.2), format check (LAW-2.2).
+# Enforces: POL-6.2 (Quality Gates Are Inviolable) — lint, type-check,
+# tests+coverage (POL-3.2), format check (POL-2.2).
 # Installed into .github/workflows/ by scripts/install.sh.
 name: quality
 
@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    name: Lint (Article 2)
+    name: Lint (Policy Domain 2)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,11 +19,11 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: ESLint (LAW-2.1, 2.3, 2.4, 2.5, 4.3)
+      - name: ESLint (POL-2.1, 2.3, 2.4, 2.5, 4.3)
         run: npm run lint
 
   type-check:
-    name: Type Check (LAW-2.3/2.4)
+    name: Type Check (POL-2.3/2.4)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
         run: npm run type-check
 
   test:
-    name: Tests + Coverage Floors (LAW-3.2)
+    name: Tests + Coverage Floors (POL-3.2)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -49,7 +49,7 @@ jobs:
         run: npm test -- --coverage
 
   format:
-    name: Format Check (LAW-2.2)
+    name: Format Check (POL-2.2)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -61,5 +61,5 @@ jobs:
       - name: Prettier check (formatting is never manual)
         run: npx prettier --check .
 
-# LAW-6.2: all four jobs are required status checks on protected branches.
+# POL-6.2: all four jobs are required status checks on protected branches.
 # There is no override path — a red gate is fixed, never bypassed.

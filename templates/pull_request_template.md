@@ -1,4 +1,4 @@
-<!-- Governed by the Engineering Constitution v1.0.0 — cite laws by ID. -->
+<!-- Governed by the Engineering Policy Framework v1.0.0 — cite policies by ID. -->
 
 ## What
 
@@ -6,33 +6,33 @@
 
 ## Why
 
-<!-- The motivation: ticket, incident, business rule (cite per LAW-8.2 if domain logic). -->
+<!-- The motivation: ticket, incident, business rule (cite per POL-8.2 if domain logic). -->
 
 ## Testing
 
-<!-- How this was verified. Test-first evidence per LAW-3.1: which failing test
+<!-- How this was verified. Test-first evidence per POL-3.1: which failing test
      preceded the implementation? New/changed test names. -->
 
 ## Gates Checklist
 
-- [ ] Failing test written before implementation (LAW-3.1)
-- [ ] Coverage floors hold — no threshold edits (LAW-3.2)
-- [ ] Lint clean, no suppressions added (Article 2, LAW-1.3)
-- [ ] No `any`; exported return types explicit (LAW-2.3, LAW-2.4)
-- [ ] Inputs validated / queries parameterized / no secrets (LAW-5.1, LAW-5.2, LAW-5.3)
-- [ ] Public APIs documented; docs updated in this PR (LAW-6.3, LAW-6.5)
-- [ ] ADR included if structurally significant (LAW-4.5)
-- [ ] In scope, or PO sign-off recorded (LAW-8.4)
-- [ ] Infra: IaC + rollback documented + cost estimate + tags (LAW-9.1–9.3, if applicable)
+- [ ] Failing test written before implementation (POL-3.1)
+- [ ] Coverage floors hold — no threshold edits (POL-3.2)
+- [ ] Lint clean, no suppressions added (Policy Domain 2, POL-1.3)
+- [ ] No `any`; exported return types explicit (POL-2.3, POL-2.4)
+- [ ] Inputs validated / queries parameterized / no secrets (POL-5.1, POL-5.2, POL-5.3)
+- [ ] Public APIs documented; docs updated in this PR (POL-6.3, POL-6.5)
+- [ ] ADR included if structurally significant (POL-4.5)
+- [ ] In scope, or PO sign-off recorded (POL-8.4)
+- [ ] Infra: IaC + rollback documented + cost estimate + tags (POL-9.1–9.3, if applicable)
 
-## AI Assistance (LAW-7.3)
+## AI Assistance (POL-7.3)
 
 - **Tool:** <!-- e.g., Claude Code (approved list ✓) / none -->
 - **What the AI produced:** <!-- generated components/logic, or "n/a" -->
-- **What the human verified/modified:** <!-- the LAW-7.4 evidence: checked against docs, rewrote X, tested Y -->
+- **What the human verified/modified:** <!-- the POL-7.4 evidence: checked against docs, rewrote X, tested Y -->
 - **Commits tagged** `[Claude-assisted]`: <!-- yes / n/a -->
 
-## Laws Touched
+## Policies Touched
 
-<!-- Law IDs most relevant to reviewing this change, e.g.: LAW-5.1, LAW-4.1.
-     Tells reviewers where to focus; reviewers cite laws in findings. -->
+<!-- Policy IDs most relevant to reviewing this change, e.g.: POL-5.1, POL-4.1.
+     Tells reviewers where to focus; reviewers cite policies in findings. -->

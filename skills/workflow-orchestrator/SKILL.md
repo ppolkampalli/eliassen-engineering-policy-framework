@@ -1,13 +1,13 @@
 ---
 name: workflow-orchestrator
-description: Drive work through the constitution's defined workflows (WF-FEATURE, WF-BUG, WF-SECBUG, WF-RESEARCH, WF-REFACTOR, WF-AMENDMENT). Use when starting any nontrivial work item, when asked to "run the <X> workflow", or when the user wants to reshape a flow ("skip the architect stage"). Selects the workflow, executes stage by stage with the right persona, enforces hard gates, and records conversational deviations.
+description: Drive work through the policy framework's defined workflows (WF-FEATURE, WF-BUG, WF-SECBUG, WF-RESEARCH, WF-REFACTOR, WF-POLICY-CHANGE). Use when starting any nontrivial work item, when asked to "run the <X> workflow", or when the user wants to reshape a flow ("skip the architect stage"). Selects the workflow, executes stage by stage with the right role, enforces hard gates, and records conversational deviations.
 ---
 
 # Workflow Orchestrator
 
-Executes the process layer of the constitution (LAW-10.6): workflows from
-`workflows/registry.json` (in the constitution repo) or
-`docs/constitution/workflows/registry.json` (installed in a project), with
+Executes the process layer of the policy framework (POL-10.6): workflows from
+`workflows/registry.json` (in the policy framework repo) or
+`docs/policy-framework/workflows/registry.json` (installed in a project), with
 project-local `workflows/` overrides taking precedence by ID.
 
 ## 1. Select
@@ -25,12 +25,12 @@ project-local `workflows/` overrides taking precedence by ID.
   continuing from the latest recorded stage rather than re-running the
   chain from the top. Reconstruction is incomplete (only one source has
   data, or neither tool is installed) → say so explicitly rather than
-  silently assuming completeness (LAW-7.5): *"No prior stage history found
+  silently assuming completeness (POL-7.5): *"No prior stage history found
   for JIRA-3411; treating as a fresh start"* or *"Partial history found: 4
   stage events, no decision log — confirm before proceeding."* This check
   is best-effort like §6's board events — if neither tool is installed or
   the read fails, proceed as a fresh start exactly as before this step
-  existed (LAW-4.6).
+  existed (POL-4.6).
 - Match the work item to a workflow trigger, or accept an explicit selection
   ("run WF-BUG on JIRA-3411").
 - Resolution order: project-local `workflows/WF-*.md` → installed org catalog.
@@ -67,36 +67,36 @@ Stage by stage, in order:
 
 1. **Check entry criteria.** Not met → either the previous stage isn't done or
    the work item is malformed; resolve before proceeding.
-2. **Assume the stage's persona** — fully: its skill, review lens, citation
-   output format, and authority limits. One persona at a time (the
-   persona-council pattern: no blended perspectives).
-3. **Fresh-context dispatch (LAW-10.5).** If this stage's `gates` list
-   includes `LAW-10.5`, this stage's action does not happen in the current
+2. **Assume the stage's role** — fully: its skill, review lens, citation
+   output format, and authority limits. One role at a time (the
+   role-council pattern: no blended perspectives).
+3. **Fresh-context dispatch (POL-10.5).** If this stage's `gates` list
+   includes `POL-10.5`, this stage's action does not happen in the current
    session: launch a fresh subagent (a new, context-isolated agent instance)
    and hand it a structured payload only — the Acceptance Criteria (from the
    `requirements` stage's recorded exit output), the diff, and the test list
    (from `test-definition`, where the workflow has one). Never pass the
    implementing context's reasoning, chat history, or rationale — carrying
-   that forward is the exact bias this law exists to remove. The subagent's
+   that forward is the exact bias this policy exists to remove. The subagent's
    findings become this stage's output in step 4; the implementing context
    incorporates them, it does not re-derive or override them. Piloted
    2026-10-20 on the two stages in the org catalog that currently gate on
-   LAW-10.5 — WF-FEATURE's `code-review` and WF-BUG's `verify` — and extends
-   automatically to any future stage whose `gates` cites LAW-10.5, since the
-   trigger is the law citation, not a hardcoded stage list (see
+   POL-10.5 — WF-FEATURE's `code-review` and WF-BUG's `verify` — and extends
+   automatically to any future stage whose `gates` cites POL-10.5, since the
+   trigger is the policy citation, not a hardcoded stage list (see
    `docs/proposals/agentic-quality-assurance/design.md` Option 2A and
    `docs/adr/0004-fresh-context-subagent-dispatch.md`).
 4. **Perform the action**; produce the stage's output with citations. (Per
-   step 3, this runs inside the dispatched subagent when LAW-10.5 gates this
+   step 3, this runs inside the dispatched subagent when POL-10.5 gates this
    stage.)
-5. **Verify exit criteria and gates.** Each gate is a law — check it against
+5. **Verify exit criteria and gates.** Each gate is a policy — check it against
    the actual work, not the intention. A failed gate on a hard stage stops the
-   line (LAW-6.2's logic); on a soft stage it stops unless a recorded override
+   line (POL-6.2's logic); on a soft stage it stops unless a recorded override
    applies.
 6. **Honor human checkpoints**: `required` means stop and wait — agents never
-   self-approve through a human checkpoint (LAW-6.1, LAW-7.1). `recommended`
+   self-approve through a human checkpoint (POL-6.1, POL-7.1). `recommended`
    means offer, and proceed only on explicit or standing instruction.
-7. **Record stage completion** on the work item (one line per stage: persona,
+7. **Record stage completion** on the work item (one line per stage: role,
    outcome, evidence pointer).
 8. **Emit a board event** (best-effort, non-blocking — see §6) for this
    stage's transition: on entering the stage (step 2), on stopping at a
@@ -111,9 +111,9 @@ When asked to skip, reorder, parallelize, or add stages:
 
 ```text
 OVERRIDE REFUSED: cannot skip stage code-review (WF-FEATURE)
-CITATION: [LAW-6.1 v1.0] "Every merge requires two approvals including one
+CITATION: [POL-6.1 v1.0] "Every merge requires two approvals including one
 domain expert; authors never approve their own changes."
-The stage is marked hard because this gate is inviolable (LAW-6.2).
+The stage is marked hard because this gate is inviolable (POL-6.2).
 ALTERNATIVE: I can parallelize code-review with security-review to save time.
 ```
 
@@ -128,12 +128,12 @@ ALTERNATIVE: I can parallelize code-review with security-review to save time.
 ```text
 WORKFLOW DEVIATION: WF-FEATURE on JIRA-3500
 Stage skipped: design (architect) — hard:false, gates not triggered
-Reason: single-file copy change; no structural impact (LAW-4.5 not triggered)
+Reason: single-file copy change; no structural impact (POL-4.5 not triggered)
 Approved by: <name>, <date>
 ```
 
 The record goes where the work is recorded (PR description / ticket), per
-LAW-7.3's provenance principle: undisclosed deviation is the violation, not
+POL-7.3's provenance principle: undisclosed deviation is the violation, not
 deviation itself. Also emit a `deviation` board event (§6) for every applied
 or refused override.
 
@@ -149,19 +149,19 @@ through an org-catalog PR, per workflows/README.md precedence rules).
   condition; note activation explicitly.
 - Loops carry budgets (e.g., two failed fix-verify cycles → the conditional
   stage becomes mandatory). Budgets exist because silent retry is the agent
-  failure mode LAW-7.5 names — when a loop exhausts its budget, escalate.
+  failure mode POL-7.5 names — when a loop exhausts its budget, escalate.
 - Workflow switches (WF-BUG → WF-SECBUG on security suspicion) happen
   immediately and are recorded; completed stages carry over where their exit
   criteria still hold.
 
 ## 5. Hard rules
 
-- The orchestrator coordinates; it never overrides a persona's authority —
-  Security's veto, the council's escalation, and LAW-7.5 stops all function
+- The orchestrator coordinates; it never overrides a role's authority —
+  Security's veto, the council's escalation, and POL-7.5 stops all function
   inside stages exactly as outside them.
-- WF-AMENDMENT's sequence is constitutional procedure: no conversational or
+- WF-POLICY-CHANGE's sequence is policy framework procedure: no conversational or
   project override applies to it, ever.
-- Every workflow run ends with a one-block summary: stages executed, personas,
+- Every workflow run ends with a one-block summary: stages executed, roles,
   deviations (or "none"), evidence pointers. Also emit a `workflowCompleted`
   board event here (§6).
 
@@ -191,7 +191,7 @@ need it, and a stage producing nothing structured just omits it.
 
 This write is always best-effort and never blocking: if it fails for any
 reason (missing directory, permissions, anything else), proceed with the
-workflow exactly as if `agent-board/` were not installed. Mirrors LAW-4.6's
+workflow exactly as if `agent-board/` were not installed. Mirrors POL-4.6's
 resilience principle — visibility is never a dependency of correctness, and a
 stage, gate, or workflow must never be delayed or failed because its board
 event couldn't be written.

@@ -2,15 +2,15 @@
 
 A small Vite + React app with its own tiny Node API that renders governed
 workflow activity (WF-FEATURE, WF-BUG, …) in four tabs: a three-lane
-Kanban board (**In Progress**, **Blocked**, **Done**), a **Constitution
+Kanban board (**In Progress**, **Blocked**, **Done**), a **Policy Framework
 Cohort** tab — node-graph and bar-chart rollups of the same log by
-workflow, law, and persona, for a manager who wants a distribution view
+workflow, policy, and role, for a manager who wants a distribution view
 rather than a per-item one — a **Token & Cost** tab, which joins that
 same log against Claude Code's own session transcripts to show
 approximately what each work item/stage cost in tokens and dollars
-(LAW-9.3), and an **ADR Records** tab, a left-nav/preview-pane viewer for
+(POL-9.3), and an **ADR Records** tab, a left-nav/preview-pane viewer for
 the Architecture Decision Records a workflow's `design` stage writes under
-`docs/adr/` (LAW-4.5), defaulting to the first ADR on open. A Node server
+`docs/adr/` (POL-4.5), defaulting to the first ADR on open. A Node server
 reads a local JSON-lines log off disk and exposes it over one HTTP
 endpoint; the browser just polls that endpoint — no file picker, no
 browser-specific file-access quirks.
@@ -35,7 +35,7 @@ One-time setup, done once per project by whoever sets it up for the team:
 
 ```bash
 # from inside your application project
-cp -r <path-to-engineering-constitution>/agent-board ./agent-board
+cp -r <path-to-engineering-policy-framework>/agent-board ./agent-board
 cd agent-board
 npm install
 ```
@@ -94,13 +94,13 @@ one of the same three lanes:
 - **In Progress** — the workflow has started and isn't stopped on anything.
 - **Blocked** — stopped: either a stage explicitly reported `blocked`, or it
   hit a human checkpoint marked `required` and, per SKILL.md, is waiting for
-  you (LAW-6.1, LAW-7.1 — agents never self-approve through these).
+  you (POL-6.1, POL-7.1 — agents never self-approve through these).
 - **Done** — the workflow emitted its end-of-run summary.
 
 Click a card to see a process flowchart of every stage it actually passed
 through, in order — including a distinct dashed node for a stage skipped
 entirely via an applied deviation. Click a step to see its full detail
-below the chart: persona, status, hard/human-checkpoint badges, any
+below the chart: role, status, hard/human-checkpoint badges, any
 recorded deviation's reason and who approved it, the short status note,
 and — when the stage produced one — the **full decision content**: the
 actual Acceptance Criteria text, an ADR's full rationale, a test list, a
@@ -111,22 +111,22 @@ did the agent actually decide, in full, right now" — see
 complete breakdown.
 
 A hard-stage badge marks stages that can't be skipped or softened
-(LAW-6.2); a citation count on each card tells you how many `LAW-X.Y`
+(POL-6.2); a citation count on each card tells you how many `POL-X.Y`
 references the work has touched so far.
 
-## Reading the Constitution Cohort tab
+## Reading the Policy Framework Cohort tab
 
-Click the **Constitution Cohort** tab and pick **Workflow**, **Laws**, or
-**Personas**. Workflow shows each distinct workflow's stage chain as a small
+Click the **Policy Framework Cohort** tab and pick **Workflow**, **Policies**, or
+**Roles**. Workflow shows each distinct workflow's stage chain as a small
 graph, with per-stage counts of how many items are there now vs. have ever
-passed through; Laws and Personas show a bar chart of citation/activity
-counts. See `agent-board/README.md`'s "Constitution Cohort tab" section for
+passed through; Policies and Roles show a bar chart of citation/activity
+counts. See `agent-board/README.md`'s "Policy Framework Cohort tab" section for
 the full breakdown of what each view computes.
 
 ## Reading the Token & Cost tab
 
 Click the **Token & Cost** tab to see total spend, a cost-per-hour time
-series, and breakdowns by work item, workflow, stage, persona, and model.
+series, and breakdowns by work item, workflow, stage, role, and model.
 It works by matching this project's Claude Code session transcripts
 (`~/.claude/projects/.../*.jsonl`) against the board's own event log,
 attributing each transcript turn to whichever work item/stage was open at
@@ -138,7 +138,7 @@ model string is reported as **unpriced** rather than silently costed at
 $0 — check that file's `_comment` field for its pricing provenance/date
 before trusting a total for a budget decision. Only numeric usage fields
 (token counts, model, timestamp) are ever read out of a transcript — never
-raw message content (LAW-7.2). Unlike the Kanban/Cohort tabs, this one
+raw message content (POL-7.2). Unlike the Kanban/Cohort tabs, this one
 isn't polled automatically; it fetches once on open and on **Refresh**,
 since rescanning transcript files on every tick would be wasteful. See
 `agent-board/README.md`'s "Token & Cost tab" section for the full design
@@ -169,7 +169,7 @@ and its known cwd gotcha (auto-corrected by default, but overridable via
   inside `agent-board/`) — shows a fully worked example across all three
   lanes.
 - **Want to see the Token & Cost tab with real-looking numbers.** There's a
-  larger demo dataset (7 work items, every workflow type, every persona,
+  larger demo dataset (7 work items, every workflow type, every role,
   multiple models) with matching fake transcripts — see
   `agent-board/README.md`'s "Demo dataset" section for the one-line command
   to point `npm run preview` at it.
@@ -190,6 +190,6 @@ log is written by an LLM agent following prose instructions, not enforced by
 type-checked code, so a malformed line is simply skipped by the server
 rather than rejected at write time. The log file path is fixed by the
 `AGENT_BOARD_LOG` environment variable at server start and is never
-accepted from the browser — a deliberate LAW-5.1 control, not an
+accepted from the browser — a deliberate POL-5.1 control, not an
 oversight. See `agent-board/README.md` for the full scope notes and the
 event schema reference.

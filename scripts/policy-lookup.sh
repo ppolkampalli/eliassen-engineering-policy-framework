@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
-# law-lookup.sh <LAW-ID>
+# policy-lookup.sh <POL-ID>
 #
-# Quick citation tool: prints a law's full record from laws/registry.json —
-# ID, title, version, status, statement, rationale summary, owner personas,
-# amendment history, file path. Uses jq if available, falls back to grep/sed.
+# Quick citation tool: prints a policy's full record from policies/registry.json —
+# ID, title, version, status, statement, rationale summary, owner roles,
+# policy change history, file path. Uses jq if available, falls back to grep/sed.
 #
-#   ./scripts/law-lookup.sh LAW-2.3
+#   ./scripts/policy-lookup.sh POL-2.3
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-REG="$SRC/laws/registry.json"
+REG="$SRC/policies/registry.json"
 ID="${1:-}"
 
 if [ -z "$ID" ]; then
-  echo "Usage: law-lookup.sh <LAW-ID>     e.g. law-lookup.sh LAW-2.3" >&2
+  echo "Usage: policy-lookup.sh <POL-ID>     e.g. policy-lookup.sh POL-2.3" >&2
   exit 1
 fi
-# Normalize: accept "2.3" as shorthand for "LAW-2.3"
+# Normalize: accept "2.3" as shorthand for "POL-2.3"
 case "$ID" in
-  LAW-*) ;;
-  *) ID="LAW-$ID" ;;
+  POL-*) ;;
+  *) ID="POL-$ID" ;;
 esac
 
 if [ ! -f "$REG" ]; then
@@ -28,15 +28,15 @@ if [ ! -f "$REG" ]; then
 fi
 
 if command -v jq >/dev/null 2>&1; then
-  LAW="$(jq --arg id "$ID" '.laws[] | select(.id == $id)' "$REG")"
+  LAW="$(jq --arg id "$ID" '.policies[] | select(.id == $id)' "$REG")"
   if [ -z "$LAW" ]; then
-    echo "ERROR: $ID not found in registry ($(jq -r '.laws | length' "$REG") laws, constitution v$(jq -r '.constitution_version' "$REG"))" >&2
+    echo "ERROR: $ID not found in registry ($(jq -r '.policies | length' "$REG") policies, policy framework v$(jq -r '.policy_framework_version' "$REG"))" >&2
     exit 1
   fi
   echo "$LAW" | jq -r '
     "\(.id) (v\(.version), \(.status)) — \(.title)",
-    "Article \(.article)",
-    "Owners: \(.owner_personas | join(", "))",
+    "Policy Domain \(.policy_domain)",
+    "Owners: \(.owner_roles | join(", "))",
     "Enforcement: \(.enforcement)",
     "",
     "Statement:",
@@ -45,7 +45,7 @@ if command -v jq >/dev/null 2>&1; then
     "Rationale:",
     "  \(.rationale_summary)",
     "",
-    "Amendments: \(.amendments | join(", "))",
+    "Policy Changes: \(.policy_changes | join(", "))",
     "File: \(.file)",
     "",
     "Citation: [\(.id) v\(.version)] \"\(.statement)\""
@@ -65,8 +65,8 @@ else
   list()  { echo "$BLOCK" | awk -v key="\"$1\"" '$0 ~ key {f=1; next} f && /\]/ {exit} f {gsub(/[ ",]/,""); items[n++]=$0} END {for (i=0;i<n;i++) printf "%s%s", (i?", ":""), items[i]}'; }
 
   echo "$ID (v$(field version), $(field status)) — $(field title)"
-  echo "Article $(echo "$BLOCK" | sed -n 's/.*"article": \([0-9]*\),/\1/p' | head -1)"
-  echo "Owners: $(list owner_personas)"
+  echo "Policy Domain $(echo "$BLOCK" | sed -n 's/.*"policy_domain": \([0-9]*\),/\1/p' | head -1)"
+  echo "Owners: $(list owner_roles)"
   echo "Enforcement: $(field enforcement)"
   echo ""
   echo "Statement:"
@@ -75,7 +75,7 @@ else
   echo "Rationale:"
   echo "  $(field rationale_summary)"
   echo ""
-  echo "Amendments: $(list amendments)"
+  echo "Policy Changes: $(list policy_changes)"
   echo "File: $(field file)"
   echo ""
   echo "Citation: [$ID v$(field version)] \"$(field statement)\""
