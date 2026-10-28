@@ -1,0 +1,146 @@
+# The technical guarantee of auditability (POLICY-CHANGE-PROCESS.md invariants).
+# Runs on every PR to the engineering-policy-framework repo itself:
+#   1. registry.json is valid JSON
+#   2. every policy file has a matching registry entry and vice versa (1:1)
+#   3. every ACTIVE policy's version matches the registry
+#   4. any diff to a policies/ file is accompanied by a policy-change record
+#      referencing that policy ID — a policy changed without a policy-change
+#      record FAILS the build
+name: policy-integrity
+
+on:
+  pull_request:
+
+jobs:
+  registry-consistency:
+    name: Registry ↔ Policy Files Consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate registry and policy files (checks 1–3)
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          let failed = false;
+          const fail = (msg) => { console.error(`::error::${msg}`); failed = true; };
+
+          // 1. registry.json is valid JSON
+          let registry;
+          try {
+            registry = JSON.parse(fs.readFileSync('policies/registry.json', 'utf8'));
+          } catch (e) {
+            console.error(`::error::policies/registry.json is not valid JSON: ${e.message}`);
+            process.exit(1);
+          }
+
+          // Collect policy files on disk
+          const policyFiles = new Map(); // id -> {file, version, status, policy_changes}
+          for (const dir of fs.readdirSync('policies')) {
+            if (!dir.startsWith('domain-')) continue;
+            for (const f of fs.readdirSync(path.join('policies', dir))) {
+              if (!/^POL-.*\.md$/.test(f)) continue;
+              const raw = fs.readFileSync(path.join('policies', dir, f), 'utf8');
+              const fm = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+              if (!fm) { fail(`${dir}/${f}: missing frontmatter`); continue; }
+              const get = (k) => (fm[1].match(new RegExp(`^${k}:\\s*(.*)$`, 'm')) || [])[1]?.split('#')[0].trim();
+              policyFiles.set(get('id'), {
+                file: `policies/${dir}/${f}`,
+                version: get('version'),
+                status: get('status'),
+                policy_changes: [...fm[1].matchAll(/policy_change:\s*(AMD-[\w-]+|PCH-[\w-]+)/g)].map((m) => m[1]),
+              });
+            }
+          }
+
+          // 2. 1:1 match both directions
+          const regIds = new Set(registry.policies.map((l) => l.id));
+          for (const l of registry.policies) {
+            if (!policyFiles.has(l.id)) fail(`registry entry ${l.id} has no policy file`);
+            else if (policyFiles.get(l.id).file !== l.file)
+              fail(`${l.id}: registry file path '${l.file}' != actual '${policyFiles.get(l.id).file}'`);
+          }
+          for (const [id, info] of policyFiles)
+            if (!regIds.has(id)) fail(`policy file ${info.file} (${id}) has no registry entry`);
+
+          // 3. ACTIVE policies: version matches registry
+          for (const l of registry.policies) {
+            const f = policyFiles.get(l.id);
+            if (!f) continue;
+            if (f.status !== l.status) fail(`${l.id}: status '${f.status}' != registry '${l.status}'`);
+            if (l.status === 'ACTIVE' && f.version !== l.version)
+              fail(`${l.id}: ACTIVE version '${f.version}' != registry '${l.version}'`);
+          }
+
+          // policy_change_history entries must reference existing records.
+          // Records directory may be at its pre-rename or post-rename path
+          // depending on which enactment commit has landed — tolerate both,
+          // and tolerate neither existing yet, rather than crashing
+          // (law-clerk condition on AMD-2026-012).
+          const recordsDir = fs.existsSync('policy-changes/records')
+            ? 'policy-changes/records'
+            : (fs.existsSync('amendments/records') ? 'amendments/records' : null);
+          if (!recordsDir) {
+            console.log('policy-integrity: no records directory found yet, skipping policy_change_history check');
+          } else {
+            const records = fs.readdirSync(recordsDir).join('\n');
+            for (const [id, info] of policyFiles)
+              for (const pc of info.policy_changes)
+                if (!records.includes(pc)) fail(`${id}: policy_change_history references ${pc}, no record in ${recordsDir}/`);
+          }
+
+          if (failed) process.exit(1);
+          console.log(`policy-integrity: ${policyFiles.size} policies consistent with registry`);
+          EOF
+
+      - name: Policy changes require a policy-change record (check 4)
+        run: |
+          node - <<'EOF'
+          const { execSync } = require('child_process');
+          const fs = require('fs');
+          const base = process.env.GITHUB_BASE_REF || 'main';
+          execSync(`git fetch origin ${base} --depth=1`, { stdio: 'inherit' });
+          const diff = execSync(`git diff --name-only origin/${base}...HEAD`, { encoding: 'utf8' })
+            .split('\n').filter(Boolean);
+
+          const changedPolicyFiles = diff.filter((f) => /^policies\/domain-.*\/POL-.*\.md$/.test(f));
+          if (changedPolicyFiles.length === 0) {
+            console.log('policy-integrity: no policy files changed in this PR');
+            process.exit(0);
+          }
+
+          const recordsDir = fs.existsSync('policy-changes/records')
+            ? 'policy-changes/records'
+            : (fs.existsSync('amendments/records') ? 'amendments/records' : null);
+          if (!recordsDir) {
+            console.error('::error::policy files changed but no records directory (policy-changes/records or amendments/records) exists');
+            process.exit(1);
+          }
+
+          const records = fs.readdirSync(recordsDir)
+            .map((f) => ({ f, body: fs.readFileSync(`${recordsDir}/${f}`, 'utf8') }));
+
+          let failed = false;
+          for (const file of changedPolicyFiles) {
+            const id = (file.match(/POL-[\d.]+\d/) || [])[0];
+            const covering = records.filter((r) => r.body.includes(id));
+            const inDiff = covering.some((r) => diff.includes(`${recordsDir}/${r.f}`));
+            if (covering.length === 0) {
+              console.error(`::error::${file} changed but NO policy-change record references ${id} — [POLICY-CHANGE-PROCESS.md] a change without a policy-change record is a framework violation`);
+              failed = true;
+            } else if (!inDiff) {
+              console.error(`::error::${file} changed but no policy-change record referencing ${id} was added/updated in this PR (found only pre-existing: ${covering.map((r) => r.f).join(', ')})`);
+              failed = true;
+            } else {
+              console.log(`${id}: covered by policy-change record(s) ${covering.filter((r) => diff.includes(`${recordsDir}/${r.f}`)).map((r) => r.f).join(', ')}`);
+            }
+          }
+          if (failed) process.exit(1);
+          console.log('policy-integrity: every changed policy is covered by a policy-change record');
+          EOF
