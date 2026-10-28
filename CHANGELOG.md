@@ -1,11 +1,51 @@
 # Changelog
 
-All notable changes to the Engineering Constitution. Law changes reference their
-amendment records (the authoritative audit trail in `amendments/records/`).
+All notable changes to the Engineering Policy Framework (named the Engineering
+Constitution prior to v2.0.0 — see the v2.0.0 entry below). Policy changes
+reference their policy-change records (the authoritative audit trail in
+`policy-changes/records/`; records predating v2.0.0 keep their original
+`AMD-NNNN` ids and are not renamed).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
-versions follow the constitution versioning rules in
-[AMENDMENT-PROCESS.md](amendments/AMENDMENT-PROCESS.md).
+versions follow the policy framework versioning rules in
+[POLICY-CHANGE-PROCESS.md](policy-changes/POLICY-CHANGE-PROCESS.md).
+
+Entries below v2.0.0 describe the framework under its prior terminology
+("constitution", "law", "article", "persona", "amendment") and are left as
+originally written — they are a historical record of what was true when
+ratified, not rewritten to match current vocabulary.
+
+## [2.0.0] — 2026-10-28
+
+### Changed
+
+- **Terminology realignment** via
+  [AMD-2026-012](policy-changes/records/AMD-2026-012-terminology-realignment.md):
+  retired "engineering constitution"/"law"/"Article"/"persona"/"amendment" in
+  favor of "Engineering Policy Framework"/"policy" (`POL-X.Y`)/"Policy
+  Domain"/"agent role"/"policy change", following terminology feedback from
+  Marketing and Strategic Leadership on current AI-agent-governance usage.
+  Full persona-council review (10 verdicts) and human decision record in the
+  amendment; risk accepted on three flagged objections (regulatory-terminology
+  collision with audited compliance "policy" artifacts, no formal cost
+  estimate against a deck-only-glossary alternative, and scope extension
+  beyond the original sales-deck ask) given no external clients are on the
+  current IDs yet.
+- `laws/` → `policies/`, `LAW-X.Y` → `POL-X.Y` across all 57 policies (id,
+  filename, directory, registry, and cross-references); each policy's
+  history gets a new entry recording the id rename, its pre-rename history
+  is untouched.
+- `CONSTITUTION.md` → `POLICY-FRAMEWORK.md`; `amendments/` →
+  `policy-changes/` (`AMD-2026-001`..`011` keep their ids permanently;
+  future records use `PCH-YYYY-NNN`); `scripts/law-lookup.sh` →
+  `policy-lookup.sh`; `ci/github/law-integrity.yml` → `policy-integrity.yml`;
+  `skills/constitution-enforcer` → `policy-enforcer`; `skills/law-clerk` →
+  `policy-clerk`; `skills/persona-*` → `skills/role-*` (8 roles);
+  `workflows/WF-AMENDMENT.md` → `WF-POLICY-CHANGE.md` (renamed last, as the
+  final act of its own enactment).
+- Downstream propagation to `agent-board/`, `crm-demo/`, `memory-service/`,
+  `user-training-onboarding/` is explicit follow-up work (WF-POLICY-CHANGE
+  stage 5), not included in this enactment.
 
 ## [1.2.0] — 2026-06-11
 

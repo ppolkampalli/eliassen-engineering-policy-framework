@@ -1,6 +1,6 @@
 ---
 id: AMD-2026-012
-status: APPROVED          # PROPOSED | APPROVED | REJECTED | ENACTED
+status: ENACTED (core repo, on branch amd-2026-012-terminology-realignment — see Enactment Note; not yet merged to main)          # PROPOSED | APPROVED | REJECTED | ENACTED
 proposed_by: "Pramod Polkampalli"
 proposed_date: "2026-10-28"
 laws_affected: [ALL — id/path/schema rename only; no statement or rationale text changes to any individual law]
@@ -213,5 +213,31 @@ extends to the full internal framework. Framework version bump: 1.2.0 →
 
 Convergent execution-level conditions from review (items 1-8) are not waived
 — they are incorporated into the revised enactment plan below.
+
+## Enactment Note (2026-10-28)
+
+All 9 enactment batches completed on branch `amd-2026-012-terminology-realignment`
+(4 commits: `bfc4683` registry/CI, `63f942d` this record, `b29c6a1`+`89a8e00`
+remaining asset renames + content, `e778e1c` WF-AMENDMENT.md self-rename last).
+
+All 8 review conditions (items 1-8) were incorporated, not just acknowledged:
+CI rewrite landed in the same commit as the registry rename; `workflows/registry.json`
+and all 5 sibling workflow files updated; `scripts/install.sh`/`update.sh`/`validate.sh`
+brought into scope; `owner_personas` → `owner_roles`; `security.yml` + the
+`security-checker` → `policy-enforcer` link updated; `amendments/records` →
+`policy-changes/records` path move handled without a crash in `policy-integrity.yml`.
+
+Evidence, not assertion (POL-10.2): `install.sh` + `validate.sh` + `update.sh`
+run end-to-end against a scratch target (25/25 checks pass, including registry
+version match at 2.0.0); `policy-integrity.yml`'s embedded check re-run directly
+against the tree (57/57 policies consistent); all 4 shell scripts syntax-checked;
+`policy-lookup.sh` exercised against the live registry by id and shorthand form.
+
+Stage 5 (propagation to `agent-board/`, `crm-demo/`, `memory-service/`,
+`user-training-onboarding/`) is explicitly deferred — tracked as follow-up,
+not done here, per WF-AMENDMENT's own non-hard designation for that stage.
+
+**Not yet merged to main.** This branch has not been pushed or merged;
+that is a separate, explicit decision for the repo owner.
 
 Status: APPROVED → proceeding to enactment.
