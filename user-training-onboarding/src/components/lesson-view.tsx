@@ -1,4 +1,4 @@
-import { LawLink } from './law-link';
+import { PolicyLink } from './policy-link';
 import type { Lesson } from '../data/content-types';
 
 
@@ -24,7 +24,7 @@ function BodyBlock({ block }: { block: string }): JSX.Element {
   return <p>{block}</p>;
 }
 
-/** A single self-study lesson: body, cited laws, and a mark-complete control. */
+/** A single self-study lesson: body, cited policies, and a mark-complete control. */
 export function LessonView({ lesson, isComplete, onComplete }: LessonViewProps): JSX.Element {
   const blocks = lesson.body.split('\n\n').map((block) => block.trim());
   return (
@@ -33,11 +33,11 @@ export function LessonView({ lesson, isComplete, onComplete }: LessonViewProps):
       {blocks.map((block) => (
         <BodyBlock key={block.slice(0, 40)} block={block} />
       ))}
-      {lesson.lawRefs.length > 0 && (
-        <div className="lesson-laws">
-          <span className="laws-label">Laws in this lesson:</span>
-          {lesson.lawRefs.map((lawRef) => (
-            <LawLink key={lawRef} lawId={lawRef} />
+      {lesson.policyRefs.length > 0 && (
+        <div className="lesson-policies">
+          <span className="policies-label">Policies in this lesson:</span>
+          {lesson.policyRefs.map((policyRef) => (
+            <PolicyLink key={policyRef} policyId={policyRef} />
           ))}
         </div>
       )}

@@ -14,7 +14,7 @@ export function HomePage(): JSX.Element {
   return (
     <div className="home">
       <section className="hero">
-        <h1>Learn the Engineering Constitution</h1>
+        <h1>Learn the Engineering Policy Framework</h1>
         <p>
           The deep-dive learning paths: pick the one that matches your situation — brand-new
           application, legacy rewrite, or enhancing a governed system. New here? Read{' '}
@@ -39,18 +39,18 @@ export function HomePage(): JSX.Element {
       <section className="catalog-section" id="skill-catalog">
         <h2>Skill Command Catalog</h2>
         <p className="catalog-intro">
-          The constitution installs as a Claude Code plugin that exposes{' '}
-          {skillCatalog.length} skills — 8 personas, 3 orchestration skills, and 6 enforcement
-          skills. Install it with <code>/plugin install engineering-constitution</code> (see the{' '}
+          The policy framework installs as a Claude Code plugin that exposes{' '}
+          {skillCatalog.length} skills — 8 roles, 3 orchestration skills, and 6 enforcement
+          skills. Install it with <code>/plugin install engineering-policy-framework</code> (see the{' '}
           <Link to="/start">setup steps</Link>), then invoke any skill two ways:
         </p>
         <ul className="catalog-howto">
           <li>
             <strong>Explicitly</strong> — type the namespaced command, e.g.{' '}
-            <code>/engineering-constitution:persona-security</code>.
+            <code>/engineering-policy-framework:role-security</code>.
           </li>
           <li>
-            <strong>By describing the work</strong> — say “act as the Security persona and review
+            <strong>By describing the work</strong> — say “act as the Security role and review
             this,” and the matching skill auto-activates from its description. The example phrases
             below all work as-is.
           </li>

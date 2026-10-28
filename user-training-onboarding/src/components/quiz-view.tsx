@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { LawLink } from './law-link';
+import { PolicyLink } from './policy-link';
 import type { QuizQuestion } from '../data/content-types';
 import { PASS_THRESHOLD_PCT, scoreQuiz } from '../domain/quiz';
 import type { QuizResult } from '../domain/quiz';
@@ -50,7 +50,7 @@ function QuestionCard({
         <p className={selected === question.correctIndex ? 'quiz-right' : 'quiz-wrong'}>
           {selected === question.correctIndex ? '✓ Correct. ' : '✗ Not quite. '}
           {question.explanation}{' '}
-          {question.lawRef !== undefined && <LawLink lawId={question.lawRef} />}
+          {question.policyRef !== undefined && <PolicyLink policyId={question.policyRef} />}
         </p>
       )}
     </fieldset>

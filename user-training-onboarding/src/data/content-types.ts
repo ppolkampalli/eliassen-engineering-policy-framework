@@ -1,11 +1,11 @@
 /**
- * Types for the training content. Every law/workflow mention in content is a
+ * Types for the training content. Every policy/workflow mention in content is a
  * typed reference, validated by content-integrity.spec.ts against the live
- * registries (LAW-10.6: training stays consistent with the constitution).
+ * registries (POL-10.6: training stays consistent with the policy framework).
  */
 
-/** A law identifier, e.g. "LAW-2.3" — must exist in laws/registry.json. */
-export type LawRef = `LAW-${number}.${number}`;
+/** A policy identifier, e.g. "POL-2.3" — must exist in policies/registry.json. */
+export type PolicyRef = `POL-${number}.${number}`;
 
 /** A workflow identifier, e.g. "WF-FEATURE" — must exist in workflows/registry.json. */
 export type WorkflowRef = `WF-${string}`;
@@ -19,8 +19,8 @@ export interface Lesson {
    * lines starting with "- " render as list items.
    */
   body: string;
-  /** Laws this lesson teaches — rendered as live links into the law browser. */
-  lawRefs: LawRef[];
+  /** Policies this lesson teaches — rendered as live links into the policy browser. */
+  policyRefs: PolicyRef[];
   workflowRefs?: WorkflowRef[];
 }
 
@@ -30,9 +30,9 @@ export interface QuizQuestion {
   options: string[];
   /** Index into options. */
   correctIndex: number;
-  /** Shown after answering — explains WHY, citing the law. */
+  /** Shown after answering — explains WHY, citing the policy. */
   explanation: string;
-  lawRef?: LawRef;
+  policyRef?: PolicyRef;
 }
 
 export interface TrainingModule {

@@ -2,7 +2,7 @@ import type { Workflow } from '../domain/registry';
 import { getAllWorkflows } from '../domain/registry';
 
 interface Stage {
-  persona: string;
+  role: string;
   action: string;
   isHard: boolean;
   isConditional: boolean;
@@ -15,12 +15,12 @@ interface Stage {
  */
 export function parseChain(chain: string): Stage[] {
   const matches = [...chain.matchAll(/([\w-]+|HUMAN)\(([^)]+)\)/g)];
-  return matches.map(([, persona, body]) => ({
-    persona: persona ?? '',
+  return matches.map(([, role, body]) => ({
+    role: role ?? '',
     action: (body ?? '').replace(/[*^]|\+human/g, ''),
     isHard: (body ?? '').includes('*'),
     isConditional: (body ?? '').includes('^'),
-    hasHumanCheckpoint: (body ?? '').includes('+human') || persona === 'HUMAN',
+    hasHumanCheckpoint: (body ?? '').includes('+human') || role === 'HUMAN',
   }));
 }
 
@@ -30,7 +30,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }): JSX.Element {
     <article className="workflow-card">
       <header>
         <h3>
-          {workflow.id} <span className="law-version">v{workflow.version}</span>
+          {workflow.id} <span className="policy-version">v{workflow.version}</span>
         </h3>
       </header>
       <h4>{workflow.title}</h4>
@@ -41,11 +41,11 @@ function WorkflowCard({ workflow }: { workflow: Workflow }): JSX.Element {
             key={`${workflow.id}-${stage.action}-${String(index)}`}
             className={stage.isHard ? 'stage stage-hard' : 'stage'}
           >
-            <span className="stage-persona">{stage.persona}</span>
+            <span className="stage-role">{stage.role}</span>
             <span className="stage-action">{stage.action}</span>
             {stage.isHard && <span className="stage-flag" title="Hard stage — not overridable">hard</span>}
             {stage.isConditional && (
-              <span className="stage-flag stage-flag-cond" title="Escalates to hard when its gating laws are triggered">
+              <span className="stage-flag stage-flag-cond" title="Escalates to hard when its gating policies are triggered">
                 conditional
               </span>
             )}
@@ -66,7 +66,7 @@ export function WorkflowExplorer(): JSX.Element {
   return (
     <div className="workflow-explorer">
       <p className="explorer-legend">
-        <strong>hard</strong> = never skippable · <strong>conditional</strong> = hard when its laws
+        <strong>hard</strong> = never skippable · <strong>conditional</strong> = hard when its policies
         are triggered · <strong>human</strong> = required human checkpoint
       </p>
       {getAllWorkflows().map((workflow) => (

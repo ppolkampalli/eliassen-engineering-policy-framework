@@ -3,18 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { parseChain, WorkflowExplorer } from './workflow-explorer';
 
 describe('parseChain', () => {
-  it('should parse personas, actions, and hard markers from a chain string', () => {
+  it('should parse roles, actions, and hard markers from a chain string', () => {
     const stages = parseChain('product-owner(requirements*) -> architect(design)');
     expect(stages).toEqual([
       {
-        persona: 'product-owner',
+        role: 'product-owner',
         action: 'requirements',
         isHard: true,
         isConditional: false,
         hasHumanCheckpoint: false,
       },
       {
-        persona: 'architect',
+        role: 'architect',
         action: 'design',
         isHard: false,
         isConditional: false,
@@ -30,7 +30,7 @@ describe('parseChain', () => {
     expect(stages[1]?.isHard).toBe(true);
   });
 
-  it('should treat HUMAN as a human checkpoint stage when parsing WF-AMENDMENT', () => {
+  it('should treat HUMAN as a human checkpoint stage when parsing WF-POLICY-CHANGE', () => {
     const stages = parseChain('HUMAN(decision*)');
     expect(stages[0]?.hasHumanCheckpoint).toBe(true);
   });

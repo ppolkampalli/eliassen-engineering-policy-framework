@@ -108,13 +108,13 @@ h1, h2, h3 {
 .lesson-laws { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin: 0.8rem 0; }
 .laws-label { font-size: 0.8rem; color: var(--ink-soft); }
 
-.law-chip {
+.policy-chip {
   display: inline-block; background: var(--royal-soft); color: var(--royal);
   border-radius: 999px; padding: 0.18rem 0.65rem; font-size: 0.75rem; font-weight: 500;
   text-decoration: none; border: 1px solid #ccd3ec;
 }
-.law-chip:hover { background: var(--royal); color: #fff; }
-.law-chip-unknown { background: var(--coral-soft); color: var(--warn); border-color: #efc4c2; }
+.policy-chip:hover { background: var(--royal); color: #fff; }
+.policy-chip-unknown { background: var(--coral-soft); color: var(--warn); border-color: #efc4c2; }
 
 .btn {
   border: 1px solid var(--line); background: var(--card); border-radius: 999px;
@@ -141,33 +141,33 @@ h1, h2, h3 {
 .quiz-passed-badge { color: var(--accent); font-size: 0.85rem; margin-left: 0.5rem; }
 
 /* Law browser */
-.law-controls { display: flex; gap: 0.7rem; margin: 1rem 0; flex-wrap: wrap; }
-.law-controls input[type='search'] {
+.policy-controls { display: flex; gap: 0.7rem; margin: 1rem 0; flex-wrap: wrap; }
+.policy-controls input[type='search'] {
   flex: 1; min-width: 240px; padding: 0.6rem 0.9rem; font-family: inherit;
   border: 1px solid var(--line); border-radius: 8px; font-size: 0.92rem;
 }
-.law-controls input[type='search']:focus { outline: 2px solid var(--royal-soft); border-color: var(--royal); }
-.law-controls select { padding: 0.6rem; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; }
-.law-count { color: var(--ink-soft); font-size: 0.85rem; }
+.policy-controls input[type='search']:focus { outline: 2px solid var(--royal-soft); border-color: var(--royal); }
+.policy-controls select { padding: 0.6rem; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; }
+.policy-count { color: var(--ink-soft); font-size: 0.85rem; }
 
-.law-card {
+.policy-card {
   background: var(--card); border: 1px solid var(--line); border-radius: 10px;
   padding: 1rem 1.3rem; margin: 0.7rem 0;
 }
-.law-card header { display: flex; justify-content: space-between; align-items: center; }
-.law-card h3 { margin: 0; color: var(--royal); font-size: 1.15rem; }
-.law-card h4 { margin: 0.3rem 0 0.6rem; font-family: inherit; font-weight: 600; }
-.law-version { color: var(--ink-soft); font-size: 0.78rem; font-weight: 400; font-family: var(--mono); }
-.law-status { font-size: 0.7rem; border-radius: 999px; padding: 0.14rem 0.6rem; font-weight: 600; }
-.law-status-active { background: #e4f4ee; color: var(--accent); }
-.law-status-repealed { background: var(--coral-soft); color: var(--warn); }
-.law-card blockquote {
+.policy-card header { display: flex; justify-content: space-between; align-items: center; }
+.policy-card h3 { margin: 0; color: var(--royal); font-size: 1.15rem; }
+.policy-card h4 { margin: 0.3rem 0 0.6rem; font-family: inherit; font-weight: 600; }
+.policy-version { color: var(--ink-soft); font-size: 0.78rem; font-weight: 400; font-family: var(--mono); }
+.policy-status { font-size: 0.7rem; border-radius: 999px; padding: 0.14rem 0.6rem; font-weight: 600; }
+.policy-status-active { background: #e4f4ee; color: var(--accent); }
+.policy-status-repealed { background: var(--coral-soft); color: var(--warn); }
+.policy-card blockquote {
   margin: 0.5rem 0; padding: 0.7rem 1rem; border-left: 3px solid var(--coral);
   background: var(--cream); border-radius: 0 8px 8px 0; font-size: 0.92rem; line-height: 1.6;
   font-family: var(--display);
 }
-.law-rationale { color: var(--ink-soft); font-size: 0.88rem; }
-.law-card footer { font-size: 0.76rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 0.5rem; }
+.policy-rationale { color: var(--ink-soft); font-size: 0.88rem; }
+.policy-card footer { font-size: 0.76rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 0.5rem; }
 
 /* Workflow explorer */
 .explorer-legend { color: var(--ink-soft); font-size: 0.85rem; }
@@ -180,7 +180,7 @@ h1, h2, h3 {
 .workflow-trigger { color: var(--ink-soft); font-size: 0.88rem; }
 .workflow-stages { padding-left: 1.4rem; }
 .stage { padding: 0.3rem 0; font-size: 0.92rem; }
-.stage-persona { font-weight: 600; margin-right: 0.5rem; }
+.stage-role { font-weight: 600; margin-right: 0.5rem; }
 .stage-action { color: var(--ink-soft); margin-right: 0.5rem; }
 .stage-flag {
   font-size: 0.68rem; background: var(--coral-soft); color: var(--warn);
@@ -191,7 +191,7 @@ h1, h2, h3 {
 
 .not-found { text-align: center; padding: 3rem 0; }
 
-/* ── Marketing system: manifesto, personas, start-here ─────────────────── */
+/* ── Marketing system: manifesto, roles, start-here ─────────────────── */
 
 .kicker {
   font-size: 0.72rem;
@@ -204,7 +204,7 @@ h1, h2, h3 {
 .kicker::before { content: '❮ '; color: var(--coral); }
 
 /* Hero bands — flat Eliassen royal blue, white serif display */
-.manifesto-hero, .personas-hero, .start-hero {
+.manifesto-hero, .roles-hero, .start-hero {
   background: var(--royal);
   color: #fff;
   border-radius: 14px;
@@ -216,7 +216,7 @@ h1, h2, h3 {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
 }
-.manifesto-hero h1, .personas-hero h1, .start-hero h1 {
+.manifesto-hero h1, .roles-hero h1, .start-hero h1 {
   font-size: clamp(1.9rem, 4.4vw, 3.1rem);
   font-weight: 600;
   line-height: 1.15;
@@ -298,33 +298,33 @@ h1, h2, h3 {
 .ladder-rung p { margin: 0.25rem 0 0; color: var(--ink-soft); font-size: 0.88rem; }
 .ladder-note { color: var(--ink-soft); font-size: 0.88rem; margin-top: 1rem; }
 
-.persona-grid {
+.role-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
   gap: 1.1rem; margin-top: 2rem;
 }
-.persona-card {
+.role-card {
   background: var(--card); border: 1px solid var(--line); border-radius: 12px;
   border-top: 3px solid var(--royal);
   padding: 1.3rem 1.4rem;
   display: flex; flex-direction: column; gap: 0.6rem;
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
-.persona-card:hover { box-shadow: 0 8px 22px rgba(28, 34, 64, 0.14); transform: translateY(-2px); }
-.persona-card header { display: flex; justify-content: space-between; align-items: center; }
-.persona-card h3 { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--royal); }
-.persona-tagline {
+.role-card:hover { box-shadow: 0 8px 22px rgba(28, 34, 64, 0.14); transform: translateY(-2px); }
+.role-card header { display: flex; justify-content: space-between; align-items: center; }
+.role-card h3 { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--royal); }
+.role-tagline {
   font-family: var(--display); font-style: italic; font-size: 1.05rem;
   color: var(--coral-dark); margin: 0;
 }
-.persona-pitch { line-height: 1.65; margin: 0; font-size: 0.9rem; }
-.persona-detail h4 {
+.role-pitch { line-height: 1.65; margin: 0; font-size: 0.9rem; }
+.role-detail h4 {
   font-size: 0.66rem; letter-spacing: 0.14em; font-weight: 700;
   text-transform: uppercase; color: var(--ink-soft); margin: 0.4rem 0 0.3rem;
 }
-.persona-detail p, .persona-detail li { font-size: 0.86rem; color: var(--ink); margin: 0; }
-.persona-detail ul { margin: 0; padding-left: 1.1rem; }
-.persona-laws { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.persona-invocation {
+.role-detail p, .role-detail li { font-size: 0.86rem; color: var(--ink); margin: 0; }
+.role-detail ul { margin: 0; padding-left: 1.1rem; }
+.role-policies { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.role-invocation {
   border-top: 1px dashed var(--line); padding-top: 0.7rem; margin: 0.4rem 0 0;
   font-family: var(--mono); font-size: 0.8rem; color: var(--royal);
 }
@@ -440,7 +440,7 @@ h1, h2, h3 {
 }
 .fig strong { font-family: 'Poppins', sans-serif; }
 
-/* Figure 1 — persona mesh */
+/* Figure 1 — role mesh */
 .fig-orchestrator {
   background: var(--royal); color: #fff; border-radius: 10px; padding: 0.8rem 1rem;
   text-align: center; max-width: 24rem; margin: 0 auto;
@@ -448,12 +448,12 @@ h1, h2, h3 {
 }
 .fig-orchestrator span { font-size: 0.8rem; color: #cfd6ee; }
 .fig-dispatch { text-align: center; color: var(--ink-soft); font-size: 0.78rem; margin: 0.5rem 0; font-family: 'Poppins', sans-serif; }
-.fig-persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-.fig-persona {
+.fig-role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+.fig-role {
   background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--coral);
   border-radius: 8px; padding: 0.6rem 0.7rem; display: flex; flex-direction: column; gap: 0.3rem;
 }
-.fig-persona-name { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
+.fig-role-name { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
 .fig-badge {
   align-self: flex-start; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
   border-radius: 4px; padding: 0.1rem 0.4rem;
@@ -495,7 +495,7 @@ h1, h2, h3 {
   border-radius: 8px; padding: 0.55rem 0.6rem; flex: 1;
   display: flex; flex-direction: column; gap: 0.2rem;
 }
-.fig-flow-persona { font-size: 0.8rem; font-weight: 600; color: var(--royal); }
+.fig-flow-role { font-size: 0.8rem; font-weight: 600; color: var(--royal); }
 .fig-flow-action { font-size: 0.74rem; color: var(--ink-soft); }
 .fig-flow-mem { font-size: 0.66rem; color: var(--coral-dark); font-family: 'Poppins', sans-serif; }
 .fig-flow-arrow { color: var(--royal); font-weight: 700; }
@@ -534,7 +534,7 @@ h1, h2, h3 {
 .fig-board-card-note { font-size: 0.72rem; color: var(--ink); }
 
 @media (max-width: 640px) {
-  .fig-persona-grid { grid-template-columns: 1fr 1fr; }
+  .fig-role-grid { grid-template-columns: 1fr 1fr; }
   .fig-mem-row { grid-template-columns: 1fr; }
   .fig-flow-stage { min-width: 100%; }
   .fig-flow-arrow { transform: rotate(90deg); align-self: center; }
@@ -626,7 +626,7 @@ h1, h2, h3 {
 }
 
 @media (max-width: 640px) {
-  .manifesto-hero, .personas-hero, .start-hero { padding: 2.2rem 1.4rem; }
+  .manifesto-hero, .roles-hero, .start-hero { padding: 2.2rem 1.4rem; }
   .pain-grid-section, .ladder-section { padding: 1.4rem 1.2rem; }
   .claim { grid-template-columns: 1fr; gap: 0.3rem; }
   .journey { padding: 1.4rem 1.2rem; }

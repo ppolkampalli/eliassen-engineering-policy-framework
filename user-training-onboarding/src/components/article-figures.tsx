@@ -10,7 +10,7 @@ interface FigureDef {
 }
 
 function PersonaMesh(): JSX.Element {
-  const personas: { name: string; badge: string; tier: string }[] = [
+  const roles: { name: string; badge: string; tier: string }[] = [
     { name: 'Security', badge: 'VETO', tier: 'veto' },
     { name: 'Architect', badge: 'VETO', tier: 'veto' },
     { name: 'Quality', badge: 'BLOCK', tier: 'block' },
@@ -22,13 +22,13 @@ function PersonaMesh(): JSX.Element {
     <div className="fig fig-mesh">
       <div className="fig-orchestrator">
         <strong>Orchestrator Agent</strong>
-        <span>runs the workflow · dispatches each task to the right persona</span>
+        <span>runs the workflow · dispatches each task to the right role</span>
       </div>
       <div className="fig-dispatch">dispatches ↓</div>
-      <div className="fig-persona-grid">
-        {personas.map((p) => (
-          <div key={p.name} className="fig-persona">
-            <span className="fig-persona-name">{p.name} Agent</span>
+      <div className="fig-role-grid">
+        {roles.map((p) => (
+          <div key={p.name} className="fig-role">
+            <span className="fig-role-name">{p.name} Agent</span>
             <span className={`fig-badge fig-badge-${p.tier}`}>{p.badge}</span>
           </div>
         ))}
@@ -39,19 +39,19 @@ function PersonaMesh(): JSX.Element {
 
 function MemoryService(): JSX.Element {
   const contents: string[] = [
-    '57 Laws (registry)',
+    '57 Policies (registry)',
     '6 Workflow definitions',
     'ADRs / design decisions',
     'Decision & citation log',
-    'Amendment history',
+    'Policy Change history',
   ];
   return (
     <div className="fig fig-memory">
       <div className="fig-mem-row">
         <div className="fig-agents-col">
-          <div className="fig-agent-chip">Persona agent</div>
-          <div className="fig-agent-chip">Persona agent</div>
-          <div className="fig-arrow-label">“What does LAW-5.2 require?” →</div>
+          <div className="fig-agent-chip">Role agent</div>
+          <div className="fig-agent-chip">Role agent</div>
+          <div className="fig-arrow-label">“What does POL-5.2 require?” →</div>
           <div className="fig-arrow-label">“Has this been decided before?” →</div>
         </div>
         <div className="fig-mem-core">
@@ -66,12 +66,12 @@ function MemoryService(): JSX.Element {
         <div className="fig-agents-col">
           <div className="fig-arrow-label">← append: cited decision</div>
           <div className="fig-arrow-label">← append: ADR, deviation</div>
-          <div className="fig-agent-chip fig-agent-write">Persona agent</div>
+          <div className="fig-agent-chip fig-agent-write">Role agent</div>
         </div>
       </div>
       <p className="fig-note">
-        Laws are read-only to working agents — only the Law Clerk writes to them, and only
-        through the amendment process. Everything else (decisions, ADRs, deviations) is
+        Policies are read-only to working agents — only the Policy Clerk writes to them, and only
+        through the policy change process. Everything else (decisions, ADRs, deviations) is
         append-only, so provenance never gets overwritten.
       </p>
     </div>
@@ -79,21 +79,21 @@ function MemoryService(): JSX.Element {
 }
 
 function FeatureFlow(): JSX.Element {
-  const stages: { persona: string; action: string }[] = [
-    { persona: 'Product Owner', action: 'acceptance criteria' },
-    { persona: 'Architect', action: 'design + ADR' },
-    { persona: 'Quality', action: 'test list' },
-    { persona: 'Engineer', action: 'implement (TDD)' },
-    { persona: 'Security', action: 'review + gate' },
+  const stages: { role: string; action: string }[] = [
+    { role: 'Product Owner', action: 'acceptance criteria' },
+    { role: 'Architect', action: 'design + ADR' },
+    { role: 'Quality', action: 'test list' },
+    { role: 'Engineer', action: 'implement (TDD)' },
+    { role: 'Security', action: 'review + gate' },
   ];
   return (
     <div className="fig fig-flow">
-      <div className="fig-mem-bar">Central Memory Service — read laws &amp; prior decisions · write cited results</div>
+      <div className="fig-mem-bar">Central Memory Service — read policies &amp; prior decisions · write cited results</div>
       <div className="fig-flow-row">
         {stages.map((s, i) => (
-          <div key={s.persona} className="fig-flow-stage">
+          <div key={s.role} className="fig-flow-stage">
             <div className="fig-flow-card">
-              <span className="fig-flow-persona">{s.persona}</span>
+              <span className="fig-flow-role">{s.role}</span>
               <span className="fig-flow-action">{s.action}</span>
               <span className="fig-flow-mem">↑ reads / writes memory</span>
             </div>
@@ -102,7 +102,7 @@ function FeatureFlow(): JSX.Element {
         ))}
       </div>
       <p className="fig-note">
-        Each persona-agent reads the laws its stage is gated by, does its work, and appends a
+        Each role-agent reads the policies its stage is gated by, does its work, and appends a
         cited decision — so the merged result carries an auditable trail no single agent owns.
       </p>
     </div>
@@ -142,8 +142,8 @@ function TwoTeamSplit(): JSX.Element {
       </div>
       <p className="fig-note">
         Zero cross-imports between <code>users</code> and <code>customers</code> — verified by a
-        fresh-context review (LAW-10.5), not just claimed. Each team ships, tests, and reviews its
-        own domain independently; the shared constitution is what keeps both teams building the
+        fresh-context review (POL-10.5), not just claimed. Each team ships, tests, and reviews its
+        own domain independently; the shared policy framework is what keeps both teams building the
         same way without either forking it.
       </p>
     </div>
@@ -174,7 +174,7 @@ function AgentBoardMockup(): JSX.Element {
           workflowId: 'WF-FEATURE',
           stage: 'code-review · quality',
           hard: true,
-          note: 'Waiting on two human approvals (LAW-6.1).',
+          note: 'Waiting on two human approvals (POL-6.1).',
         },
       ],
     },
@@ -213,27 +213,27 @@ function AgentBoardMockup(): JSX.Element {
       <p className="fig-note">
         A sketch of the real UI, not a screenshot — agent-board renders this live from
         .claude/board/events.local.jsonl, polling every ~1.5s as the orchestrator appends
-        stage-transition events (LAW-4.6: best-effort, never blocking the workflow it reports on).
+        stage-transition events (POL-4.6: best-effort, never blocking the workflow it reports on).
       </p>
     </div>
   );
 }
 
 export const articleFigures: Record<string, FigureDef> = {
-  'persona-mesh': {
-    caption: 'Figure 1 · One orchestrator, many persona-specialised agents',
+  'role-mesh': {
+    caption: 'Figure 1 · One orchestrator, many role-specialised agents',
     render: PersonaMesh,
   },
   'memory-service': {
-    caption: 'Figure 2 · The constitution as a Central Memory Service agents query and append to',
+    caption: 'Figure 2 · The policy framework as a Central Memory Service agents query and append to',
     render: MemoryService,
   },
   'feature-flow': {
-    caption: 'Figure 3 · A feature through the persona pipeline, memory at every stage',
+    caption: 'Figure 3 · A feature through the role pipeline, memory at every stage',
     render: FeatureFlow,
   },
   'two-team-split': {
-    caption: 'Figure 4 · Two teams, one CRM — split by domain, not by file, sharing one constitution',
+    caption: 'Figure 4 · Two teams, one CRM — split by domain, not by file, sharing one policy framework',
     render: TwoTeamSplit,
   },
   'agent-board-mockup': {

@@ -1,4 +1,4 @@
-import { getLaw, getWorkflow } from './registry';
+import { getPolicy, getWorkflow } from './registry';
 import type { Lesson, QuizQuestion, TrainingModule } from '../data/content-types';
 
 function lessonErrors(lesson: Lesson, seenLessonIds: Set<string>): string[] {
@@ -6,13 +6,13 @@ function lessonErrors(lesson: Lesson, seenLessonIds: Set<string>): string[] {
   if (seenLessonIds.has(lesson.id)) errors.push(`duplicate lesson id: ${lesson.id}`);
   seenLessonIds.add(lesson.id);
 
-  const missingLaws = lesson.lawRefs.filter((lawRef) => getLaw(lawRef) === undefined);
+  const missingLaws = lesson.policyRefs.filter((policyRef) => getPolicy(policyRef) === undefined);
   const missingWorkflows = (lesson.workflowRefs ?? []).filter(
     (workflowRef) => getWorkflow(workflowRef) === undefined
   );
   return [
     ...errors,
-    ...missingLaws.map((lawRef) => `lesson ${lesson.id}: references nonexistent ${lawRef}`),
+    ...missingLaws.map((policyRef) => `lesson ${lesson.id}: references nonexistent ${policyRef}`),
     ...missingWorkflows.map((ref) => `lesson ${lesson.id}: references nonexistent ${ref}`),
   ];
 }
@@ -24,8 +24,8 @@ function questionErrors(question: QuizQuestion): string[] {
   if (!hasValidIndex) {
     errors.push(`quiz ${question.id}: correctIndex ${question.correctIndex} is out of range`);
   }
-  if (question.lawRef !== undefined && getLaw(question.lawRef) === undefined) {
-    errors.push(`quiz ${question.id}: references nonexistent ${question.lawRef}`);
+  if (question.policyRef !== undefined && getPolicy(question.policyRef) === undefined) {
+    errors.push(`quiz ${question.id}: references nonexistent ${question.policyRef}`);
   }
   return errors;
 }
@@ -43,8 +43,8 @@ function moduleErrors(module: TrainingModule, seenLessonIds: Set<string>): strin
 
 /**
  * Validates training content against the live registries — the mechanical
- * guarantee that this app cannot silently drift from the constitution
- * (LAW-10.6's consistency obligation, applied to training material).
+ * guarantee that this app cannot silently drift from the policy framework
+ * (POL-10.6's consistency obligation, applied to training material).
  *
  * @param modules - The training catalog to validate.
  * @returns Human-readable error messages; empty when the content is consistent.

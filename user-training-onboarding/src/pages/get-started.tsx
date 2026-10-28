@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { LawLink } from '../components/law-link';
+import { PolicyLink } from '../components/policy-link';
 import { startSteps } from '../data/get-started-content';
 import type { StartStep } from '../data/get-started-content';
 
@@ -33,9 +33,9 @@ function StepCard({ step, index }: { step: StartStep; index: number }): JSX.Elem
         <p className="step-checkpoint">
           <strong>Checkpoint:</strong> {step.checkpoint}
         </p>
-        <div className="step-laws">
-          {step.lawRefs.map((lawRef) => (
-            <LawLink key={lawRef} lawId={lawRef} />
+        <div className="step-policies">
+          {step.policyRefs.map((policyRef) => (
+            <PolicyLink key={policyRef} policyId={policyRef} />
           ))}
         </div>
       </div>
@@ -53,7 +53,7 @@ export function GetStartedPage(): JSX.Element {
         <p className="manifesto-sub">
           Eight steps. The first three take about ten minutes and are mostly one command each.
           By the last one, you’ll have shipped a feature through a declared workflow, with an AI
-          agent that cited its laws and showed its receipts.
+          agent that cited its policies and showed its receipts.
         </p>
       </section>
 
@@ -67,14 +67,14 @@ export function GetStartedPage(): JSX.Element {
         <h2>Then go deeper, at your own pace.</h2>
         <p>
           Keep the <Link to="/learn#skill-catalog">Skill Command Catalog</Link> handy — every
-          persona, orchestration, and enforcement skill with its exact command and example
+          role, orchestration, and enforcement skill with its exact command and example
           invocations. The self-study paths cover greenfield, rewrites, and day-to-day enhancement
-          work in detail, with knowledge checks that cite the law behind every answer.
+          work in detail, with knowledge checks that cite the policy behind every answer.
         </p>
         <p>
           Wondering how this holds up past one team? Read{' '}
-          <Link to="/articles/two-teams-one-constitution">
-            Two Teams, One Constitution
+          <Link to="/articles/two-teams-one-policy-framework">
+            Two Teams, One Policy Framework
           </Link>{' '}
           — the same eight steps above, run by two scrum teams building a shared CRM, with the
           real test output and a real fresh-context review finding along the way.

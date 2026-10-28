@@ -5,13 +5,13 @@ import { ArticleReaderPage, ArticlesPage } from './pages/articles';
 import { GetStartedPage } from './pages/get-started';
 import { HomePage } from './pages/home';
 import { JourneysPage } from './pages/journeys';
-import { LawsPage } from './pages/laws';
 import { LearningPathPage } from './pages/learning-path';
-import { PersonasPage } from './pages/personas';
+import { PoliciesPage } from './pages/policies';
+import { RolesPage } from './pages/roles';
 import { WhyPage } from './pages/why';
 import { WorkflowsPage } from './pages/workflows';
 
-/** Route table without a router — testable under MemoryRouter (LAW-3.4). */
+/** Route table without a router — testable under MemoryRouter (POL-3.4). */
 export function AppRoutes(): JSX.Element {
   return (
     <Routes>
@@ -22,10 +22,10 @@ export function AppRoutes(): JSX.Element {
         <Route path="articles" element={<ArticlesPage />} />
         <Route path="articles/:articleId" element={<ArticleReaderPage />} />
         <Route path="learn" element={<HomePage />} />
-        <Route path="personas" element={<PersonasPage />} />
+        <Route path="roles" element={<RolesPage />} />
         <Route path="start" element={<GetStartedPage />} />
         <Route path="path/:moduleId" element={<LearningPathPage />} />
-        <Route path="laws" element={<LawsPage />} />
+        <Route path="policies" element={<PoliciesPage />} />
         <Route path="workflows" element={<WorkflowsPage />} />
       </Route>
     </Routes>

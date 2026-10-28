@@ -30,10 +30,10 @@ describe('LearningPathPage', () => {
     expect(loadProgress(window.localStorage).completedLessons).toContain(firstLessonId);
   });
 
-  it('should render law citation chips with live registry text in lessons', () => {
+  it('should render policy citation chips with live registry text in lessons', () => {
     renderModule('orientation');
-    // The orientation lessons cite LAW-6.2 — the chip shows id + live version.
-    expect(screen.getAllByText(/\[LAW-6\.2 v[\d.]+\]/).length).toBeGreaterThan(0);
+    // The orientation lessons cite POL-6.2 — the chip shows id + live version.
+    expect(screen.getAllByText(/\[POL-6\.2 v[\d.]+\]/).length).toBeGreaterThan(0);
   });
 
   it('should show module progress advancing when units complete', () => {

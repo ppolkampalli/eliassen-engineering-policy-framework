@@ -8,11 +8,11 @@ import type { QuizQuestion } from '../data/content-types';
 const QUESTIONS: QuizQuestion[] = [
   {
     id: 'q1',
-    prompt: 'Which law prohibits the any type?',
-    options: ['LAW-2.3', 'LAW-5.1'],
+    prompt: 'Which policy prohibits the any type?',
+    options: ['POL-2.3', 'POL-5.1'],
     correctIndex: 0,
-    explanation: 'LAW-2.3 prohibits any.',
-    lawRef: 'LAW-2.3',
+    explanation: 'POL-2.3 prohibits any.',
+    policyRef: 'POL-2.3',
   },
   {
     id: 'q2',
@@ -35,7 +35,7 @@ describe('QuizView', () => {
   it('should call onPass and show PASSED when all answers are correct', () => {
     const onPass = jest.fn();
     renderQuiz(onPass);
-    fireEvent.click(screen.getByLabelText('LAW-2.3'));
+    fireEvent.click(screen.getByLabelText('POL-2.3'));
     fireEvent.click(screen.getByLabelText('Security'));
     fireEvent.click(screen.getByText('Submit answers'));
     expect(screen.getByText(/2\/2 \(100%\) — PASSED/)).toBeTruthy();
@@ -45,7 +45,7 @@ describe('QuizView', () => {
   it('should show feedback with explanations and offer retry when failing', () => {
     const onPass = jest.fn();
     renderQuiz(onPass);
-    fireEvent.click(screen.getByLabelText('LAW-5.1'));
+    fireEvent.click(screen.getByLabelText('POL-5.1'));
     fireEvent.click(screen.getByLabelText('FinOps'));
     fireEvent.click(screen.getByText('Submit answers'));
     expect(screen.getByText(/0\/2 \(0%\) — not yet/)).toBeTruthy();

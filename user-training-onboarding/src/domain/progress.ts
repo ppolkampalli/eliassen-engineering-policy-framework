@@ -6,7 +6,7 @@ export interface ProgressState {
   passedQuizzes: string[];
 }
 
-const STORAGE_KEY = 'constitution-training-progress';
+const STORAGE_KEY = 'policy-framework-training-progress';
 
 function emptyState(): ProgressState {
   return { completedLessons: [], passedQuizzes: [] };
@@ -16,7 +16,7 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string');
 }
 
-/** Narrow unknown parsed JSON into ProgressState (LAW-5.1's allowlist posture). */
+/** Narrow unknown parsed JSON into ProgressState (POL-5.1's allowlist posture). */
 function isProgressState(value: unknown): value is ProgressState {
   if (typeof value !== 'object' || value === null) return false;
   const candidate = value as Record<string, unknown>;
@@ -27,7 +27,7 @@ function isProgressState(value: unknown): value is ProgressState {
  * Loads progress from storage. Corrupt or missing state yields empty progress —
  * a learner never loses the app to a bad localStorage value.
  *
- * @param storage - Injected Storage (window.localStorage in the app, a fake in tests per LAW-3.4).
+ * @param storage - Injected Storage (window.localStorage in the app, a fake in tests per POL-3.4).
  * @returns The saved progress, or empty progress when absent/invalid.
  */
 export function loadProgress(storage: Storage): ProgressState {

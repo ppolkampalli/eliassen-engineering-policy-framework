@@ -8,7 +8,7 @@ import {
 import type { TrainingModule } from '../data/content-types';
 
 
-/** In-memory Storage fake (LAW-3.4: no real browser storage in unit tests). */
+/** In-memory Storage fake (POL-3.4: no real browser storage in unit tests). */
 function fakeStorage(initial: Record<string, string> = {}): Storage {
   const store = new Map(Object.entries(initial));
   return {
@@ -36,7 +36,7 @@ function moduleWith(id: string, lessonIds: string[]): TrainingModule {
       id: lessonId,
       title: lessonId,
       body: '',
-      lawRefs: [],
+      policyRefs: [],
     })),
     quiz: [
       { id: `${id}-q1`, prompt: '', options: ['a', 'b'], correctIndex: 0, explanation: '' },
@@ -58,28 +58,28 @@ describe('loadProgress', () => {
   });
 
   it('should return empty progress when storage holds corrupt JSON', () => {
-    const storage = fakeStorage({ 'constitution-training-progress': '{not json' });
+    const storage = fakeStorage({ 'policy-framework-training-progress': '{not json' });
     expect(loadProgress(storage)).toEqual({ completedLessons: [], passedQuizzes: [] });
   });
 
   it('should return empty progress when storage holds JSON of the wrong shape', () => {
-    const storage = fakeStorage({ 'constitution-training-progress': '{"completedLessons": "nope"}' });
+    const storage = fakeStorage({ 'policy-framework-training-progress': '{"completedLessons": "nope"}' });
     expect(loadProgress(storage)).toEqual({ completedLessons: [], passedQuizzes: [] });
   });
 
   it('should return empty progress when storage holds JSON null', () => {
-    const storage = fakeStorage({ 'constitution-training-progress': 'null' });
+    const storage = fakeStorage({ 'policy-framework-training-progress': 'null' });
     expect(loadProgress(storage)).toEqual({ completedLessons: [], passedQuizzes: [] });
   });
 
   it('should return empty progress when storage holds a JSON primitive', () => {
-    const storage = fakeStorage({ 'constitution-training-progress': '42' });
+    const storage = fakeStorage({ 'policy-framework-training-progress': '42' });
     expect(loadProgress(storage)).toEqual({ completedLessons: [], passedQuizzes: [] });
   });
 
   it('should return empty progress when arrays contain non-string items', () => {
     const storage = fakeStorage({
-      'constitution-training-progress': '{"completedLessons": [1], "passedQuizzes": []}',
+      'policy-framework-training-progress': '{"completedLessons": [1], "passedQuizzes": []}',
     });
     expect(loadProgress(storage)).toEqual({ completedLessons: [], passedQuizzes: [] });
   });

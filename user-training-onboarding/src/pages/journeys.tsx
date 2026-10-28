@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { JourneyMap } from '../components/journey-map';
-import { LawLink } from '../components/law-link';
+import { PolicyLink } from '../components/policy-link';
 import { clientJourneys } from '../data/journeys-content';
 import type { ClientJourney } from '../data/journeys-content';
 
@@ -70,13 +70,13 @@ function JourneySection({ journey }: { journey: ClientJourney }): JSX.Element {
       <p className="journey-profile">{journey.profile}</p>
       <JourneyMap stages={journey.stages} />
       <BeforeAfter journey={journey} />
-      <div className="journey-laws">
-        <span className="laws-label">Built on:</span>
-        {journey.lawRefs.map((lawRef) => (
-          <LawLink key={lawRef} lawId={lawRef} />
+      <div className="journey-policies">
+        <span className="policies-label">Built on:</span>
+        {journey.policyRefs.map((policyRef) => (
+          <PolicyLink key={policyRef} policyId={policyRef} />
         ))}
         {journey.workflowRefs.map((workflowRef) => (
-          <Link key={workflowRef} className="law-chip" to="/workflows">
+          <Link key={workflowRef} className="policy-chip" to="/workflows">
             {workflowRef}
           </Link>
         ))}
@@ -95,7 +95,7 @@ export function JourneysPage(): JSX.Element {
 
   return (
     <div className="journeys-page">
-      <section className="personas-hero">
+      <section className="roles-hero">
         <p className="kicker">Client Journeys</p>
         <h1>Wherever a client starts, there’s a mapped road to governed AI delivery.</h1>
         <p className="manifesto-sub">
@@ -124,7 +124,7 @@ export function JourneysPage(): JSX.Element {
           <Link className="btn btn-hero" to="/start">
             See the first ten minutes →
           </Link>
-          <Link className="btn btn-ghost" to="/personas">
+          <Link className="btn btn-ghost" to="/roles">
             Meet the council
           </Link>
         </div>

@@ -1,6 +1,6 @@
-import { LawLink } from '../components/law-link';
-import { personaProfiles } from '../data/personas-content';
-import type { PersonaProfile } from '../data/personas-content';
+import { PolicyLink } from '../components/policy-link';
+import { roleProfiles } from '../data/roles-content';
+import type { RoleProfile } from '../data/roles-content';
 
 const LADDER: { tier: string; holders: string; meaning: string }[] = [
   {
@@ -23,24 +23,24 @@ const LADDER: { tier: string; holders: string; meaning: string }[] = [
   },
 ];
 
-function AuthorityBadge({ authority }: { authority: PersonaProfile['authority'] }): JSX.Element {
+function AuthorityBadge({ authority }: { authority: RoleProfile['authority'] }): JSX.Element {
   return <span className={`authority-badge authority-${authority.toLowerCase()}`}>{authority}</span>;
 }
 
-function PersonaCard({ profile }: { profile: PersonaProfile }): JSX.Element {
+function RoleCard({ profile }: { profile: RoleProfile }): JSX.Element {
   return (
-    <article className="persona-card" id={profile.id}>
+    <article className="role-card" id={profile.id}>
       <header>
         <h3>{profile.name}</h3>
         <AuthorityBadge authority={profile.authority} />
       </header>
-      <p className="persona-tagline">{profile.tagline}</p>
-      <p className="persona-pitch">{profile.pitch}</p>
-      <div className="persona-detail">
+      <p className="role-tagline">{profile.tagline}</p>
+      <p className="role-pitch">{profile.pitch}</p>
+      <div className="role-detail">
         <h4>Authority</h4>
         <p>{profile.authorityDetail}</p>
       </div>
-      <div className="persona-detail">
+      <div className="role-detail">
         <h4>Summon when…</h4>
         <ul>
           {profile.summonWhen.map((situation) => (
@@ -48,31 +48,31 @@ function PersonaCard({ profile }: { profile: PersonaProfile }): JSX.Element {
           ))}
         </ul>
       </div>
-      <div className="persona-detail">
+      <div className="role-detail">
         <h4>Owns</h4>
-        <div className="persona-laws">
-          {profile.ownedLaws.map((lawRef) => (
-            <LawLink key={lawRef} lawId={lawRef} />
+        <div className="role-policies">
+          {profile.ownedPolicies.map((policyRef) => (
+            <PolicyLink key={policyRef} policyId={policyRef} />
           ))}
         </div>
       </div>
-      <p className="persona-invocation">{profile.invocation}</p>
+      <p className="role-invocation">{profile.invocation}</p>
     </article>
   );
 }
 
-/** Meet the Council: the eight personas, sold properly. */
-export function PersonasPage(): JSX.Element {
+/** Meet the Council: the eight roles, sold properly. */
+export function RolesPage(): JSX.Element {
   return (
-    <div className="personas-page">
-      <section className="personas-hero">
-        <p className="kicker">The Persona System</p>
+    <div className="roles-page">
+      <section className="roles-hero">
+        <p className="kicker">The Role System</p>
         <h1>Eight specialists. On call. In every session.</h1>
         <p className="manifesto-sub">
-          A persona is not a label — it is a mandate, a set of owned laws, and real authority an AI
+          A role is not a label — it is a mandate, a set of owned policies, and real authority an AI
           agent or a human can assume on demand. Say the word and your session gains a security
           engineer who cannot be bullied by a deadline, an architect who writes the reasoning down,
-          a product owner who refuses to build the undefined. Every decision they make cites the law
+          a product owner who refuses to build the undefined. Every decision they make cites the policy
           it stands on.
         </p>
       </section>
@@ -91,14 +91,14 @@ export function PersonasPage(): JSX.Element {
           ))}
         </div>
         <p className="ladder-note">
-          Conflicts between personas go to the persona-council, which surfaces every disagreement
+          Conflicts between roles go to the role-council, which surfaces every disagreement
           verbatim — and anything the ladder can’t settle goes to a human. Always.
         </p>
       </section>
 
-      <section className="persona-grid">
-        {personaProfiles.map((profile) => (
-          <PersonaCard key={profile.id} profile={profile} />
+      <section className="role-grid">
+        {roleProfiles.map((profile) => (
+          <RoleCard key={profile.id} profile={profile} />
         ))}
       </section>
     </div>

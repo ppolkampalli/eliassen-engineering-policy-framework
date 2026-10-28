@@ -22,7 +22,7 @@ function ArticleCard({ id }: { id: string }): JSX.Element | null {
 export function ArticlesPage(): JSX.Element {
   return (
     <div className="articles-page">
-      <section className="personas-hero">
+      <section className="roles-hero">
         <p className="kicker">Articles</p>
         <h1>Question the process before you inherit it.</h1>
         <p className="manifesto-sub">
