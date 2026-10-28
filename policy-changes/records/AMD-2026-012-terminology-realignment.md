@@ -237,6 +237,35 @@ Stage 5 (propagation to `agent-board/`, `crm-demo/`, `memory-service/`,
 `user-training-onboarding/`) is explicitly deferred — tracked as follow-up,
 not done here, per WF-AMENDMENT's own non-hard designation for that stage.
 
+## Propagation Update (2026-10-28): user-training-onboarding
+
+`user-training-onboarding/` propagated (commit `f8403c0`). This app was
+**broken** before this pass: `src/domain/registry.ts` imported
+`../../../laws/registry.json`, which stopped existing once stage 4 landed.
+Renamed `law-browser.tsx`/`.spec.tsx`→`policy-browser.*`, `law-link.tsx`→
+`policy-link.tsx`, `personas-content.ts`→`roles-content.ts`,
+`pages/laws.tsx`→`pages/policies.tsx` (route `/laws`→`/policies`),
+`pages/personas.tsx`→`pages/roles.tsx` (route `/personas`→`/roles`).
+Deliberately left untouched: the unrelated thought-leadership "Articles"
+feature (`articles-content.ts`, `article-view.tsx`, `pages/articles.tsx`,
+the `/articles` route) and generic `<article>` HTML elements elsewhere —
+confirmed neither refers to the former "Article" (policy domain) concept,
+a real risk of a blind sweep on this codebase specifically.
+
+Also caught and fixed: `.law-*`/`.persona-*`/`.fig-persona-*` CSS classes
+in `styles.css` had silently drifted out of sync with renamed JSX
+`className`s — an untested visual regression a content sweep alone would
+have shipped. Verified by cross-checking built CSS/JS class names, not
+just by eye.
+
+Verified: `tsc --noEmit` clean, 90/90 tests pass (including the
+content-integrity and marketing-content consistency gates — exactly the
+mechanism Quality's review said would catch exactly this), eslint 0
+errors (pre-existing warning count confirmed unchanged against main),
+`npm run build` succeeds.
+
+`agent-board/`, `crm-demo/`, `memory-service/` remain deferred.
+
 **Not yet merged to main.** This branch has not been pushed or merged;
 that is a separate, explicit decision for the repo owner.
 
