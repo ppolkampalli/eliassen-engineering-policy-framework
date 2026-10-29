@@ -8,7 +8,7 @@ version: 1.0
 effective_date: 2026-06-01
 owner_roles: [quality, security]
 enforcement: role
-enforcement_mechanism: "All role skills embed the stop-and-ask rule; role-council escalation path; constitution-enforcer"
+enforcement_mechanism: "All role skills embed the stop-and-ask rule; role-council escalation path; policy-enforcer"
 policy_change_history:
   - policy_change: AMD-2026-001
     date: 2026-06-01
@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-7.5: Mandatory Escalation on Uncertainty
@@ -25,7 +26,7 @@ policy_change_history:
 
 > When an AI agent encounters ambiguous requirements, an architectural
 > choice with lasting consequences, or any security-relevant decision it
-> cannot resolve from documented sources — laws, ADRs, acceptance
+> cannot resolve from documented sources — policies, ADRs, acceptance
 > criteria, documented business rules — it must stop and ask a human.
 > Guessing is prohibited: a plausible assumption silently embedded in
 > code is a defect even when it turns out correct. Escalations state

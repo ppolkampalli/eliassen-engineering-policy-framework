@@ -44,7 +44,7 @@ every caller; infinite timeouts turn a hung socket into a hung service. These
 patterns are also what make POL-9.2's reversibility meaningful under partial
 failure — a system that cannot degrade cannot roll back gracefully either.
 Ratified per AMD-2026-008; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

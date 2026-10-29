@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-8.1: Acceptance Criteria Before Implementation
@@ -27,7 +28,7 @@ policy_change_history:
 > criteria defining "done": observable behaviors, edge cases in scope,
 > and how success is verified. A ticket whose body is its own title is
 > not implementable. When criteria are missing, the work routes back to
-> the Product Owner — coding against a guess violates this law and
+> the Product Owner — coding against a guess violates this policy and
 > POL-7.5 alike.
 
 ## Rationale (the WHY — always citable alongside the statement)
@@ -38,7 +39,7 @@ needed it. Acceptance criteria are the contract that makes test-first
 possible (POL-3.1 needs an expectation to test), makes review meaningful
 (POL-6.1 reviewers need a definition of correct), and makes scope
 disputes resolvable by reference instead of memory (POL-8.4). For AI-
-assisted teams this law is load-bearing: an agent given a one-line
+assisted teams this policy is load-bearing: an agent given a one-line
 ticket will confidently manufacture the missing requirements (POL-7.5's
 exact failure mode).
 

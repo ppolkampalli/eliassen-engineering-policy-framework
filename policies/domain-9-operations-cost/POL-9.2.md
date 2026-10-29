@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-9.2: Deployment Safety
@@ -39,7 +40,7 @@ production down, stakeholders watching, the one engineer who knows the
 migration asleep. Documented-before-release matters because rollback
 designed mid-incident is guesswork with a deadline; expand-migrate-
 contract matters because schema changes are where "just roll it back"
-quietly becomes impossible. This law is what lets POL-6.2's gates stay
+quietly becomes impossible. This policy is what lets POL-6.2's gates stay
 inviolable even during emergencies: the answer to "we must ship NOW" is
 a safe path, already built.
 

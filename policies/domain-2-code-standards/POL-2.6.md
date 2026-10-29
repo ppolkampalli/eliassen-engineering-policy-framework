@@ -8,7 +8,7 @@ version: 1.1
 effective_date: 2026-06-11
 owner_roles: [software-engineer, quality]
 enforcement: review
-enforcement_mechanism: "ESLint complexity/max-lines-per-function advisories; code review per code-review-checklist.md; constitution-enforcer self-check"
+enforcement_mechanism: "ESLint complexity/max-lines-per-function advisories; code review per code-review-checklist.md; policy-enforcer self-check"
 policy_change_history:
   - policy_change: AMD-2026-001
     date: 2026-06-01
@@ -49,7 +49,7 @@ caps because rigid one-size-fits-all enforcement is the dominant
 practitioner complaint about clean-code regimes. Magic numbers fail
 silently when requirements change: `86400000` appearing twice is a bug
 waiting for the day only one of them is updated. Amended per AMD-2026-006;
-evidence in docs/research/2026-06-11-agentic-policy framework-research.md.
+evidence in docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

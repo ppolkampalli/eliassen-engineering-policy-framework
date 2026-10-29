@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-4.5: ADR Requirement
@@ -30,7 +31,7 @@ policy_change_history:
 > component, new layer or cross-cutting concern, departure from
 > sanctioned patterns, or any decision a future maintainer would ask
 > "why is it like this?" about. The ADR records context, options
-> considered, the decision, its consequences, and the laws considered.
+> considered, the decision, its consequences, and the policies considered.
 
 ## Rationale (the WHY — always citable alongside the statement)
 
@@ -58,7 +59,7 @@ COMPLIANT:
 PR #312 includes docs/adr/0009-async-inventory-updates.md: context
 (timeout cascade during peak), options (retry budget, queue, batch
 sync), decision (queue), consequences (eventual consistency window,
-new infra dependency), laws considered (POL-4.1, POL-9.2, POL-9.3).
+new infra dependency), policies considered (POL-4.1, POL-9.2, POL-9.3).
 ```
 
 ## Related Policies

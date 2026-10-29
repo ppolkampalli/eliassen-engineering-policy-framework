@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-10.6: Defined Workflows
@@ -25,13 +26,13 @@ policy_change_history:
 
 > Nontrivial work proceeds under a declared workflow: the work item names which
 > workflow from the catalog (`workflows/`, installed at
-> `docs/policy framework/workflows/`) it follows, and that workflow's stages,
+> `docs/policy-framework/workflows/`) it follows, and that workflow's stages,
 > roles, gates, and human checkpoints govern execution by agents and humans
-> alike. Workflows are process, not law: definitions change by ordinary PR
+> alike. Workflows are process, not policy: definitions change by ordinary PR
 > review. Conversational deviations are permitted for stages not marked hard —
 > and every applied deviation is recorded on the work item with its rationale
-> and approver. Stages marked hard, stages whose gating laws are inviolable,
-> and the WF-AMENDMENT sequence itself may not be overridden conversationally
+> and approver. Stages marked hard, stages whose gating policies are inviolable,
+> and the WF-POLICY-CHANGE sequence itself may not be overridden conversationally
 > or by project-level files; project overrides may replace or add workflows
 > but never remove or soften an org-catalog hard stage (POL-1.3 applied to
 > process). When no workflow fits, the orchestrator says so and a sequence is
@@ -50,7 +51,7 @@ accident (POL-7.3's provenance principle: undisclosed deviation is the
 violation, never deviation itself). Keeping the definitions PR-governed rather
 than policy change-governed is deliberate: process must evolve at the speed of
 practice, while the obligation to follow *some* declared process — and the
-inviolability of hard gates — stays constitutional. Ratified per AMD-2026-010.
+inviolability of hard gates — stays foundational. Ratified per AMD-2026-010.
 
 ## Compliance Examples
 
@@ -58,8 +59,8 @@ VIOLATION:
 ```text
 Agent receives "fix the rounding bug and while you're at it add CSV
 export" — improvises: implements both, no workflow declared, security
-review skipped silently, scope expansion unrecorded. Three laws violated
-with no trail (POL-8.4, POL-1.5, this law).
+review skipped silently, scope expansion unrecorded. Three policies violated
+with no trail (POL-8.4, POL-1.5, this policy).
 ```
 
 COMPLIANT:

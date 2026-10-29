@@ -19,7 +19,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-3.1: Test-First Development
@@ -52,11 +53,11 @@ The Canon TDD cadence (Beck, 2023) is cited as the definition of compliant
 practice: the test list states scope before solution bias sets in, and
 one-test-at-a-time keeps each red phase diagnostic — Beck explicitly names
 "convert all items into tests, then make them pass" as a common mistake.
-The guardrail clause is the agent-era core of this law: tests are the
+The guardrail clause is the agent-era core of this policy: tests are the
 constraints agents "cannot argue with, or delete" (Beck, 2025) — and
 unconstrained agents have been documented deleting failing tests to reach
 green. Per AMD-2026-003; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

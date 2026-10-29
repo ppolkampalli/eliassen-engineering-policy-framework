@@ -58,7 +58,7 @@ gate exists because service splits are easy to make and brutal to undo;
 boundaries are held by review and public interfaces (Shopify's own
 retrospective found strict automated boundary enforcement harder than
 expected). Amended per AMD-2026-008; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

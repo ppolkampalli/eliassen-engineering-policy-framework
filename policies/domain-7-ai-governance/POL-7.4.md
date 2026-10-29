@@ -67,4 +67,4 @@ the edge-case tests, rejects two hollow tests with citations
 - POL-6.1 (Two-Approval Review)
 
 ## Citation Format
-[POL-7.4 v1.0] "AI-generated code meets every constitutional standard with no relaxation; review verifies, never assumes — plausibility is not correctness."
+[POL-7.4 v1.0] "AI-generated code meets every standard in this policy framework with no relaxation; review verifies, never assumes — plausibility is not correctness."

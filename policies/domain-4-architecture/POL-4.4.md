@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-4.4: Sanctioned Patterns
@@ -45,7 +46,7 @@ policy_change_history:
 A small sanctioned vocabulary means every engineer and agent reads every
 codebase fluently: a `*Repository` always means the same thing, in every
 project (POL-1.3 applied to design). Each pattern earns its place by
-enabling another law — DI and Repository make test isolation possible
+enabling another policy — DI and Repository make test isolation possible
 (POL-3.4) and keep layers separate (POL-4.1); Factory and Strategy are
 the standard cures for OCP violations (POL-4.2). Gating novel patterns
 behind an ADR doesn't forbid invention; it makes invention deliberate

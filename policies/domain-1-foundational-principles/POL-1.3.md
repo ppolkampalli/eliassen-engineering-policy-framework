@@ -48,7 +48,7 @@ VIOLATION:
 ```jsonc
 // project-local .eslintrc.json overriding the policy framework config
 {
-  "extends": "../engineering-policy framework/configs/.eslintrc.json",
+  "extends": "../engineering-constitution/configs/.eslintrc.json",
   "rules": { "@typescript-eslint/no-explicit-any": "off" } // local exception
 }
 ```
@@ -57,9 +57,9 @@ COMPLIANT:
 ```jsonc
 // project .eslintrc.json — extends without overrides
 {
-  "extends": "./node_modules/@eliassen/policy framework-configs/.eslintrc.json"
+  "extends": "./node_modules/@eliassen/policy-framework-configs/.eslintrc.json"
 }
-// Disagree with a rule? Propose an policy change (policy changes/AMENDMENT-PROCESS.md).
+// Disagree with a rule? Propose a policy change (policy-changes/POLICY-CHANGE-PROCESS.md).
 ```
 
 ## Related Policies

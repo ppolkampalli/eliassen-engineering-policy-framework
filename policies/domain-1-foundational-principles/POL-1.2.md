@@ -8,7 +8,7 @@ version: 1.0
 effective_date: 2026-06-01
 owner_roles: [quality]
 enforcement: review
-enforcement_mechanism: "Code review; TODO-without-ticket flagged by review checklist and constitution-enforcer skill"
+enforcement_mechanism: "Code review; TODO-without-ticket flagged by review checklist and policy-enforcer skill"
 policy_change_history:
   - policy_change: AMD-2026-001
     date: 2026-06-01
@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-1.2: Quality is Built-In, Never Added Later
@@ -28,7 +29,7 @@ policy_change_history:
 > engineering plan. A TODO comment is permitted only when it references a
 > tracked ticket and states the context and intended resolution; a TODO
 > without a ticket is a defect. Work is not "done" until it meets every
-> applicable law of this policy framework.
+> applicable policy of this policy framework.
 
 ## Rationale (the WHY — always citable alongside the statement)
 

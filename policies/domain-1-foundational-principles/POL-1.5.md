@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-1.5: Security is Everybody's Responsibility
@@ -38,7 +39,7 @@ most expensive in production — and unlike most defects, their cost is
 unbounded: breach, regulatory exposure, and loss of client trust.
 Treating security as one team's job creates exactly the gaps attackers
 look for; treating deadlines as a waiver teaches the organization that
-security is negotiable. This law makes the non-negotiability explicit so
+security is negotiable. This policy makes the non-negotiability explicit so
 no individual has to argue it under pressure.
 
 ## Compliance Examples

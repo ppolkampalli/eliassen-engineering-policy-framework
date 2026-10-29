@@ -42,7 +42,7 @@ existing system, including its debt accumulation. Measurement is the difference
 between drift we manage and drift we discover at refactoring-impossible scale.
 The no-individual-KPI clause prevents the metric gaming that destroys
 measurement value. Per AMD-2026-005; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

@@ -44,7 +44,7 @@ operationalized at scale (Meta's ACH across Facebook/Instagram/WhatsApp, FSE
 re-validated against the mutation report). The ratchet replaces a universal
 numeric floor because verified thresholds come from Kotlin/Java at much larger
 scale — JS/TS calibration is pending pilot. Per AMD-2026-004; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

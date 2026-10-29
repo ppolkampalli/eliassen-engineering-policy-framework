@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-2.3: Prohibition of the `any` Type
@@ -33,7 +34,7 @@ policy_change_history:
 `any` silently disables TypeScript's type checking for that value and
 everything it touches, defeating the purpose of strict mode and allowing
 type errors to reach production. `unknown` provides the same flexibility
-while forcing explicit, safe narrowing. This law exists because type-related
+while forcing explicit, safe narrowing. This policy exists because type-related
 production bugs were one of the six founding pain points of this policy framework.
 
 ## Compliance Examples

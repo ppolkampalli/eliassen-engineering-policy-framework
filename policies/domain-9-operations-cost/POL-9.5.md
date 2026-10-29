@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-9.5: Service-Level Objectives
@@ -41,8 +42,8 @@ constituencies each hold a piece nobody else has: product knows what users
 tolerate, development knows what the code can promise, operations knows what
 the platform delivers. The document discipline (authors, approvers, review
 dates) mirrors our ADR and policy change machinery (POL-4.5) — reliability targets
-get the same audit trail as architecture and law. Ratified per AMD-2026-009;
-evidence in docs/research/2026-06-11-agentic-policy framework-research.md.
+get the same audit trail as architecture and policy. Ratified per AMD-2026-009;
+evidence in docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

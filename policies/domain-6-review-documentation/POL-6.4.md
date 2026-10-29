@@ -52,7 +52,7 @@ of sync with it, and train readers to skip all comments — destroying the
 channel everything above depends on. A comment citing a business rule's
 source (POL-8.2) or a workaround's ticket turns mysterious code into
 auditable code. Amended per AMD-2026-007; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

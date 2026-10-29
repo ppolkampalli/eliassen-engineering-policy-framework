@@ -32,7 +32,7 @@
       ],
       "enforcement": "review",
       "statement": "Quality is built in at the moment code is written, never deferred; a TODO without a tracked ticket and context is a defect.",
-      "rationale_summary": "Deferred quality is debt issued at predatory interest: unaddressed tech debt was one of the six founding pain points of this constitution.",
+      "rationale_summary": "Deferred quality is debt issued at predatory interest: unaddressed tech debt was one of the six founding pain points of this policy framework.",
       "file": "policies/domain-1-foundational-principles/POL-1.2.md",
       "policy_changes": [
         "AMD-2026-001",
@@ -50,7 +50,7 @@
         "devops"
       ],
       "enforcement": "automated",
-      "statement": "All projects use identical tooling and conventions with zero project-level exceptions; conventions change only by amendment, for everyone.",
+      "statement": "All projects use identical tooling and conventions with zero project-level exceptions; conventions change only by policy change, for everyone.",
       "rationale_summary": "Inconsistent standards across projects were a founding pain point: every project-specific convention is a tax on every engineer who moves between projects, and on every reviewer reading an unfamiliar repo.",
       "file": "policies/domain-1-foundational-principles/POL-1.3.md",
       "policy_changes": [
@@ -87,7 +87,7 @@
       ],
       "enforcement": "review",
       "statement": "Security defects block merge regardless of author or deadline; only a named human security lead may override a CRITICAL finding, recorded in the PR.",
-      "rationale_summary": "Security vulnerabilities reaching production was a founding pain point of this constitution.",
+      "rationale_summary": "Security vulnerabilities reaching production was a founding pain point of this policy framework.",
       "file": "policies/domain-1-foundational-principles/POL-1.5.md",
       "policy_changes": [
         "AMD-2026-001",
@@ -105,7 +105,7 @@
         "quality"
       ],
       "enforcement": "automated",
-      "statement": "Identifiers follow the constitution's naming table: camelCase variables/functions, PascalCase types without I-prefix, UPPER_SNAKE_CASE constants, is/has/can booleans, kebab-case files.",
+      "statement": "Identifiers follow the policy framework's naming table: camelCase variables/functions, PascalCase types without I-prefix, UPPER_SNAKE_CASE constants, is/has/can booleans, kebab-case files.",
       "rationale_summary": "Names are the primary interface between code and reader.",
       "file": "policies/domain-2-code-standards/POL-2.1.md",
       "policy_changes": [
@@ -704,7 +704,7 @@
         "security"
       ],
       "enforcement": "review",
-      "statement": "AI-generated code meets every constitutional standard with no relaxation; review verifies, never assumes \u2014 plausibility is not correctness.",
+      "statement": "AI-generated code meets every standard in this policy framework with no relaxation; review verifies, never assumes \u2014 plausibility is not correctness.",
       "rationale_summary": "AI output is optimized to look right \u2014 that is precisely what makes it dangerous to review casually.",
       "file": "policies/domain-7-ai-governance/POL-7.4.md",
       "policy_changes": [
@@ -925,7 +925,7 @@
       ],
       "enforcement": "review",
       "statement": "Exhausting the four-week error budget halts feature releases \u2014 only P0 and security fixes ship \u2014 and any incident consuming over 20% of the budget mandates a postmortem with a P0 root-cause action item.",
-      "rationale_summary": "The error budget converts the reliability-versus-velocity argument from a per-incident negotiation into a pre-agreed contract \u2014 exactly the move this constitution makes for quality gates (POL-6.2).",
+      "rationale_summary": "The error budget converts the reliability-versus-velocity argument from a per-incident negotiation into a pre-agreed contract \u2014 exactly the move this policy framework makes for quality gates (POL-6.2).",
       "file": "policies/domain-9-operations-cost/POL-9.6.md",
       "policy_changes": [
         "AMD-2026-009",
@@ -961,7 +961,7 @@
         "product-owner"
       ],
       "enforcement": "role",
-      "statement": "Substantial agent work proceeds from a reviewed written spec or plan that names the laws bearing on the work; agents do not begin substantial implementation without one.",
+      "statement": "Substantial agent work proceeds from a reviewed written spec or plan that names the policies bearing on the work; agents do not begin substantial implementation without one.",
       "rationale_summary": "Agents that jump straight to code solve the wrong problem confidently \u2014 at generation speed.",
       "file": "policies/domain-10-agentic-development/POL-10.1.md",
       "policy_changes": [
@@ -1019,7 +1019,7 @@
       ],
       "enforcement": "review",
       "statement": "Steering files are code \u2014 version-controlled, PR-reviewed, concise, and pruned; always-rules become hooks or gates, not prose; projects ship both CLAUDE.md and AGENTS.md.",
-      "rationale_summary": "Steering files are the constitution's delivery mechanism into every agent session \u2014 and they fail by accretion: Anthropic's verified guidance warns \"bloated CLAUDE.md files cause Claude to ignore your actual instructions,\" and prescribes treating the file \"like code: review it when things go wrong, prune it regularly, and test changes by observing whether the agent's behavior actually shifts.\" The hooks-over-prose rule exists because steering text is advisory by nature \u2014 a rule that must never be violated belongs in a mechanism that cannot be ignored (POL-6.2's logic applied to agents).",
+      "rationale_summary": "Steering files are the policy framework's delivery mechanism into every agent session \u2014 and they fail by accretion: Anthropic's verified guidance warns \"bloated CLAUDE.md files cause Claude to ignore your actual instructions,\" and prescribes treating the file \"like code: review it when things go wrong, prune it regularly, and test changes by observing whether the agent's behavior actually shifts.\" The hooks-over-prose rule exists because steering text is advisory by nature \u2014 a rule that must never be violated belongs in a mechanism that cannot be ignored (POL-6.2's logic applied to agents).",
       "file": "policies/domain-10-agentic-development/POL-10.4.md",
       "policy_changes": [
         "AMD-2026-002",
@@ -1056,7 +1056,7 @@
       ],
       "enforcement": "role",
       "statement": "Nontrivial work proceeds under a declared workflow whose stages, roles, and gates govern agents and humans alike; deviations on non-hard stages are permitted but recorded, and hard stages are never overridable.",
-      "rationale_summary": "Process that lives in memory fails exactly like undocumented architecture (POL-1.4) and unrecorded amendments: invisibly, then expensively \u2014 security review happens when someone remembers, and \"did QA see this?\" is answered by recollection.",
+      "rationale_summary": "Process that lives in memory fails exactly like undocumented architecture (POL-1.4) and unrecorded policy changes: invisibly, then expensively \u2014 security review happens when someone remembers, and \"did QA see this?\" is answered by recollection.",
       "file": "policies/domain-10-agentic-development/POL-10.6.md",
       "policy_changes": [
         "AMD-2026-010",

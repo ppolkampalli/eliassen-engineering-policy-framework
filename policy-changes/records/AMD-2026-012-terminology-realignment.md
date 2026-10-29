@@ -266,7 +266,77 @@ errors (pre-existing warning count confirmed unchanged against main),
 
 `agent-board/`, `crm-demo/`, `memory-service/` remain deferred.
 
-**Not yet merged to main.** This branch has not been pushed or merged;
-that is a separate, explicit decision for the repo owner.
+**Pushed, not yet merged.** This branch (`amd-2026-012-terminology-realignment`)
+has been pushed to `origin`; it has not been merged to `main`. Merge timing
+remains a separate, explicit decision for the repo owner.
+
+## Supplemental Fix (2026-10-28): residual pre-rename prose in `policies/`
+
+While adding a coding-agent install prompt to the training app's Start Here
+page, citing POL-10.1/POL-10.2 surfaced stale text the original sweep's
+regex rules missed: they targeted `LAW-X.Y` identifiers and known compound
+terms, but not generic lowercase "law(s)"/"amendment(s)"/"constitution(al)"
+used in ordinary prose, and not `policies/registry.json`'s own
+`statement`/`rationale_summary` strings — a duplicate copy of policy text
+that isn't re-derived from the `.md` files, so the file-type-scoped sweep
+never touched it. Found and fixed, all pre-merge, same branch:
+
+- **15 policy files** — residual "law"/"laws" in `## Statement` or
+  `## Rationale` prose (e.g. "this law exists because...", "laws bearing on
+  the work"): POL-1.2, POL-1.5, POL-2.3, POL-4.4, POL-4.5, POL-6.2, POL-7.1,
+  POL-7.5, POL-8.1, POL-9.2, POL-9.5, POL-9.7, POL-10.1, POL-10.6, POL-3.1.
+  Each file's own AMD-2026-012 `policy_change_history` entry falsely claimed
+  "No statement/rationale text change" — corrected in the same entry rather
+  than adding a new one, since the change is still this amendment, not a new
+  one.
+- **4 files** — stale `constitution-enforcer` skill name in
+  `enforcement_mechanism` (the skill itself was already renamed
+  `policy-enforcer` in this amendment): POL-10.1, POL-2.6, POL-7.5, POL-1.2.
+- **11 files** — a broken evidence citation: the sweep's
+  `constitution`→`policy framework` rule corrupted the filename
+  `docs/research/2026-06-11-agentic-constitution-research.md` (a real,
+  deliberately-unrenamed historical research doc — see the main sweep's
+  "space-bug" lesson above) into a non-existent
+  `...-agentic-policy framework-research.md`. Repointed to the real file in
+  POL-2.6, POL-3.1, POL-3.6, POL-4.1, POL-4.6, POL-6.4, POL-7.6, POL-9.5,
+  POL-9.6, POL-9.7, POL-10.1.
+- **POL-1.3** — an illustrative relative path corrupted by the same
+  space-bug (`../engineering-policy framework/configs/...` → restored to
+  `../engineering-constitution/configs/...`, consistent with every other
+  reference to the actual, deliberately-unrenamed GitHub repo), an npm
+  package example (`@eliassen/policy framework-configs` → hyphenated), a
+  grammar miss ("an policy change" → "a policy change"), and a stale
+  process-doc reference (`policy changes/AMENDMENT-PROCESS.md` → the real
+  `policy-changes/POLICY-CHANGE-PROCESS.md`).
+- **POL-10.6** — `docs/policy framework/workflows/` space-bug (→
+  `docs/policy-framework/workflows/`, matching `install.sh`/`update.sh`'s
+  actual installed path), a stale `WF-AMENDMENT` reference (the workflow
+  file itself was renamed `WF-POLICY-CHANGE.md` in batch 9 of the main
+  sweep), and "stays constitutional" → "stays foundational".
+- **POL-7.4** — Citation Format still said "constitutional standard";
+  reworded to match its already-correct Statement ("every standard in this
+  policy framework").
+- **`policies/registry.json`** — 8 leftover `constitution`/`constitutional`/
+  `amendment` strings in `statement`/`rationale_summary` for POL-1.2, POL-1.3,
+  POL-1.5, POL-2.1, POL-7.4, POL-9.6, POL-10.4, POL-10.6, brought in line with
+  their already-correct `.md` source files.
+
+Rationale for fixing now rather than deferring: POL-7.4 (identical standards,
+no relaxation) applies to the framework's own content, and POL-10.2
+(verifiable completion) means showing the fix verified, not asserting it was
+thorough the first time. Not a new amendment — a completion of this one.
+
+Verified: the repo's own `ci/github/policy-integrity.yml` consistency check
+run directly against the tree (57/57 policies consistent with the registry);
+`policies/registry.json` re-validated as parseable JSON; `policy-lookup.sh`
+spot-checked against POL-10.1, POL-1.3, POL-7.4 showing corrected text;
+exhaustive re-grep across `policies/` for `constitution(al)`, `law(s)`,
+`persona(s)`, `amendment(s)`, `Article N`, `WF-AMENDMENT`, and the
+space-bug pattern confirms no remaining instances outside expected,
+deliberate ones (the real research-doc filename; this section's own prose
+describing the defects). `user-training-onboarding` re-run against the
+updated registry: `tsc --noEmit` clean, 90/90 tests pass, build succeeds —
+confirming the live import path propagates the fix with no app-side changes
+needed.
 
 Status: APPROVED → proceeding to enactment.

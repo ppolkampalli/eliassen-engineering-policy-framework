@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-7.1: Human Accountability
@@ -40,7 +41,7 @@ plausible and the tests were green. Anchoring ownership to humans keeps
 the incentive to understand intact (you cannot own what you cannot
 explain, see POL-1.1), keeps review honest (POL-6.1's co-signing applies
 with full force), and gives clients and auditors an unbroken chain of
-responsibility. This law is the foundation the rest of Policy Domain 7 builds
+responsibility. This policy is the foundation the rest of Policy Domain 7 builds
 on.
 
 ## Compliance Examples

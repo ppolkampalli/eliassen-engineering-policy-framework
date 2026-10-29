@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-9.7: Failure-Injection and Recovery Testing
@@ -38,11 +39,11 @@ never degraded — each is discovered broken at the only moment it matters. AWS'
 Well-Architected reliability pillar codifies the cure: "test recovery
 procedures" using automation to simulate failures before real ones, and trigger
 recovery on KPIs that are "a measure of business value, not of the technical
-aspects" — CPU at 40% means nothing if checkouts are failing. This law extends
+aspects" — CPU at 40% means nothing if checkouts are failing. This policy extends
 POL-9.2's designed-before-the-incident principle to verified-before-the-
 incident, and gives POL-4.6's degraded modes their proving ground. Ratified per
 AMD-2026-009; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 

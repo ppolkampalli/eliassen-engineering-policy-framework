@@ -16,7 +16,8 @@ policy_change_history:
   - policy_change: AMD-2026-012
     date: "2026-10-28"
     change: "Renamed id LAW-X.Y -> POL-X.Y as part of framework terminology
-      realignment (v1.2.0 -> v2.0.0). No statement/rationale text change."
+      realignment (v1.2.0 -> v2.0.0); residual law/laws wording in Statement/
+      Rationale prose fixed as a same-amendment follow-up the initial sweep missed."
 ---
 
 # POL-6.2: Quality Gates Are Inviolable
@@ -40,7 +41,7 @@ because no path exists — the argument ends at the machine (POL-1.5 makes
 the same move for security findings). Hotfixes get no exemption because
 production emergencies are precisely when discipline pays: a hotfix that
 breaks type-checking is a second incident in flight. Every gate maps to
-laws this policy framework already requires; the gate is merely where they
+policies this policy framework already requires; the gate is merely where they
 become physics.
 
 ## Compliance Examples

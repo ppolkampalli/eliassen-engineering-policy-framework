@@ -43,7 +43,7 @@ The no-renegotiation clause is the load-bearing part: a consequence that can be
 argued away under deadline pressure is a suggestion, and the first exception
 becomes the precedent for the next ten (POL-6.2's rationale, verbatim logic).
 Ratified per AMD-2026-009; evidence in
-docs/research/2026-06-11-agentic-policy framework-research.md.
+docs/research/2026-06-11-agentic-constitution-research.md.
 
 ## Compliance Examples
 
