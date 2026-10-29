@@ -362,7 +362,7 @@ workflow-orchestrator already announces its chain and records stage completions 
 
 ## Three commands, from zero
 
-Copy the folder into your project, install its dependencies, and start the dev server: cp -r engineering-constitution/agent-board ./agent-board, then cd agent-board && npm install && npm run dev. Open the URL Vite prints — usually port 5173, though if that port is already busy it automatically tries the next one and prints whichever it actually used, so read the terminal rather than assuming the default. No file picker, no "choose a log file" step, no Chrome-versus-Firefox distinction to think about: the Node server reads the file, every browser just calls the same API.
+Copy the folder into your project, install its dependencies, and start the dev server: cp -r engineering-policy-framework/agent-board ./agent-board, then cd agent-board && npm install && npm run dev. Open the URL Vite prints — usually port 5173, though if that port is already busy it automatically tries the next one and prints whichever it actually used, so read the terminal rather than assuming the default. No file picker, no "choose a log file" step, no Chrome-versus-Firefox distinction to think about: the Node server reads the file, every browser just calls the same API.
 
 @@figure:agent-board-mockup@@
 

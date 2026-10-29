@@ -15,6 +15,17 @@ Entries below v2.0.0 describe the framework under its prior terminology
 originally written — they are a historical record of what was true when
 ratified, not rewritten to match current vocabulary.
 
+## [Unreleased]
+
+### Changed
+
+- **Repository renamed** from `eliassen-engineering-constitution` to
+  `eliassen-engineering-policy-framework` (closing a deferred item from
+  [AMD-2026-012](policy-changes/records/AMD-2026-012-terminology-realignment.md) —
+  see its "External Repository Rename" section). No policy content changed;
+  `homepage`/`repository` in `.claude-plugin/plugin.json` and the training
+  app's install instructions updated to match.
+
 ## [2.0.0] — 2026-10-28
 
 ### Changed

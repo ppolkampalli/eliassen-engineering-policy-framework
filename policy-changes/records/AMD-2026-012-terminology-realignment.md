@@ -339,4 +339,32 @@ updated registry: `tsc --noEmit` clean, 90/90 tests pass, build succeeds —
 confirming the live import path propagates the fix with no app-side changes
 needed.
 
+## External Repository Rename (2026-10-29)
+
+This amendment explicitly deferred the external-facing GitHub repository
+name (`ppolkampalli/eliassen-engineering-constitution`) — see "Explicitly
+excluded from this amendment" above, which scoped the deferral to the FOX
+SOW wording but left the repo identity itself unaddressed pending a
+separate decision.
+
+Decided by Pramod Polkampalli, 2026-10-29: rename the repository to
+`eliassen-engineering-policy-framework`, closing that gap. Rationale:
+`README.md` and `docs/plugin-install.md` already referenced the new name
+(`ppolkampalli/eliassen-engineering-policy-framework`) in their
+`/plugin marketplace add` examples — those instructions were already
+broken, pointing at a repo that didn't exist. Renaming makes reality match
+what the training materials already assumed, rather than fixing it the
+other direction. This is a URL/identity change, not a policy content
+change — no `POL-X.Y` statement is affected — so it's recorded here as a
+closure of this amendment's own deferred item rather than as a new
+policy-change record. The FOX SOW wording itself remains untouched, per
+the original exclusion; the signed SOW references the old constitution/
+articles/laws vocabulary regardless of what the repository is named.
+
+Executed: `gh repo rename` (GitHub preserves a redirect from the old name,
+not indefinitely); local `origin` remote updated; `.claude-plugin/plugin.json`
+`homepage`/`repository` fields updated; `user-training-onboarding`'s Start
+Here content (clone instructions, the plugin marketplace command, and the
+sibling-checkout agent prompt) updated to the new name throughout.
+
 Status: APPROVED → proceeding to enactment.

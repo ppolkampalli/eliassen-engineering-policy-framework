@@ -1,15 +1,15 @@
 ---
-id: AMD-YYYY-NNN
+id: PCH-YYYY-NNN
 status: PROPOSED          # PROPOSED | APPROVED | REJECTED | ENACTED
 proposed_by: ""
 proposed_date: ""
-laws_affected: []
+policies_affected: []
 reviewers_required: []     # owner roles of affected policies
 decision_by: ""
 decision_date: ""
 ---
 
-# AMD-YYYY-NNN: <Title>
+# PCH-YYYY-NNN: <Title>
 
 ## Motivation
 Why is this change needed? What problem, incident, or learning prompted it?
