@@ -19,6 +19,16 @@ function ConsoleBlock({ commands }: { commands: string[] }): JSX.Element | null 
   );
 }
 
+function AgentPromptBlock({ prompt }: { prompt?: string }): JSX.Element | null {
+  if (!prompt) return null;
+  return (
+    <>
+      <p className="agent-prompt-label">Agent prompt</p>
+      <pre className="agent-prompt-block">{prompt}</pre>
+    </>
+  );
+}
+
 function StepCard({ step, index }: { step: StartStep; index: number }): JSX.Element {
   return (
     <article className="step-card">
@@ -30,6 +40,7 @@ function StepCard({ step, index }: { step: StartStep; index: number }): JSX.Elem
         <h3>{step.title}</h3>
         <p>{step.narrative}</p>
         <ConsoleBlock commands={step.commands} />
+        <AgentPromptBlock prompt={step.agentPrompt} />
         <p className="step-checkpoint">
           <strong>Checkpoint:</strong> {step.checkpoint}
         </p>

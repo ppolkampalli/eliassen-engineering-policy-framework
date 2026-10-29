@@ -350,7 +350,16 @@ h1, h2, h3 {
 }
 .console-block code { font-family: inherit; }
 .step-checkpoint { font-size: 0.88rem; color: var(--accent); }
-.step-laws { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.step-policies { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.agent-prompt-label {
+  font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--ink-soft); margin: 0.8rem 0 0.4rem;
+}
+.agent-prompt-block {
+  background: var(--cream); border: 1px dashed var(--line); border-radius: 10px;
+  padding: 0.9rem 1.1rem; font-family: var(--mono); font-size: 0.8rem;
+  line-height: 1.7; white-space: pre-wrap; color: var(--ink);
+}
 
 /* Skill Command Catalog (Learn page) */
 .catalog-section { margin-top: 3rem; }
