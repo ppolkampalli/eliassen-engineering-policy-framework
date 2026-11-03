@@ -1,12 +1,12 @@
 import { PLUGIN_NAMESPACE, skillCatalog } from '../data/skills-catalog';
 import type { CatalogSkill, SkillCategory } from '../data/skills-catalog';
 
-const CATEGORY_ORDER: SkillCategory[] = ['Persona', 'Orchestration', 'Enforcement'];
+const CATEGORY_ORDER: SkillCategory[] = ['Role', 'Orchestration', 'Enforcement'];
 
 const CATEGORY_BLURB: Record<SkillCategory, string> = {
-  Persona: 'Assume a role with a mandate, owned laws, and real authority. Every decision arrives as a citation.',
-  Orchestration: 'Coordinate the personas — drive workflows, convene the council, look up and amend laws.',
-  Enforcement: 'Apply the laws as you work — review, test discipline, security scans, docs, and AI provenance.',
+  Role: 'Assume a role with a mandate, owned policies, and real authority. Every decision arrives as a citation.',
+  Orchestration: 'Coordinate the roles — drive workflows, convene the council, look up and amend policies.',
+  Enforcement: 'Apply the policies as you work — review, test discipline, security scans, docs, and AI provenance.',
 };
 
 function SkillRow({ skill }: { skill: CatalogSkill }): JSX.Element {

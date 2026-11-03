@@ -3,22 +3,22 @@ import type { TrainingModule } from '../data/content-types';
 import { trainingModules } from '../data/modules';
 
 
-describe('validateContent — the stay-consistent guarantee (LAW-10.6)', () => {
+describe('validateContent — the stay-consistent guarantee (POL-10.6)', () => {
   it('should report no errors when run against the real training content', () => {
-    // THE consistency gate: every LAW-X.Y and WF-* referenced anywhere in the
-    // training content must exist in the live registries. An amendment that
-    // repeals or renumbers a law turns this red until content is updated.
+    // THE consistency gate: every POL-X.Y and WF-* referenced anywhere in the
+    // training content must exist in the live registries. A policy change that
+    // repeals or renumbers a policy turns this red until content is updated.
     expect(validateContent(trainingModules)).toEqual([]);
   });
 
-  it('should flag a lesson law reference that does not exist in the registry', () => {
+  it('should flag a lesson policy reference that does not exist in the registry', () => {
     const bogus: TrainingModule[] = [
       {
         id: 'bogus',
         title: 'Bogus',
         summary: '',
         lessons: [
-          { id: 'bogus-l1', title: 'x', body: 'x', lawRefs: ['LAW-99.9'] },
+          { id: 'bogus-l1', title: 'x', body: 'x', policyRefs: ['POL-99.9'] },
         ],
         quiz: [
           { id: 'bogus-q1', prompt: 'x', options: ['a', 'b'], correctIndex: 0, explanation: 'x' },
@@ -26,7 +26,7 @@ describe('validateContent — the stay-consistent guarantee (LAW-10.6)', () => {
       },
     ];
     const errors = validateContent(bogus);
-    expect(errors.some((message) => message.includes('LAW-99.9'))).toBe(true);
+    expect(errors.some((message) => message.includes('POL-99.9'))).toBe(true);
   });
 
   it('should flag a workflow reference that does not exist in the registry', () => {
@@ -36,7 +36,7 @@ describe('validateContent — the stay-consistent guarantee (LAW-10.6)', () => {
         title: 'Bogus',
         summary: '',
         lessons: [
-          { id: 'bogus-l1', title: 'x', body: 'x', lawRefs: [], workflowRefs: ['WF-NOPE'] },
+          { id: 'bogus-l1', title: 'x', body: 'x', policyRefs: [], workflowRefs: ['WF-NOPE'] },
         ],
         quiz: [
           { id: 'bogus-q1', prompt: 'x', options: ['a', 'b'], correctIndex: 0, explanation: 'x' },
@@ -53,7 +53,7 @@ describe('validateContent — the stay-consistent guarantee (LAW-10.6)', () => {
         id: 'bogus',
         title: 'Bogus',
         summary: '',
-        lessons: [{ id: 'bogus-l1', title: 'x', body: 'x', lawRefs: [] }],
+        lessons: [{ id: 'bogus-l1', title: 'x', body: 'x', policyRefs: [] }],
         quiz: [
           { id: 'bogus-q1', prompt: 'x', options: ['a', 'b'], correctIndex: 5, explanation: 'x' },
           { id: 'bogus-q2', prompt: 'x', options: ['a', 'b'], correctIndex: -1, explanation: 'x' },
@@ -64,13 +64,13 @@ describe('validateContent — the stay-consistent guarantee (LAW-10.6)', () => {
     expect(errors.filter((message) => message.includes('correctIndex')).length).toBe(2);
   });
 
-  it('should flag a quiz law reference that does not exist in the registry', () => {
+  it('should flag a quiz policy reference that does not exist in the registry', () => {
     const bogus: TrainingModule[] = [
       {
         id: 'bogus',
         title: 'Bogus',
         summary: '',
-        lessons: [{ id: 'bogus-l1', title: 'x', body: 'x', lawRefs: [] }],
+        lessons: [{ id: 'bogus-l1', title: 'x', body: 'x', policyRefs: [] }],
         quiz: [
           {
             id: 'bogus-q1',
@@ -78,17 +78,17 @@ describe('validateContent — the stay-consistent guarantee (LAW-10.6)', () => {
             options: ['a', 'b'],
             correctIndex: 0,
             explanation: 'x',
-            lawRef: 'LAW-88.8',
+            policyRef: 'POL-88.8',
           },
         ],
       },
     ];
     const errors = validateContent(bogus);
-    expect(errors.some((message) => message.includes('LAW-88.8'))).toBe(true);
+    expect(errors.some((message) => message.includes('POL-88.8'))).toBe(true);
   });
 
   it('should flag duplicate lesson ids when two modules reuse one', () => {
-    const lesson = { id: 'dup', title: 'x', body: 'x', lawRefs: [] };
+    const lesson = { id: 'dup', title: 'x', body: 'x', policyRefs: [] };
     const quiz = [
       { id: 'q', prompt: 'x', options: ['a', 'b'], correctIndex: 0, explanation: 'x' },
     ];

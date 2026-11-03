@@ -1,0 +1,34 @@
+---
+id: PCH-YYYY-NNN
+status: PROPOSED          # PROPOSED | APPROVED | REJECTED | ENACTED
+proposed_by: ""
+proposed_date: ""
+policies_affected: []
+reviewers_required: []     # owner roles of affected policies
+decision_by: ""
+decision_date: ""
+---
+
+# PCH-YYYY-NNN: <Title>
+
+## Motivation
+Why is this change needed? What problem, incident, or learning prompted it?
+
+## Changes
+For each affected policy:
+### POL-X.Y (vCURRENT → vNEW)
+**Before:** <exact current statement>
+**After:** <exact new statement>
+
+## Impact Analysis
+- Projects affected and migration effort
+- Configs/tooling that must change (eslint, CI, etc.)
+- Roles whose mandates change
+
+## Review Record
+| Role/Role | Reviewer | Verdict | Date | Notes |
+|---|---|---|---|---|
+
+## Decision
+Approved/Rejected by: ____ Date: ____
+Rationale: ____

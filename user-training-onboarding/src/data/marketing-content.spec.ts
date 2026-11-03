@@ -1,29 +1,29 @@
 import { startSteps } from './get-started-content';
 import { clientJourneys } from './journeys-content';
-import { personaProfiles } from './personas-content';
+import { roleProfiles } from './roles-content';
 import { skillCatalog } from './skills-catalog';
-import { getLaw, getWorkflow } from '../domain/registry';
+import { getPolicy, getWorkflow } from '../domain/registry';
 
-describe('marketing content — the stay-consistent guarantee (LAW-10.6)', () => {
-  it('should reference only laws that exist when listing persona-owned laws', () => {
-    const missing = personaProfiles.flatMap((profile) =>
-      profile.ownedLaws.filter((lawRef) => getLaw(lawRef) === undefined)
+describe('marketing content — the stay-consistent guarantee (POL-10.6)', () => {
+  it('should reference only policies that exist when listing role-owned policies', () => {
+    const missing = roleProfiles.flatMap((profile) =>
+      profile.ownedPolicies.filter((policyRef) => getPolicy(policyRef) === undefined)
     );
     expect(missing).toEqual([]);
   });
 
-  it('should cover all eight personas with non-empty pitches and invocations', () => {
-    expect(personaProfiles.length).toBe(8);
-    for (const profile of personaProfiles) {
+  it('should cover all eight roles with non-empty pitches and invocations', () => {
+    expect(roleProfiles.length).toBe(8);
+    for (const profile of roleProfiles) {
       expect(profile.pitch.length).toBeGreaterThan(50);
       expect(profile.invocation.length).toBeGreaterThan(10);
-      expect(profile.ownedLaws.length).toBeGreaterThan(0);
+      expect(profile.ownedPolicies.length).toBeGreaterThan(0);
     }
   });
 
-  it('should reference only laws and workflows that exist in the start-here steps', () => {
+  it('should reference only policies and workflows that exist in the start-here steps', () => {
     const missingLaws = startSteps.flatMap((step) =>
-      step.lawRefs.filter((lawRef) => getLaw(lawRef) === undefined)
+      step.policyRefs.filter((policyRef) => getPolicy(policyRef) === undefined)
     );
     const missingWorkflows = startSteps.flatMap((step) =>
       (step.workflowRefs ?? []).filter((workflowRef) => getWorkflow(workflowRef) === undefined)
@@ -32,15 +32,15 @@ describe('marketing content — the stay-consistent guarantee (LAW-10.6)', () =>
     expect(missingWorkflows).toEqual([]);
   });
 
-  it('should give every step a checkpoint so progress is verifiable (LAW-10.2 spirit)', () => {
+  it('should give every step a checkpoint so progress is verifiable (POL-10.2 spirit)', () => {
     for (const step of startSteps) {
       expect(step.checkpoint.length).toBeGreaterThan(10);
     }
   });
 
-  it('should reference only laws and workflows that exist in the client journeys', () => {
+  it('should reference only policies and workflows that exist in the client journeys', () => {
     const missingLaws = clientJourneys.flatMap((journey) =>
-      journey.lawRefs.filter((lawRef) => getLaw(lawRef) === undefined)
+      journey.policyRefs.filter((policyRef) => getPolicy(policyRef) === undefined)
     );
     const missingWorkflows = clientJourneys.flatMap((journey) =>
       journey.workflowRefs.filter((workflowRef) => getWorkflow(workflowRef) === undefined)
@@ -64,7 +64,7 @@ describe('marketing content — the stay-consistent guarantee (LAW-10.6)', () =>
     expect(skillCatalog.length).toBe(17);
     const byCategory = (category: string): number =>
       skillCatalog.filter((skill) => skill.category === category).length;
-    expect(byCategory('Persona')).toBe(8);
+    expect(byCategory('Role')).toBe(8);
     expect(byCategory('Orchestration')).toBe(3);
     expect(byCategory('Enforcement')).toBe(6);
     for (const skill of skillCatalog) {
@@ -75,12 +75,12 @@ describe('marketing content — the stay-consistent guarantee (LAW-10.6)', () =>
     }
   });
 
-  it('should give all 8 personas a persona- command matching the flattened skill dirs', () => {
+  it('should give all 8 roles a role- command matching the flattened skill dirs', () => {
     const personaCommands = skillCatalog
-      .filter((skill) => skill.category === 'Persona')
+      .filter((skill) => skill.category === 'Role')
       .map((skill) => skill.command);
-    expect(personaCommands).toContain('persona-security');
-    expect(personaCommands).toContain('persona-finops');
-    expect(personaCommands.every((command) => command.startsWith('persona-'))).toBe(true);
+    expect(personaCommands).toContain('role-security');
+    expect(personaCommands).toContain('role-finops');
+    expect(personaCommands.every((command) => command.startsWith('role-'))).toBe(true);
   });
 });

@@ -10,9 +10,9 @@
   },
   "plugins": [
     {
-      "name": "engineering-constitution",
+      "name": "engineering-policy-framework",
       "source": "./",
-      "description": "Personas, enforcement skills, workflows, and the citable law registry of the Eliassen Group Engineering Constitution."
+      "description": "Roles, enforcement skills, workflows, and the citable policy registry of the Eliassen Group Engineering Policy Framework."
     }
   ]
 }

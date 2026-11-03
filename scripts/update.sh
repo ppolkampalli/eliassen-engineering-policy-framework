@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # update.sh <target-project-dir>
 #
-# Syncs configs, skills, and the law registry from this repo into a target
-# project. Before applying, prints a human-readable diff of any changed laws
-# INCLUDING the amendment ID and motivation for each change (read from
-# amendments/records/) — auditability propagates with the update
-# (AMENDMENT-PROCESS.md stage 5: PROPAGATION).
+# Syncs configs, skills, and the policy registry from this repo into a target
+# project. Before applying, prints a human-readable diff of any changed policies
+# INCLUDING the policy change ID and motivation for each change (read from
+# policy-changes/records/) — auditability propagates with the update
+# (POLICY-CHANGE-PROCESS.md stage 5: PROPAGATION).
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -20,20 +20,20 @@ if [ ! -d "$TARGET" ]; then
   exit 1
 fi
 
-TREG="$TARGET/docs/constitution/registry.json"
-SREG="$SRC/laws/registry.json"
+TREG="$TARGET/docs/policy-framework/registry.json"
+SREG="$SRC/policies/registry.json"
 
 if [ ! -f "$TREG" ]; then
   echo "No installed registry found at $TREG — run install.sh first." >&2
   exit 1
 fi
 
-# ── Law diff with amendment motivations ─────────────────────────────────────
-echo "Engineering Constitution update"
+# ── Policy diff with policy change motivations ─────────────────────────────────────
+echo "Engineering Policy Framework update"
 echo "  source: $SRC"
 echo "  target: $TARGET"
 echo ""
-echo "── Law changes since installed version ─────────────────────────────"
+echo "── Policy changes since installed version ─────────────────────────────"
 
 if command -v node >/dev/null 2>&1; then
   # Git Bash on Windows: convert POSIX paths to ones Windows node can read
@@ -47,40 +47,40 @@ const fs = require('fs');
 const [sregPath, tregPath, src] = process.argv.slice(2);
 const sreg = JSON.parse(fs.readFileSync(sregPath, 'utf8'));
 const treg = JSON.parse(fs.readFileSync(tregPath, 'utf8'));
-const oldLaws = new Map(treg.laws.map((l) => [l.id, l]));
-const newLaws = new Map(sreg.laws.map((l) => [l.id, l]));
+const oldLaws = new Map(treg.policies.map((l) => [l.id, l]));
+const newLaws = new Map(sreg.policies.map((l) => [l.id, l]));
 
 const motivation = (amd) => {
-  const dir = `${src}/amendments/records`;
+  const dir = `${src}/policy-changes/records`;
   const file = fs.readdirSync(dir).find((f) => f.startsWith(amd));
-  if (!file) return '(amendment record not found)';
+  if (!file) return '(policy change record not found)';
   const body = fs.readFileSync(`${dir}/${file}`, 'utf8');
   const m = body.match(/## Motivation\r?\n([\s\S]*?)(?=\r?\n## )/);
   return m ? m[1].trim().replace(/\s+/g, ' ').slice(0, 400) : '(no motivation section)';
 };
 
 let changes = 0;
-if (treg.constitution_version !== sreg.constitution_version) {
-  console.log(`Constitution: v${treg.constitution_version} → v${sreg.constitution_version}\n`);
+if (treg.policy_framework_version !== sreg.policy_framework_version) {
+  console.log(`Policy Framework: v${treg.policy_framework_version} → v${sreg.policy_framework_version}\n`);
 }
 for (const [id, nl] of newLaws) {
   const ol = oldLaws.get(id);
   if (!ol) {
     changes++;
     console.log(`NEW     ${id} (v${nl.version}) — ${nl.title}`);
-    for (const amd of nl.amendments) console.log(`        via ${amd}: ${motivation(amd)}`);
+    for (const amd of nl.policy_changes) console.log(`        via ${amd}: ${motivation(amd)}`);
   } else if (ol.version !== nl.version || ol.status !== nl.status) {
     changes++;
     console.log(`CHANGED ${id}: v${ol.version} ${ol.status} → v${nl.version} ${nl.status} — ${nl.title}`);
-    const newAmds = nl.amendments.filter((a) => !ol.amendments.includes(a));
-    for (const amd of (newAmds.length ? newAmds : nl.amendments.slice(-1)))
+    const newAmds = nl.policy_changes.filter((a) => !ol.policy_changes.includes(a));
+    for (const amd of (newAmds.length ? newAmds : nl.policy_changes.slice(-1)))
       console.log(`        via ${amd}: ${motivation(amd)}`);
   }
 }
 for (const [id, ol] of oldLaws)
-  if (!newLaws.has(id)) { changes++; console.log(`REMOVED ${id} — ${ol.title} (repeal? repealed laws are normally retained)`); }
+  if (!newLaws.has(id)) { changes++; console.log(`REMOVED ${id} — ${ol.title} (repeal? repealed policies are normally retained)`); }
 
-console.log(changes === 0 ? 'No law changes — configs/skills will still be synced.' : `\n${changes} law change(s).`);
+console.log(changes === 0 ? 'No policy changes — configs/skills will still be synced.' : `\n${changes} policy change(s).`);
 EOF
 else
   echo "(node not found — showing raw registry diff instead)"
@@ -98,7 +98,7 @@ esac
 echo ""
 sync_file() { cp "$1" "$2" && echo "  updated: ${2#"$TARGET"/}"; }
 
-mkdir -p "$TARGET/docs/constitution" "$TARGET/.claude" "$TARGET/.husky" \
+mkdir -p "$TARGET/docs/policy-framework" "$TARGET/.claude" "$TARGET/.husky" \
          "$TARGET/.github/workflows" "$TARGET/docs"
 
 sync_file "$SRC/CLAUDE.md"                       "$TARGET/CLAUDE.md"
@@ -121,17 +121,17 @@ echo "  updated: .claude/skills/ (full refresh)"
 
 sync_file "$SRC/docs/standards.md"               "$TARGET/docs/standards.md"
 sync_file "$SRC/docs/testing-guide.md"           "$TARGET/docs/testing-guide.md"
-sync_file "$SRC/docs/persona-guide.md"           "$TARGET/docs/persona-guide.md"
+sync_file "$SRC/docs/role-guide.md"           "$TARGET/docs/role-guide.md"
 sync_file "$SRC/checklists/code-review-checklist.md" "$TARGET/docs/code-review-checklist.md"
 sync_file "$SRC/checklists/pre-commit-checklist.md"  "$TARGET/docs/pre-commit-checklist.md"
-sync_file "$SRC/laws/REGISTRY.md"                "$TARGET/docs/constitution/REGISTRY.md"
-sync_file "$SRC/laws/registry.json"              "$TARGET/docs/constitution/registry.json"
+sync_file "$SRC/policies/REGISTRY.md"                "$TARGET/docs/policy-framework/REGISTRY.md"
+sync_file "$SRC/policies/registry.json"              "$TARGET/docs/policy-framework/registry.json"
 
 # Workflow catalog (org defaults; project-local workflows/ overrides are untouched)
-rm -rf "$TARGET/docs/constitution/workflows"
-mkdir -p "$TARGET/docs/constitution/workflows"
-cp -R "$SRC/workflows/." "$TARGET/docs/constitution/workflows/"
-echo "  updated: docs/constitution/workflows/ (full refresh)"
+rm -rf "$TARGET/docs/policy-framework/workflows"
+mkdir -p "$TARGET/docs/policy-framework/workflows"
+cp -R "$SRC/workflows/." "$TARGET/docs/policy-framework/workflows/"
+echo "  updated: docs/policy-framework/workflows/ (full refresh)"
 
 echo ""
 echo "Update complete. Verify with: $SRC/scripts/validate.sh $TARGET"

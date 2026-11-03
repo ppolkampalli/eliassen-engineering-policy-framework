@@ -1,4 +1,4 @@
-import type { LawRef, WorkflowRef } from './content-types';
+import type { PolicyRef, WorkflowRef } from './content-types';
 
 /**
  * Client journey maps for the Client Journeys page — marketing material
@@ -24,7 +24,7 @@ export interface ClientJourney {
   before: string[];
   after: string[];
   stages: JourneyStage[];
-  lawRefs: LawRef[];
+  policyRefs: PolicyRef[];
   workflowRefs: WorkflowRef[];
 }
 
@@ -43,7 +43,7 @@ export const clientJourneys: ClientJourney[] = [
     ],
     after: [
       'Every merge passed the same gates — no exceptions, no heroes needed',
-      'Decisions citable by law ID; onboarding measured in days',
+      'Decisions citable by policy ID; onboarding measured in days',
       'Agents work inside workflows with evidence required',
       'Releases are boring. Boring is the goal.',
     ],
@@ -52,7 +52,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Day 0',
         title: 'Install, don’t debate',
         description:
-          'One command delivers the entire standards stack — configs, gates, personas, steering files, the law registry. The standards conversation that never ends? It ends.',
+          'One command delivers the entire standards stack — configs, gates, roles, steering files, the policy registry. The standards conversation that never ends? It ends.',
         mood: 'pain',
       },
       {
@@ -73,7 +73,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Weeks 7–12',
         title: 'Full governance',
         description:
-          'Personas active, security pass done (found secrets rotated), SLOs signed. AI agents onboard into Article 10 guardrails — plans, evidence, sandboxes.',
+          'Roles active, security pass done (found secrets rotated), SLOs signed. AI agents onboard into Policy Domain 10 guardrails — plans, evidence, sandboxes.',
         mood: 'win',
       },
       {
@@ -84,7 +84,7 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-1.3', 'LAW-6.2', 'LAW-8.1'],
+    policyRefs: ['POL-1.3', 'POL-6.2', 'POL-8.1'],
     workflowRefs: ['WF-BUG', 'WF-FEATURE'],
   },
   {
@@ -110,7 +110,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Day 0',
         title: 'Map, don’t replace',
         description:
-          'Their existing standards map onto the law registry — most laws they already live by. The gap analysis shows what’s genuinely new: Article 10, the agentic layer.',
+          'Their existing standards map onto the policy registry — most policies they already live by. The gap analysis shows what’s genuinely new: Policy Domain 10, the agentic layer.',
         mood: 'pain',
       },
       {
@@ -142,13 +142,13 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-10.2', 'LAW-10.3', 'LAW-3.6', 'LAW-7.6', 'LAW-7.3'],
+    policyRefs: ['POL-10.2', 'POL-10.3', 'POL-3.6', 'POL-7.6', 'POL-7.3'],
     workflowRefs: ['WF-FEATURE'],
   },
   {
     id: 'federated-teams',
     archetype: 'The Federated Enterprise',
-    headline: 'Five teams, five processes — one constitution, real flexibility',
+    headline: 'Five teams, five processes — one policy framework, real flexibility',
     profile:
       'Every team grew its own dialect: different review rules, different definitions of done, different AI policies (or none). Cross-team moves cost weeks, platform standards die as suggestions, and leadership can’t answer "are we governed?" because the honest answer is "depends which team."',
     before: [
@@ -160,7 +160,7 @@ export const clientJourneys: ClientJourney[] = [
     after: [
       'One authority ladder and hard-gate floor, org-wide',
       'Teams keep autonomy via recorded workflow overrides',
-      'Disagreement has a channel: the amendment process',
+      'Disagreement has a channel: the policy change process',
       'Any engineer or agent is productive on any repo, day one',
     ],
     stages: [
@@ -168,7 +168,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Day 0',
         title: 'Ratify the floor',
         description:
-          'Leadership ratifies the baseline: hard gates (security review, quality gates, acceptance criteria) are organizational law. Everything else is paved path, not mandate.',
+          'Leadership ratifies the baseline: hard gates (security review, quality gates, acceptance criteria) are organizational policy. Everything else is paved path, not mandate.',
         mood: 'pain',
       },
       {
@@ -182,14 +182,14 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Month 2',
         title: 'Federation in practice',
         description:
-          'Team A skips design stages for small changes (recorded deviation); Team B adds an extra security pass. Both compliant. Disagreements become amendment proposals, not workarounds.',
+          'Team A skips design stages for small changes (recorded deviation); Team B adds an extra security pass. Both compliant. Disagreements become policy change proposals, not workarounds.',
         mood: 'shift',
       },
       {
         phase: 'Quarter',
         title: 'Mobility unlocked',
         description:
-          'An engineer — or an agent — moves teams and finds the same laws, the same personas, the same citation format. Ramp-up drops from weeks to days.',
+          'An engineer — or an agent — moves teams and finds the same policies, the same roles, the same citation format. Ramp-up drops from weeks to days.',
         mood: 'win',
       },
       {
@@ -200,8 +200,8 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-10.6', 'LAW-1.3', 'LAW-1.5'],
-    workflowRefs: ['WF-AMENDMENT', 'WF-FEATURE'],
+    policyRefs: ['POL-10.6', 'POL-1.3', 'POL-1.5'],
+    workflowRefs: ['WF-POLICY-CHANGE', 'WF-FEATURE'],
   },
   {
     id: 'agentic-rescue',
@@ -233,7 +233,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Weeks 1–2',
         title: 'Stop the bleeding',
         description:
-          'Article 10 guardrails land: agents now plan first, show evidence, work sandboxed, and never grade their own output. New debt stops accumulating immediately.',
+          'Policy Domain 10 guardrails land: agents now plan first, show evidence, work sandboxed, and never grade their own output. New debt stops accumulating immediately.',
         mood: 'shift',
       },
       {
@@ -258,7 +258,7 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-7.6', 'LAW-3.6', 'LAW-7.1', 'LAW-10.5'],
+    policyRefs: ['POL-7.6', 'POL-3.6', 'POL-7.1', 'POL-10.5'],
     workflowRefs: ['WF-REFACTOR', 'WF-BUG'],
   },
   {
@@ -276,7 +276,7 @@ export const clientJourneys: ClientJourney[] = [
     after: [
       'Compliance map links each requirement to code and tests',
       '"Did AI touch this?" answered from commit tags in seconds',
-      'Change history IS the audit trail — laws, amendments, deviations',
+      'Change history IS the audit trail — policies, policy changes, deviations',
       'Audit prep becomes a report run, not a fire drill',
     ],
     stages: [
@@ -284,7 +284,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Day 0',
         title: 'Map the obligations',
         description:
-          'Each regulatory requirement gets a row: the control, the code path that satisfies it, the test that proves it. The Industry SME persona owns keeping it current.',
+          'Each regulatory requirement gets a row: the control, the code path that satisfies it, the test that proves it. The Industry SME role owns keeping it current.',
         mood: 'pain',
       },
       {
@@ -316,7 +316,7 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-8.3', 'LAW-7.3', 'LAW-7.2', 'LAW-9.7'],
+    policyRefs: ['POL-8.3', 'POL-7.3', 'POL-7.2', 'POL-9.7'],
     workflowRefs: ['WF-SECBUG'],
   },
   {
@@ -324,7 +324,7 @@ export const clientJourneys: ClientJourney[] = [
     archetype: 'The Consultant Drop-In',
     headline: 'Day-one productive in any client repo — the Eliassen way',
     profile:
-      'An Eliassen consultant — increasingly a consultant-plus-agent pair — lands in a client engagement. Traditionally, the first two weeks vanish into "how does this team work?" The constitution makes the standards travel with the consultant, so the ramp is measured in hours.',
+      'An Eliassen consultant — increasingly a consultant-plus-agent pair — lands in a client engagement. Traditionally, the first two weeks vanish into "how does this team work?" The policy framework makes the standards travel with the consultant, so the ramp is measured in hours.',
     before: [
       'Weeks 1–2 of every engagement lost to convention archaeology',
       'Each consultant re-derives review and quality norms per client',
@@ -332,7 +332,7 @@ export const clientJourneys: ClientJourney[] = [
       'Engagement quality depends on which consultant you got',
     ],
     after: [
-      'Same laws, personas, and workflows on every engagement',
+      'Same policies, roles, and workflows on every engagement',
       'Consultant’s agent reads the steering files and is briefed instantly',
       'Deliverables carry citations clients can audit after we leave',
       'Eliassen quality is a system, not a staffing lottery',
@@ -342,7 +342,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Hour 1',
         title: 'Land and install',
         description:
-          'The constitution installs into the engagement repo — or maps onto what the client already runs. Either way, the consultant’s working rules are explicit by lunch.',
+          'The policy framework installs into the engagement repo — or maps onto what the client already runs. Either way, the consultant’s working rules are explicit by lunch.',
         mood: 'pain',
       },
       {
@@ -374,7 +374,7 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-1.3', 'LAW-10.4', 'LAW-7.3'],
+    policyRefs: ['POL-1.3', 'POL-10.4', 'POL-7.3'],
     workflowRefs: ['WF-FEATURE'],
   },
   {
@@ -391,28 +391,28 @@ export const clientJourneys: ClientJourney[] = [
     ],
     after: [
       'One ratified floor; org-specific flexibility preserved as recorded overrides',
-      'Cross-org staffing works — same laws everywhere',
+      'Cross-org staffing works — same policies everywhere',
       'AI usage inventoried, tagged, and governed in the first quarter',
-      'Harmonization by amendment process, not by decree',
+      'Harmonization by policy change process, not by decree',
     ],
     stages: [
       {
         phase: 'Day 0',
         title: 'Ratify the floor, time-box the rest',
         description:
-          'Leadership ratifies the non-negotiables — security veto, quality gates, AI provenance — as the integration baseline. Everything else is explicitly open for the amendment process.',
+          'Leadership ratifies the non-negotiables — security veto, quality gates, AI provenance — as the integration baseline. Everything else is explicitly open for the policy change process.',
         mood: 'pain',
       },
       {
         phase: 'Month 1',
         title: 'Inventory and install',
         description:
-          'Each org installs against the baseline; existing practices map to laws or become recorded local overrides. The diligence unknowns — especially AI usage — become a registry.',
+          'Each org installs against the baseline; existing practices map to policies or become recorded local overrides. The diligence unknowns — especially AI usage — become a registry.',
         mood: 'shift',
       },
       {
         phase: 'Months 2–3',
-        title: 'Dialects become amendments',
+        title: 'Dialects become policy changes',
         description:
           'Where orgs genuinely disagree, the best practice wins through proposals with evidence — not by whoever acquired whom. Losing positions stay on record, which keeps the peace.',
         mood: 'shift',
@@ -421,7 +421,7 @@ export const clientJourneys: ClientJourney[] = [
         phase: 'Quarter 2',
         title: 'One talent pool',
         description:
-          'Engineers and agents move across former org boundaries and find the same constitution. Integration staffing stops being a special project.',
+          'Engineers and agents move across former org boundaries and find the same policy framework. Integration staffing stops being a special project.',
         mood: 'win',
       },
       {
@@ -432,7 +432,7 @@ export const clientJourneys: ClientJourney[] = [
         mood: 'win',
       },
     ],
-    lawRefs: ['LAW-1.3', 'LAW-10.6', 'LAW-1.5'],
-    workflowRefs: ['WF-AMENDMENT', 'WF-REFACTOR'],
+    policyRefs: ['POL-1.3', 'POL-10.6', 'POL-1.5'],
+    workflowRefs: ['WF-POLICY-CHANGE', 'WF-REFACTOR'],
   },
 ];

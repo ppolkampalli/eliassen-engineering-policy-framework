@@ -1,6 +1,6 @@
 {
   "workflow_catalog_version": "1.0.0",
-  "governed_by": "LAW-10.6",
+  "governed_by": "POL-10.6",
   "override_rules": {
     "project_override_path": "workflows/",
     "precedence": "project file with same id replaces catalog entry",
@@ -54,18 +54,18 @@
       "file": "workflows/WF-REFACTOR.md"
     },
     {
-      "id": "WF-AMENDMENT",
-      "title": "Constitution Amendment",
+      "id": "WF-POLICY-CHANGE",
+      "title": "Policy Change",
       "version": "1.0",
       "status": "ACTIVE",
-      "trigger": "A law needs to be created, modified, or repealed - any change to the constitution's laws",
-      "chain": "law-clerk(proposal*) -> persona-council(review*) -> HUMAN(decision*) -> law-clerk(enactment*) -> devops(propagation)",
-      "file": "workflows/WF-AMENDMENT.md"
+      "trigger": "A policy needs to be created, modified, or repealed - any change to the policy framework's policies",
+      "chain": "policy-clerk(proposal*) -> role-council(review*) -> HUMAN(decision*) -> policy-clerk(enactment*) -> devops(propagation)",
+      "file": "workflows/WF-POLICY-CHANGE.md"
     }
   ],
   "legend": {
     "*": "hard stage - not overridable",
-    "^": "conditionally hard - escalates to hard when the diff touches the gating laws' surfaces",
+    "^": "conditionally hard - escalates to hard when the diff touches the gating policies' surfaces",
     "+human": "required human checkpoint"
   }
 }

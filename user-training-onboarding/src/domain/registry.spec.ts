@@ -1,40 +1,40 @@
-import { getAllLaws, getAllWorkflows, getLaw, getWorkflow, searchLaws } from './registry';
+import { getAllPolicies, getAllWorkflows, getPolicy, getWorkflow, searchPolicies } from './registry';
 
-describe('getAllLaws', () => {
-  it('should expose every law from the live registry when loaded', () => {
-    const laws = getAllLaws();
-    // The constitution currently has 57 laws; assert a sane lower bound so the
-    // test survives future amendments without becoming hollow (LAW-3.5).
-    expect(laws.length).toBeGreaterThanOrEqual(57);
-    expect(laws[0]?.id).toMatch(/^LAW-\d+\.\d+$/);
+describe('getAllPolicies', () => {
+  it('should expose every policy from the live registry when loaded', () => {
+    const policies = getAllPolicies();
+    // The policy framework currently has 57 policies; assert a sane lower bound so the
+    // test survives future policy changes without becoming hollow (POL-3.5).
+    expect(policies.length).toBeGreaterThanOrEqual(57);
+    expect(policies[0]?.id).toMatch(/^POL-\d+\.\d+$/);
   });
 });
 
-describe('getLaw', () => {
-  it('should return the law record when the id exists', () => {
-    const law = getLaw('LAW-2.3');
-    expect(law?.title).toContain('any');
-    expect(law?.statement.length).toBeGreaterThan(0);
+describe('getPolicy', () => {
+  it('should return the policy record when the id exists', () => {
+    const policy = getPolicy('POL-2.3');
+    expect(policy?.title).toContain('any');
+    expect(policy?.statement.length).toBeGreaterThan(0);
   });
 
   it('should return undefined when the id does not exist', () => {
-    expect(getLaw('LAW-99.9')).toBeUndefined();
+    expect(getPolicy('POL-99.9')).toBeUndefined();
   });
 });
 
-describe('searchLaws', () => {
-  it('should match by id when the query is a law id fragment', () => {
-    const results = searchLaws('10.6');
-    expect(results.some((law) => law.id === 'LAW-10.6')).toBe(true);
+describe('searchPolicies', () => {
+  it('should match by id when the query is a policy id fragment', () => {
+    const results = searchPolicies('10.6');
+    expect(results.some((policy) => policy.id === 'POL-10.6')).toBe(true);
   });
 
   it('should match by title and statement text when the query is a word', () => {
-    const results = searchLaws('mutation');
-    expect(results.some((law) => law.id === 'LAW-3.6')).toBe(true);
+    const results = searchPolicies('mutation');
+    expect(results.some((policy) => policy.id === 'POL-3.6')).toBe(true);
   });
 
-  it('should return all laws when the query is empty', () => {
-    expect(searchLaws('').length).toBe(getAllLaws().length);
+  it('should return all policies when the query is empty', () => {
+    expect(searchPolicies('').length).toBe(getAllPolicies().length);
   });
 });
 

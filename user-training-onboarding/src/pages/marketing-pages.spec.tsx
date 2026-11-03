@@ -3,29 +3,29 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { GetStartedPage } from './get-started';
 import { JourneysPage } from './journeys';
-import { PersonasPage } from './personas';
+import { RolesPage } from './roles';
 import { WhyPage } from './why';
 import { startSteps } from '../data/get-started-content';
 import { clientJourneys } from '../data/journeys-content';
-import { personaProfiles } from '../data/personas-content';
+import { roleProfiles } from '../data/roles-content';
 
 function renderPage(page: JSX.Element): void {
   render(<MemoryRouter>{page}</MemoryRouter>);
 }
 
 describe('WhyPage', () => {
-  it('should render the manifesto with live law and workflow counts', () => {
+  it('should render the manifesto with live policy and workflow counts', () => {
     renderPage(<WhyPage />);
     expect(screen.getByText(/protects engineers/)).toBeTruthy();
     // Live registry numbers appear in the sub-headline.
-    expect(screen.getByText(/\d+ citable laws/)).toBeTruthy();
+    expect(screen.getByText(/\d+ citable policies/)).toBeTruthy();
   });
 
-  it('should render all five numbered claims with law citations', () => {
+  it('should render all five numbered claims with policy citations', () => {
     renderPage(<WhyPage />);
     expect(screen.getByText('You will never lose the security argument again.')).toBeTruthy();
     expect(screen.getByText('05')).toBeTruthy();
-    expect(screen.getAllByText(/\[LAW-\d+\.\d+ v[\d.]+\]/).length).toBeGreaterThanOrEqual(5);
+    expect(screen.getAllByText(/\[POL-\d+\.\d+ v[\d.]+\]/).length).toBeGreaterThanOrEqual(5);
   });
 
   it('should render the six founding pains struck through', () => {
@@ -35,25 +35,25 @@ describe('WhyPage', () => {
   });
 });
 
-describe('PersonasPage', () => {
-  it('should render all eight persona cards with taglines', () => {
-    renderPage(<PersonasPage />);
-    for (const profile of personaProfiles) {
+describe('RolesPage', () => {
+  it('should render all eight role cards with taglines', () => {
+    renderPage(<RolesPage />);
+    for (const profile of roleProfiles) {
       expect(screen.getByText(profile.tagline)).toBeTruthy();
     }
   });
 
   it('should render the authority ladder tiers in order', () => {
-    renderPage(<PersonasPage />);
+    renderPage(<RolesPage />);
     expect(screen.getAllByText('VETO').length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByText('BLOCK').length).toBeGreaterThanOrEqual(4);
     expect(screen.getAllByText('ADVISE').length).toBeGreaterThanOrEqual(3);
   });
 
-  it('should render each persona’s owned laws as live citation chips', () => {
-    renderPage(<PersonasPage />);
-    // Security owns LAW-5.1 — the chip renders id + live version + title.
-    expect(screen.getByText(/\[LAW-5\.1 v[\d.]+\]/)).toBeTruthy();
+  it('should render each role’s owned policies as live citation chips', () => {
+    renderPage(<RolesPage />);
+    // Security owns POL-5.1 — the chip renders id + live version + title.
+    expect(screen.getByText(/\[POL-5\.1 v[\d.]+\]/)).toBeTruthy();
   });
 });
 

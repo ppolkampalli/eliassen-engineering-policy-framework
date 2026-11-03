@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # install.sh <target-project-dir> [--force] [--ide claude|cursor|both]
 #
-# Installs the Engineering Constitution building blocks into a target project:
+# Installs the Engineering Policy Framework building blocks into a target project:
 #   CLAUDE.md → root            configs → root           hook → .husky/
 #   CI yml → .github/workflows/ PR template → .github/   skills/ → .claude/skills/
-#   checklists + standards/testing/persona guides → docs/
-#   laws/REGISTRY.md + registry.json → docs/constitution/   (offline citability)
+#   checklists + standards/testing/role guides → docs/
+#   policies/REGISTRY.md + registry.json → docs/policy-framework/   (offline citability)
 #
 # --ide selects the agent steering layer (default: claude, unchanged from prior
 # versions of this script):
@@ -115,13 +115,13 @@ emit_cursor_skill() { # emit_cursor_skill <skill-dir> — SKILL.md → .mdc rule
   rm -f "$body_file"
 }
 
-echo "Engineering Constitution installer"
+echo "Engineering Policy Framework installer"
 echo "  source: $SRC"
 echo "  target: $TARGET"
 echo "  ide:    $IDE"
 echo ""
 
-echo "Steering files → project root (LAW-10.4: ship both CLAUDE.md and AGENTS.md)"
+echo "Steering files → project root (POL-10.4: ship both CLAUDE.md and AGENTS.md)"
 copy "$SRC/CLAUDE.md" "$TARGET/CLAUDE.md"
 copy "$SRC/AGENTS.md" "$TARGET/AGENTS.md"
 
@@ -144,12 +144,12 @@ echo "PR template → .github/"
 copy "$SRC/templates/pull_request_template.md" "$TARGET/.github/pull_request_template.md"
 
 if [ "$IDE" = "claude" ] || [ "$IDE" = "both" ]; then
-  echo "Skills (personas + enforcement) → .claude/skills/"
+  echo "Skills (roles + enforcement) → .claude/skills/"
   copy_tree "$SRC/skills" "$TARGET/.claude/skills"
 fi
 
 if [ "$IDE" = "cursor" ] || [ "$IDE" = "both" ]; then
-  echo "Skills (personas + enforcement) → .cursor/rules/*.mdc + .cursor/commands/*.md"
+  echo "Skills (roles + enforcement) → .cursor/rules/*.mdc + .cursor/commands/*.md"
   for skill_dir in "$SRC"/skills/*/; do
     [ -f "${skill_dir}SKILL.md" ] && emit_cursor_skill "${skill_dir%/}"
   done
@@ -161,14 +161,14 @@ copy "$SRC/checklists/code-review-checklist.md" "$TARGET/docs/code-review-checkl
 copy "$SRC/checklists/pre-commit-checklist.md"  "$TARGET/docs/pre-commit-checklist.md"
 copy "$SRC/docs/standards.md"                   "$TARGET/docs/standards.md"
 copy "$SRC/docs/testing-guide.md"               "$TARGET/docs/testing-guide.md"
-copy "$SRC/docs/persona-guide.md"               "$TARGET/docs/persona-guide.md"
+copy "$SRC/docs/role-guide.md"               "$TARGET/docs/role-guide.md"
 
-echo "Law registry → docs/constitution/ (offline law citability)"
-copy "$SRC/laws/REGISTRY.md"    "$TARGET/docs/constitution/REGISTRY.md"
-copy "$SRC/laws/registry.json"  "$TARGET/docs/constitution/registry.json"
+echo "Policy registry → docs/policy-framework/ (offline policy citability)"
+copy "$SRC/policies/REGISTRY.md"    "$TARGET/docs/policy-framework/REGISTRY.md"
+copy "$SRC/policies/registry.json"  "$TARGET/docs/policy-framework/registry.json"
 
-echo "Workflow catalog → docs/constitution/workflows/ (LAW-10.6)"
-copy_tree "$SRC/workflows" "$TARGET/docs/constitution/workflows"
+echo "Workflow catalog → docs/policy-framework/workflows/ (POL-10.6)"
+copy_tree "$SRC/workflows" "$TARGET/docs/policy-framework/workflows"
 
 echo ""
 echo "Done: $installed installed, $skipped skipped$( [ "$FORCE" != "--force" ] && [ $skipped -gt 0 ] && echo ' (use --force to overwrite)' )."
@@ -198,7 +198,7 @@ echo ""
 echo "3) Extend tsconfig.json from tsconfig.base.json:"
 echo '   { "extends": "./tsconfig.base.json", ... }'
 echo ""
-echo "4) Run: npm run prepare   (activates the .husky/pre-commit hook — LAW-6.2)"
+echo "4) Run: npm run prepare   (activates the .husky/pre-commit hook — POL-6.2)"
 echo "5) Verify: $SRC/scripts/validate.sh $TARGET"
 if [ "$IDE" = "cursor" ] || [ "$IDE" = "both" ]; then
   echo ""
