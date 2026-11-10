@@ -368,3 +368,53 @@ Here content (clone instructions, the plugin marketplace command, and the
 sibling-checkout agent prompt) updated to the new name throughout.
 
 Status: APPROVED → proceeding to enactment.
+
+## Propagation Update (2026-11-05): agent-board
+
+`agent-board/` propagated. Confirmed by the software-engineer review to be a
+**data migration**, not a text rename: `persona`/`lawCitations` were baked
+into `src/lib/types.ts`, validated in `board-model.ts`, and fixture files
+stored literal values like `"persona":"persona-software-engineer"` and
+`"lawCitations":["LAW-5.2"]`.
+
+Renamed throughout (types, 4 pure model files, 7 components, 6 server-comment
+citations, `package.json`'s description, `jest.config.js`/`stryker.conf.json`
+comments, README.md): `persona` field → `role`; `lawCitations` field →
+`policyCitations`; `LAW-X.Y` → `POL-X.Y` everywhere including inside free-text
+`note` strings; `ConstitutionCohort` component/file → `PolicyCohort`;
+`CohortType`'s `'laws'`/`'personas'` → `'policies'`/`'roles'`. Test-first per
+POL-3.1/3.5: every spec file was edited to assert the new names/values before
+the corresponding implementation changed, never weakening or deleting an
+assertion — only renaming what it asserts.
+
+Caught during the pass, not anticipated in the original review: `fixtures/events.demo.jsonl`
+uses a different JSON formatting style (`"persona": "value"`, space after the
+colon) than the other fixture files, which initially caused its `persona`
+fields to survive a first sweep pass invisibly (the sed patterns targeted the
+no-space style used everywhere else). Re-grepped specifically for the spaced
+variant and found it also carries 2 persona values absent from every other
+fixture — `persona-security` and `persona-devops` — matching the README's own
+"all 6 personas" line in the demo-dataset description, which was otherwise
+easy to read past. Fixed to `role-security`/`role-devops`; re-verified no
+residual hits across the whole fixture set afterward.
+
+Also caught: `jest.config.js` and `stryker.conf.json` carried `LAW-3.2`/
+`LAW-3.6` citations in comments — outside the original file inventory
+(config files, not `src/`/`server`/`fixtures`), found only by a final
+whole-tree grep pass after the first targeted sweep reported clean. A
+build output (`dist/`, untracked, not in git) still contains pre-rename
+strings from a stale prior build; left untouched since it regenerates from
+source on the next `npm run build` and isn't part of the committed tree.
+
+Verified, not asserted (POL-10.2): `npm run type-check` clean; `npm run lint`
+0 errors (one `import/order` error surfaced by the new `policy-cohort`
+import path, fixed; 61 pre-existing complexity/line-count warnings unchanged,
+none introduced by this change); `npm test` 34/34 suites, 274/274 tests
+passing, no test deleted/skipped/weakened; `npm run test:coverage` holds
+100% on `src/lib` and `server` (unchanged from before this pass), ≥89% on
+`src/components` (floor is 70%, per README); exhaustive re-grep for
+`lawCitations|LAW-[0-9]|persona|constitution|amendment` across every real
+source/config/fixture/doc file in `agent-board/` (excluding the untracked,
+stale `dist/`/`coverage/`/`reports/` build outputs) returns zero hits.
+
+`crm-demo/`, `memory-service/` remain deferred.
