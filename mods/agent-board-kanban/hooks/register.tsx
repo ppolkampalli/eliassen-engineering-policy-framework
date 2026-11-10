@@ -20,6 +20,9 @@ const LANES: { id: Lane; label: string; icon: string; color: string }[] = [
   { id: 'done', label: 'Done', icon: '✓', color: 'success' },
 ]
 
+// A blocked item sitting past this long is flagged stale, not just blocked.
+const STALE_BLOCKED_MS = 30 * 60 * 1000
+
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
@@ -73,12 +76,52 @@ export const register: Register = on => {
     const gap = 1
     const laneWidth = Math.max(18, Math.floor((columns - (LANES.length - 1) * gap) / LANES.length))
     const noteBudget = Math.max(10, laneWidth - 6)
+    const totalCitations = items.reduce((sum, item) => sum + item.citationCount, 0)
+
+    function Badge({ color, children }: { color: string; children: string }) {
+      return (
+        <Text backgroundColor={color} color="inverseText">
+          {' '}
+          {children}
+          {' '}
+        </Text>
+      )
+    }
+
+    function StatTile({ label, value, color }: { label: string; value: number; color: string }) {
+      return (
+        <Box
+          flexDirection="column"
+          alignItems="center"
+          borderStyle="round"
+          borderColor={color}
+          paddingX={2}
+          minWidth={12}
+          flexGrow={1}
+        >
+          <Text weight="bold" color={color}>
+            {value}
+          </Text>
+          <Text dimColor>{label}</Text>
+        </Box>
+      )
+    }
 
     return (
       <Box flexDirection="column">
-        <Text dimColor>
-          {items.length} work item{items.length === 1 ? '' : 's'} · {LOG_PATH}
-        </Text>
+        <Box flexDirection="row" gap={gap} flexWrap="wrap">
+          <StatTile label="work items" value={items.length} color="text" />
+          {LANES.map(lane => (
+            <StatTile
+              key={lane.id}
+              label={lane.label.toLowerCase()}
+              value={items.filter(item => item.lane === lane.id).length}
+              color={lane.color}
+            />
+          ))}
+          <StatTile label="citations" value={totalCitations} color="claude" />
+        </Box>
+        <Text dimColor>{LOG_PATH}</Text>
         <Box flexDirection="row" gap={gap} marginTop={1}>
           {LANES.map(lane => {
             const laneItems = items.filter(item => item.lane === lane.id)
@@ -88,6 +131,7 @@ export const register: Register = on => {
                 <Box
                   flexDirection="row"
                   justifyContent="space-between"
+                  alignItems="center"
                   paddingX={1}
                   borderStyle="round"
                   borderColor={lane.color}
@@ -95,35 +139,44 @@ export const register: Register = on => {
                   <Text weight="bold" color={lane.color}>
                     {lane.icon} {lane.label}
                   </Text>
-                  <Text weight="bold" color={lane.color}>
-                    {laneItems.length}
-                  </Text>
+                  <Badge color={lane.color}>{String(laneItems.length)}</Badge>
                 </Box>
                 <Box flexDirection="column" gap={1} marginTop={1}>
-                  {laneItems.length === 0 && <Text dimColor>  (empty)</Text>}
-                  {laneItems.map(item => (
-                    <Box
-                      key={item.workItem}
-                      flexDirection="column"
-                      borderStyle="round"
-                      borderDimColor
-                      paddingX={1}
-                      width={laneWidth}
-                    >
-                      <Box flexDirection="row">
-                        <Text color={lane.color}>● </Text>
-                        <Text weight="bold">{item.workItem}</Text>
-                      </Box>
-                      <Text dimColor>
-                        {item.workflowId} · {stageSummary(item.latest)}
-                      </Text>
-                      {item.latestNote && <Text dimColor>{truncate(item.latestNote, noteBudget)}</Text>}
-                      <Box flexDirection="row" justifyContent="space-between">
-                        <Text dimColor>{formatElapsed(item.lastTimestamp)}</Text>
-                        {item.citationCount > 0 && <Text dimColor>{item.citationCount} cited</Text>}
-                      </Box>
+                  {laneItems.length === 0 && (
+                    <Box borderStyle="round" borderDimColor paddingX={1} justifyContent="center">
+                      <Text dimColor>no items</Text>
                     </Box>
-                  ))}
+                  )}
+                  {laneItems.map(item => {
+                    const elapsedMs = Date.now() - new Date(item.lastTimestamp).getTime()
+                    const isStale = lane.id === 'blocked' && elapsedMs > STALE_BLOCKED_MS
+
+                    return (
+                      <Box
+                        key={item.workItem}
+                        flexDirection="column"
+                        borderStyle="round"
+                        borderColor={isStale ? 'error' : lane.color}
+                        borderDimColor={!isStale}
+                        paddingX={1}
+                        width={laneWidth}
+                      >
+                        <Box flexDirection="row" justifyContent="space-between">
+                          <Text weight="bold">{item.workItem}</Text>
+                          {item.citationCount > 0 && <Badge color="claude">{String(item.citationCount)}</Badge>}
+                        </Box>
+                        <Text dimColor>
+                          {item.workflowId} · {stageSummary(item.latest)}
+                        </Text>
+                        {item.chain && <Text dimColor>↳ {truncate(item.chain, noteBudget)}</Text>}
+                        {item.latestNote && <Text dimColor>{truncate(item.latestNote, noteBudget)}</Text>}
+                        <Text color={isStale ? 'error' : undefined} dimColor={!isStale}>
+                          {isStale ? '⚠ stale · ' : ''}
+                          {formatElapsed(item.lastTimestamp)}
+                        </Text>
+                      </Box>
+                    )
+                  })}
                 </Box>
               </Box>
             )

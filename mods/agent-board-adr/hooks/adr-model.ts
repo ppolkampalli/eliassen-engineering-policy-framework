@@ -10,3 +10,9 @@ export function extractMarkdownTitle(text: string, fallback: string): string {
 export function titleFallback(filename: string): string {
   return filename.replace(/\.md$/, '');
 }
+
+/** Scans for a `**Status:** X` line (the ADR template's metadata bullet) and returns X, else null. */
+export function extractStatus(text: string): string | null {
+  const match = /\*\*Status:?\*\*\s*:?\s*([A-Za-z][A-Za-z ]*)/.exec(text);
+  return match ? (match[1] as string).trim().toUpperCase() : null;
+}

@@ -2,6 +2,7 @@ export interface AdrRecord {
   filename: string;
   title: string;
   content: string;
+  status: string | null;
 }
 
 declare module 'claude-code' {
@@ -9,6 +10,7 @@ declare module 'claude-code' {
     'agent-board-adr': {
       records: Shaped<AdrRecord[]>;
       selected: string | null;
+      diagnostic: string | null;
     };
   }
 }
