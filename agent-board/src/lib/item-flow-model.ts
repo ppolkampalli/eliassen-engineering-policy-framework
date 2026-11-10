@@ -32,13 +32,13 @@ export interface ItemFlowDeviation {
 export interface ItemFlowNodeData {
   kind: ItemFlowNodeKind;
   stageId: string | null;
-  persona: string | null;
+  role: string | null;
   status: StageStatus | null;
   hard: boolean;
   humanCheckpoint: HumanCheckpoint | null;
   note: string | null;
   detail: string | null;
-  lawCitations: string[];
+  policyCitations: string[];
   /** One entry per stageEvent seen for this node's stage — only populated for kind 'stage'. */
   history: ItemFlowStageEvent[];
   deviation: ItemFlowDeviation | null;
@@ -55,13 +55,13 @@ export type ItemFlowNode = Node<ItemFlowNodeData, 'itemStage'>;
 function emptyNodeData(partial: Partial<ItemFlowNodeData> & Pick<ItemFlowNodeData, 'kind' | 'timestamp'>): ItemFlowNodeData {
   return {
     stageId: null,
-    persona: null,
+    role: null,
     status: null,
     hard: false,
     humanCheckpoint: null,
     note: null,
     detail: null,
-    lawCitations: [],
+    policyCitations: [],
     history: [],
     deviation: null,
     workflowVersion: null,
@@ -83,7 +83,7 @@ function handleWorkflowSelected(event: WorkflowSelectedEvent, order: ItemFlowNod
       timestamp: event.timestamp,
       note: event.note ?? null,
       detail: event.detail ?? null,
-      lawCitations: event.lawCitations ?? [],
+      policyCitations: event.policyCitations ?? [],
       workflowVersion: event.workflowVersion ?? null,
       chain: event.chain ?? null,
     })
@@ -97,7 +97,7 @@ function handleWorkflowCompleted(event: WorkflowCompletedEvent, order: ItemFlowN
       timestamp: event.timestamp,
       note: event.note ?? null,
       detail: event.detail ?? null,
-      lawCitations: event.lawCitations ?? [],
+      policyCitations: event.policyCitations ?? [],
       outcome: event.outcome ?? null,
       deviationCount: event.deviationCount ?? null,
     })
@@ -111,14 +111,14 @@ function handleStageEvent(event: StageEvent, order: ItemFlowNodeData[], stageNod
     stageNodes.set(event.stageId, node);
     order.push(node);
   }
-  node.persona = event.persona;
+  node.role = event.role;
   node.status = event.status;
   node.humanCheckpoint = event.humanCheckpoint;
   node.hard = event.hard ?? node.hard;
   node.timestamp = event.timestamp;
   if (event.note) node.note = event.note;
   if (event.detail) node.detail = event.detail;
-  if (event.lawCitations) node.lawCitations = [...node.lawCitations, ...event.lawCitations];
+  if (event.policyCitations) node.policyCitations = [...node.policyCitations, ...event.policyCitations];
   node.history.push({
     timestamp: event.timestamp,
     status: event.status,
@@ -147,7 +147,7 @@ function handleDeviation(event: DeviationEvent, order: ItemFlowNodeData[], stage
     deviation,
     note: event.note ?? null,
     detail: event.detail ?? null,
-    lawCitations: event.lawCitations ?? [],
+    policyCitations: event.policyCitations ?? [],
   });
   stageNodes.set(event.stageId, deviationOnly);
   order.push(deviationOnly);

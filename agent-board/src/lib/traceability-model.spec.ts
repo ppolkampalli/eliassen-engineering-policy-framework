@@ -8,7 +8,7 @@ function stageEvent(overrides: Partial<StageEvent> & Pick<StageEvent, 'workItem'
     eventType: 'stageEvent',
     workflowId: 'WF-FEATURE',
     stageId: 'requirements',
-    persona: 'product-owner',
+    role: 'product-owner',
     status: 'entered',
     humanCheckpoint: 'none',
     ...overrides,

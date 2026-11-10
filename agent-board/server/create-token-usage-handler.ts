@@ -18,9 +18,9 @@ export interface TokenUsageHandlerOptions {
  * Builds the GET /api/token-usage handler. Every path (board log,
  * transcript projects root, price table) is captured once by the caller
  * (see vite-plugin-token-usage-api.ts) — never read from the request
- * itself (LAW-5.1). Only numeric usage/model/timestamp fields extracted by
+ * itself (POL-5.1). Only numeric usage/model/timestamp fields extracted by
  * `parseUsageRecords` ever leave this process; raw transcript message
- * content is never included in the response (LAW-7.2).
+ * content is never included in the response (POL-7.2).
  */
 export function createTokenUsageHandler(
   options: TokenUsageHandlerOptions

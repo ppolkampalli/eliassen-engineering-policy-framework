@@ -2,7 +2,7 @@
   "name": "agent-board",
   "private": true,
   "version": "2.0.0",
-  "description": "Local Kanban viewer for Engineering Constitution governed-workflow activity, backed by a tiny Node API over a fixed local JSONL log.",
+  "description": "Local Kanban viewer for Engineering Policy Framework governed-workflow activity, backed by a tiny Node API over a fixed local JSONL log.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

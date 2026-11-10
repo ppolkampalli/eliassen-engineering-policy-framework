@@ -33,7 +33,7 @@ export function TokenCostDashboard(): JSX.Element {
           <Box sx={{ ...ROW_SX, marginTop: 2 }}>
             <BarCohortChart title="Cost by workflow" data={report.byWorkflow} />
             <BarCohortChart title="Cost by stage" data={report.byStage} />
-            <BarCohortChart title="Cost by persona" data={report.byPersona} />
+            <BarCohortChart title="Cost by role" data={report.byRole} />
             <BarCohortChart title="Cost by model" data={report.byModel} />
           </Box>
         </>

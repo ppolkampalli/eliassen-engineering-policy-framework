@@ -21,8 +21,8 @@ function wireMiddleware(server: ViteDevServer | PreviewServer, handler: RequestH
 /**
  * Exposes GET /api/adr in both `vite` (dev) and `vite preview`, resolving
  * the ADR directory once at plugin-construction time from
- * AGENT_BOARD_ADR_DIR (default `docs/adr`, the constitution's own
- * convention) — never from the request itself (LAW-5.1).
+ * AGENT_BOARD_ADR_DIR (default `docs/adr`, the policy framework's own
+ * convention) — never from the request itself (POL-5.1).
  */
 export function adrApiPlugin(): Plugin {
   const adrDir = resolve(process.cwd(), process.env.AGENT_BOARD_ADR_DIR ?? 'docs/adr');

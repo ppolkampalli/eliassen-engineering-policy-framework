@@ -39,7 +39,7 @@ describe('ItemFlowChart', () => {
     fireEvent.click(screen.getByText('reproduce-and-fix'));
 
     expect(screen.getByText('Fix applied: sortBy allowlisted against column enum.')).toBeTruthy();
-    expect(screen.getByText('LAW-5.2')).toBeTruthy();
+    expect(screen.getByText('POL-5.2')).toBeTruthy();
     // Both the "entered" and "complete" events for this stage show in the history.
     expect(screen.getByText(/2026-10-12T14:01:00Z — entered/)).toBeTruthy();
     expect(screen.getByText(/2026-10-12T14:20:00Z — complete/)).toBeTruthy();

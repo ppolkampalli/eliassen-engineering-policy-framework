@@ -16,7 +16,7 @@ interface EventEnvelope {
   note?: string;
   /** Full decision content — ACs, ADR rationale, a test list, a security finding, etc. May be multi-line. */
   detail?: string;
-  lawCitations?: string[];
+  policyCitations?: string[];
 }
 
 export interface WorkflowSelectedEvent extends EventEnvelope {
@@ -46,7 +46,7 @@ export interface TestResult {
 export interface StageEvent extends EventEnvelope {
   eventType: 'stageEvent';
   stageId: string;
-  persona: string;
+  role: string;
   status: StageStatus;
   humanCheckpoint: HumanCheckpoint;
   hard?: boolean;
@@ -97,7 +97,7 @@ export interface CohortBucket {
 }
 
 export interface ChainStage {
-  persona: string;
+  role: string;
   stageId: string;
   hard: boolean;
   conditional: boolean;

@@ -1,11 +1,11 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 
-export type CohortType = 'workflow' | 'laws' | 'personas';
+export type CohortType = 'workflow' | 'policies' | 'roles';
 
 const COHORT_OPTIONS: { id: CohortType; label: string }[] = [
   { id: 'workflow', label: 'Workflow' },
-  { id: 'laws', label: 'Laws' },
-  { id: 'personas', label: 'Personas' },
+  { id: 'policies', label: 'Policies' },
+  { id: 'roles', label: 'Roles' },
 ];
 
 interface CohortSelectorProps {

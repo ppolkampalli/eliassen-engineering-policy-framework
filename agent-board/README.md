@@ -1,6 +1,6 @@
 # agent-board
 
-A local Kanban viewer for Engineering Constitution workflows (WF-FEATURE,
+A local Kanban viewer for Engineering Policy Framework workflows (WF-FEATURE,
 WF-BUG, …): a small Vite + React app with its own tiny Node API, answering
 one question for a developer or manager sitting next to an agent that's
 running a governed workflow — *what stage is it in right now, is it
@@ -9,9 +9,9 @@ waiting on me, and what has it actually found or done?*
 A Node server (not the browser) reads the local JSONL event log and exposes
 it over one HTTP endpoint, `GET /api/events`; the React app polls that
 endpoint and renders three tabs: the **Kanban Board** (three lanes — **In
-Progress**, **Blocked**, **Done**), **Constitution Cohort**, a rollup view
-for "how is work distributed across workflows, laws, and personas" rather
-than "what is this one work item doing right now" (see "Constitution
+Progress**, **Blocked**, **Done**), **Policy Cohort**, a rollup view
+for "how is work distributed across workflows, policies, and roles" rather
+than "what is this one work item doing right now" (see "Policy
 Cohort tab" below), and **Token & Cost**, a Grafana-style view of what this
 work actually costs in tokens and dollars (see "Token & Cost tab" below).
 
@@ -84,7 +84,7 @@ effect of running a workflow (see SKILL.md §6, "Board Events"). This is
 prose instruction followed by an LLM agent, not type-checked code in the
 call path — if the write fails for any reason, the workflow proceeds
 unaffected. Visibility is never a dependency of correctness (mirrors the
-resilience principle behind LAW-4.6). This write-side contract is unchanged
+resilience principle behind POL-4.6). This write-side contract is unchanged
 from the original static-viewer version of this tool.
 
 ## API
@@ -108,7 +108,7 @@ changes; lane/work-item derivation always runs fresh against whatever the
 server returns — there's no incremental state to reconcile client-side, so
 a shrunk or rewritten log is simply a fresh read.
 
-## Security (LAW-5.1)
+## Security (POL-5.1)
 
 The log path is resolved exactly once, when the server starts, from the
 `AGENT_BOARD_LOG` environment variable. The request handler never reads a
@@ -130,7 +130,7 @@ One JSON object per line (JSONL). Every line has this envelope:
 | `workflowId` | string | yes | e.g. `"WF-FEATURE"`, `"WF-BUG"`. |
 | `note` | string | no | Free-text "what I'm doing/finding right now" — the thinking surfaced on the card. Kept short. |
 | `detail` | string | no | The full decision content when a stage produced a structured artifact — e.g. the actual Acceptance Criteria text, an ADR's full rationale, a test list, a security finding. May be multi-line. Shown only in the per-item flowchart's detail panel, never in compact views. |
-| `lawCitations` | string[] | no | `LAW-X.Y` ids relevant to this event. |
+| `policyCitations` | string[] | no | `POL-X.Y` ids relevant to this event. |
 
 Additional fields by `eventType`:
 
@@ -140,7 +140,7 @@ Additional fields by `eventType`:
 
 **`stageEvent`** — emitted at each stage transition:
 - `stageId` (string, required)
-- `persona` (string, required) — e.g. `"persona-software-engineer"`
+- `role` (string, required) — e.g. `"role-software-engineer"`
 - `status` (string, required) — one of `entered`, `blocked`, `complete`
 - `humanCheckpoint` (string, required) — one of `none`, `recommended`, `required`
 - `hard` (boolean, optional) — whether this is a hard (non-overridable) stage
@@ -194,31 +194,31 @@ gets a distinct dashed "skipped" node, since an override is itself a
 decision worth seeing, not something to hide.
 
 Clicking a node opens a detail panel below the chart with everything
-recorded for that step: the persona, status, hard/human-checkpoint badges,
+recorded for that step: the role, status, hard/human-checkpoint badges,
 the short `note`, the full `detail` (the actual Acceptance Criteria, ADR
-rationale, test list, etc. — see "Event schema" above), `LAW-X.Y` citations,
+rationale, test list, etc. — see "Event schema" above), `POL-X.Y` citations,
 any attached deviation's reason/approver, and every underlying event's
 timestamp. The panel defaults to the item's current/latest step on open so
 it's never empty.
 
-## Constitution Cohort tab
+## Policy Cohort tab
 
 A second tab, next to the Kanban board, answering a different question —
 not "what is each work item doing" but "how is work distributed across the
-things the Constitution cares about." A selector switches between three
+things the Policy Framework cares about." A selector switches between three
 views, all derived client-side from the same `GET /api/events` response
 (`src/lib/cohort-model.ts`, 100% test coverage, no new API calls):
 
 - **Workflow** — one small node-graph (via [`@xyflow/react`](https://reactflow.dev))
   per distinct `workflowId`, built straight from the chain each
-  `workflowSelected` event announces (`persona(stageId*) -> ...`). Each stage
+  `workflowSelected` event announces (`role(stageId*) -> ...`). Each stage
   node shows its hard/conditional/human-checkpoint badges and two counts:
   how many work items are **currently** sitting there, and how many
   `stageEvent`s have **ever** touched it.
-- **Laws** — a horizontal bar chart (via [`recharts`](https://recharts.org))
-  of how many times each `LAW-X.Y` id has been cited across every event.
-- **Personas** — the same bar chart shape, counting `stageEvent`s per
-  `persona`.
+- **Policies** — a horizontal bar chart (via [`recharts`](https://recharts.org))
+  of how many times each `POL-X.Y` id has been cited across every event.
+- **Roles** — the same bar chart shape, counting `stageEvent`s per
+  `role`.
 
 This is a read-only lens on data the Kanban board already has — no new
 server route, no new write-side contract. It's a deliberately different
@@ -245,7 +245,7 @@ write contract**.
   cache-read/cache-write tokens), the `model` string, and the `timestamp`
   from each assistant turn — raw transcript message content is never read
   for any other purpose, and never appears in the `GET /api/token-usage`
-  response (LAW-7.2).
+  response (POL-7.2).
 - **Attribution is approximate, by design**: a transcript turn is
   attributed to whichever work item/stage was open (per the board's own
   event timestamps) at that turn's time. A turn outside any open window, or
@@ -285,7 +285,7 @@ sorts correctly as a plain string sort).
   response (`server/adr-source.ts`, `server/create-adr-handler.ts`, both 100%
   test coverage). Returning all files in one shot — not a per-filename route
   — means there's no client-controlled filename anywhere in this endpoint
-  (LAW-5.1), mirroring `/api/events` and `/api/token-usage`. A missing
+  (POL-5.1), mirroring `/api/events` and `/api/token-usage`. A missing
   directory returns an empty list, not an error.
 - **Title derivation**: the first `# Heading` line in the file's content; if
   none is found, the filename with `.md` stripped.
@@ -355,7 +355,7 @@ AGENT_BOARD_LOG=/path/to/a/log/with/acceptanceCriteria-and-testResults.jsonl npm
 ```
 agent-board/
   package.json, tsconfig.json, vite.config.ts, jest.config.js, .eslintrc.json
-  stryker.conf.json           # mutation-testing pilot config (LAW-3.6), scoped to src/lib/
+  stryker.conf.json           # mutation-testing pilot config (POL-3.6), scoped to src/lib/
   index.html                  # Vite entry shell
   model-pricing.json           # user-editable $/MTok rate table for the Token & Cost tab
   fixtures/                   # sample JSONL logs, used by tests and for manual testing
@@ -365,14 +365,14 @@ agent-board/
   src/
     main.tsx, app.tsx
     lib/board-model.ts        # pure parsing/lane-derivation logic (100% test coverage)
-    lib/cohort-model.ts       # pure law/persona/workflow-graph aggregation (100% test coverage)
+    lib/cohort-model.ts       # pure policy/role/workflow-graph aggregation (100% test coverage)
     lib/item-flow-model.ts    # pure per-item event-history-to-flowchart logic (100% test coverage)
     lib/token-cost-model.ts   # pure usage-parsing/attribution/pricing/aggregation (100% test coverage)
     lib/markdown-model.ts     # pure markdown-subset parser for the ADR Records tab (100% test coverage)
     lib/traceability-model.ts # pure AC-to-test-result join for the Traceability tab (100% test coverage)
     hooks/                    # polling + elapsed-time-ticker hooks; on-demand token-usage fetch
     components/                # Board, Lane, Card, DetailOverlay, ItemFlowChart, ItemStageNode,
-                                # Tabs, ConstitutionCohort, BarCohortChart, WorkflowCohortGraph,
+                                # Tabs, PolicyCohort, BarCohortChart, WorkflowCohortGraph,
                                 # TokenCostDashboard, TokenCostTimeSeries, TokenCostStatTile,
                                 # AdrRecords, MarkdownView, TraceabilityBoard, …
     styles/board.css
@@ -421,7 +421,7 @@ curl http://localhost:4173/api/token-usage | jq '{totalCostUsd, unattributedReco
 `fixtures/events.demo.jsonl` + `fixtures/transcripts-demo/crm-project/` is a
 larger, hand-built dataset meant for looking at the UI, not for assertions —
 no spec file references it. It's 7 work items across all 4 workflow types
-(WF-FEATURE, WF-BUG, WF-SECBUG, WF-REFACTOR), all 6 personas, 3 priced
+(WF-FEATURE, WF-BUG, WF-SECBUG, WF-REFACTOR), all 6 roles, 3 priced
 models plus one deliberately-unrecognized model string (to populate the
 "unpriced" stat), one item that was blocked then approved, one still
 genuinely in progress (so the Kanban board shows all three lanes at once),
@@ -436,9 +436,9 @@ AGENT_BOARD_PROJECT_CWD=/Users/demo/crm-project \
 npm run preview -- --port 4199
 ```
 
-## Mutation testing pilot (LAW-3.6)
+## Mutation testing pilot (POL-3.6)
 
-LAW-3.6 requires mutation testing but its own text says JS/TS calibration is
+POL-3.6 requires mutation testing but its own text says JS/TS calibration is
 "pending pilot" — this is that pilot, scoped to `src/lib/` only (the one
 directory already held to 100% line/branch coverage, so a mutation score is
 meaningful here rather than noise). See `docs/proposals/
@@ -462,7 +462,7 @@ above) — each survived mutant is a concrete, real test-quality gap that
 
 **This is intentionally not a CI gate yet.** `stryker.conf.json`'s
 `thresholds.break` is `null` — the run reports a score, it does not fail a
-build. Per the QA-persona critique in `design.md`: setting a blocking floor
+build. Per the Quality-role critique in `design.md`: setting a blocking floor
 before a real baseline existed would have repeated the exact mistake this
 pilot exists to avoid (a number that looks rigorous but was never
 calibrated). Whether and where to set a blocking floor, and whether to wire

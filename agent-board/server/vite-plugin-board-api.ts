@@ -21,7 +21,7 @@ function wireMiddleware(server: ViteDevServer | PreviewServer, handler: RequestH
 /**
  * Exposes GET /api/events in both `vite` (dev) and `vite preview`
  * (production-style), resolving the log path once at plugin-construction
- * time from AGENT_BOARD_LOG — never from the request itself (LAW-5.1: no
+ * time from AGENT_BOARD_LOG — never from the request itself (POL-5.1: no
  * client-controlled file path).
  */
 export function boardApiPlugin(): Plugin {

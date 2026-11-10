@@ -3,8 +3,8 @@ import { join } from 'node:path';
 
 import { deriveWorkItems, parseLog } from './board-model';
 import {
-  aggregateByLaw,
-  aggregateByPersona,
+  aggregateByPolicy,
+  aggregateByRole,
   aggregateWorkflowGraph,
   buildFlowElements,
   parseChainStages,
@@ -16,22 +16,22 @@ const readFixture = (name: string): string => readFileSync(join(FIXTURES_DIR, na
 
 const sampleEvents = parseLog(readFixture('events.sample.jsonl')).events;
 
-describe('aggregateByLaw', () => {
-  it('counts each law citation across every event in the sample fixture', () => {
-    expect(aggregateByLaw(sampleEvents)).toEqual([
-      { key: 'LAW-3.1', count: 1 },
-      { key: 'LAW-3.6', count: 1 },
-      { key: 'LAW-4.5', count: 1 },
-      { key: 'LAW-5.2', count: 1 },
-      { key: 'LAW-8.1', count: 1 },
+describe('aggregateByPolicy', () => {
+  it('counts each policy citation across every event in the sample fixture', () => {
+    expect(aggregateByPolicy(sampleEvents)).toEqual([
+      { key: 'POL-3.1', count: 1 },
+      { key: 'POL-3.6', count: 1 },
+      { key: 'POL-4.5', count: 1 },
+      { key: 'POL-5.2', count: 1 },
+      { key: 'POL-8.1', count: 1 },
     ]);
   });
 
   it('returns an empty list when there are no events', () => {
-    expect(aggregateByLaw([])).toEqual([]);
+    expect(aggregateByPolicy([])).toEqual([]);
   });
 
-  it('ignores events with no lawCitations field and events with an empty array', () => {
+  it('ignores events with no policyCitations field and events with an empty array', () => {
     const noCitations: WorkflowSelectedEvent = {
       schemaVersion: '1.0',
       timestamp: '2026-10-12T00:00:00Z',
@@ -45,39 +45,39 @@ describe('aggregateByLaw', () => {
       eventType: 'workflowCompleted',
       workItem: 'JIRA-1',
       workflowId: 'WF-BUG',
-      lawCitations: [],
+      policyCitations: [],
     };
-    expect(aggregateByLaw([noCitations, emptyCitations])).toEqual([]);
+    expect(aggregateByPolicy([noCitations, emptyCitations])).toEqual([]);
   });
 
   it('sorts ties by key ascending and counts repeats correctly', () => {
-    const makeEvent = (law: string): WorkflowCompletedEvent => ({
+    const makeEvent = (policy: string): WorkflowCompletedEvent => ({
       schemaVersion: '1.0',
       timestamp: '2026-10-12T00:00:00Z',
       eventType: 'workflowCompleted',
       workItem: 'JIRA-1',
       workflowId: 'WF-BUG',
-      lawCitations: [law],
+      policyCitations: [policy],
     });
-    const events = [makeEvent('LAW-9.1'), makeEvent('LAW-1.1'), makeEvent('LAW-1.1')];
-    expect(aggregateByLaw(events)).toEqual([
-      { key: 'LAW-1.1', count: 2 },
-      { key: 'LAW-9.1', count: 1 },
+    const events = [makeEvent('POL-9.1'), makeEvent('POL-1.1'), makeEvent('POL-1.1')];
+    expect(aggregateByPolicy(events)).toEqual([
+      { key: 'POL-1.1', count: 2 },
+      { key: 'POL-9.1', count: 1 },
     ]);
   });
 });
 
-describe('aggregateByPersona', () => {
-  it('counts stage events by persona across the sample fixture', () => {
-    expect(aggregateByPersona(sampleEvents)).toEqual([
-      { key: 'persona-quality', count: 5 },
-      { key: 'persona-software-engineer', count: 4 },
-      { key: 'persona-architect', count: 1 },
-      { key: 'persona-product-owner', count: 1 },
+describe('aggregateByRole', () => {
+  it('counts stage events by role across the sample fixture', () => {
+    expect(aggregateByRole(sampleEvents)).toEqual([
+      { key: 'role-quality', count: 5 },
+      { key: 'role-software-engineer', count: 4 },
+      { key: 'role-architect', count: 1 },
+      { key: 'role-product-owner', count: 1 },
     ]);
   });
 
-  it('ignores non-stageEvent event types, which carry no persona field', () => {
+  it('ignores non-stageEvent event types, which carry no role field', () => {
     const selected: WorkflowSelectedEvent = {
       schemaVersion: '1.0',
       timestamp: '2026-10-12T00:00:00Z',
@@ -85,33 +85,33 @@ describe('aggregateByPersona', () => {
       workItem: 'JIRA-1',
       workflowId: 'WF-BUG',
     };
-    expect(aggregateByPersona([selected])).toEqual([]);
+    expect(aggregateByRole([selected])).toEqual([]);
   });
 
   it('returns an empty list when there are no events', () => {
-    expect(aggregateByPersona([])).toEqual([]);
+    expect(aggregateByRole([])).toEqual([]);
   });
 });
 
 describe('parseChainStages', () => {
   it('parses every marker combination found in the sample fixture', () => {
     expect(parseChainStages('product-owner(requirements*) -> architect(design) -> security(security-review^)')).toEqual([
-      { persona: 'product-owner', stageId: 'requirements', hard: true, conditional: false, humanRequired: false },
-      { persona: 'architect', stageId: 'design', hard: false, conditional: false, humanRequired: false },
-      { persona: 'security', stageId: 'security-review', hard: false, conditional: true, humanRequired: false },
+      { role: 'product-owner', stageId: 'requirements', hard: true, conditional: false, humanRequired: false },
+      { role: 'architect', stageId: 'design', hard: false, conditional: false, humanRequired: false },
+      { role: 'security', stageId: 'security-review', hard: false, conditional: true, humanRequired: false },
     ]);
   });
 
   it('parses a stage that is both hard and human-checkpointed', () => {
     expect(parseChainStages('quality(code-review*+human)')).toEqual([
-      { persona: 'quality', stageId: 'code-review', hard: true, conditional: false, humanRequired: true },
+      { role: 'quality', stageId: 'code-review', hard: true, conditional: false, humanRequired: true },
     ]);
   });
 
   it('skips a segment that does not match the expected shape instead of throwing', () => {
     expect(parseChainStages('architect(design) -> not-a-valid-segment -> quality(verify*)')).toEqual([
-      { persona: 'architect', stageId: 'design', hard: false, conditional: false, humanRequired: false },
-      { persona: 'quality', stageId: 'verify', hard: true, conditional: false, humanRequired: false },
+      { role: 'architect', stageId: 'design', hard: false, conditional: false, humanRequired: false },
+      { role: 'quality', stageId: 'verify', hard: true, conditional: false, humanRequired: false },
     ]);
   });
 
@@ -195,7 +195,7 @@ describe('aggregateWorkflowGraph', () => {
       workItem: 'JIRA-1',
       workflowId: 'WF-NO-SELECTION',
       stageId: 'verify',
-      persona: 'persona-quality',
+      role: 'role-quality',
       status: 'entered',
       humanCheckpoint: 'none',
     };
@@ -214,7 +214,7 @@ describe('buildFlowElements', () => {
       workItem: 'JIRA-1',
       workflowId: 'WF-BUG',
       stageId: 'verify',
-      persona: 'persona-quality',
+      role: 'role-quality',
       status: 'entered',
       humanCheckpoint: 'none',
     };
@@ -241,7 +241,7 @@ describe('buildFlowElements', () => {
   it('returns no edges for a single-stage graph', () => {
     const { nodes, edges } = buildFlowElements({
       workflowId: 'WF-SOLO',
-      stages: [{ persona: 'quality', stageId: 'verify', hard: true, conditional: false, humanRequired: false }],
+      stages: [{ role: 'quality', stageId: 'verify', hard: true, conditional: false, humanRequired: false }],
       stageEventCounts: {},
       stageActiveCounts: {},
       usageCount: 1,

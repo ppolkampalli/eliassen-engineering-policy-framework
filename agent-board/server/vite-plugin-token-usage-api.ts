@@ -40,7 +40,7 @@ function defaultProjectCwd(): string {
  * log (same AGENT_BOARD_LOG as the Kanban board), the transcripts root
  * (AGENT_BOARD_TRANSCRIPTS_ROOT, defaulting to ~/.claude/projects), the
  * project cwd used to match transcript files (see defaultProjectCwd), and
- * the price table path — never from the request itself (LAW-5.1).
+ * the price table path — never from the request itself (POL-5.1).
  */
 export function tokenUsageApiPlugin(): Plugin {
   const boardLogPath = resolve(process.cwd(), process.env.AGENT_BOARD_LOG ?? '.claude/board/events.local.jsonl');

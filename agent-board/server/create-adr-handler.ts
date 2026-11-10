@@ -11,7 +11,7 @@ function titleFallback(filename: string): string {
 /**
  * Builds the GET /api/adr request handler for a single, fixed ADR
  * directory, returning every file's full content in one response rather
- * than a per-filename route — same LAW-5.1 posture as /api/events and
+ * than a per-filename route — same POL-5.1 posture as /api/events and
  * /api/token-usage: the request supplies no path or filename at all, so
  * there's nothing to validate against path traversal.
  */

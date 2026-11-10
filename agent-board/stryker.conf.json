@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
-  "_comment": "LAW-3.6 pilot, scoped to src/lib only per docs/proposals/agentic-quality-assurance/design.md Option 1A. thresholds.break is intentionally null: no blocking floor until a real baseline score exists.",
+  "_comment": "POL-3.6 pilot, scoped to src/lib only per docs/proposals/agentic-quality-assurance/design.md Option 1A. thresholds.break is intentionally null: no blocking floor until a real baseline score exists.",
   "packageManager": "npm",
   "testRunner": "jest",
   "coverageAnalysis": "off",
