@@ -4,7 +4,7 @@
 # Installs the Engineering Policy Framework building blocks into a target project:
 #   CLAUDE.md → root            configs → root           hook → .husky/
 #   CI yml → .github/workflows/ PR template → .github/   skills/ → .claude/skills/
-#   mods/ (board visualization panes) → .claude/skills/, same destination as skills/
+#   mods/ (board visualization panes + context-bar band) → .claude/skills/, same destination as skills/
 #   checklists + standards/testing/role guides → docs/
 #   policies/REGISTRY.md + registry.json → docs/policy-framework/   (offline citability)
 #
@@ -210,6 +210,7 @@ if [ "$IDE" = "claude" ] || [ "$IDE" = "both" ]; then
   echo "$step) Board visualization: in a Claude Code session in this project, run /board"
   echo "   (Kanban, live from .claude/board/events.local.jsonl once a workflow has run)"
   echo "   or /board-adr (browse docs/adr/). See mods/README.md."
+  echo "   A context-usage band also appears above the prompt automatically (any project)."
   step=$((step + 1))
 fi
 if [ "$IDE" = "cursor" ] || [ "$IDE" = "both" ]; then

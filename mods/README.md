@@ -19,10 +19,13 @@ install time (see below).
 - `agent-board-adr/` — an ADR Records pane (`/board-adr`), list-and-drill-in
   browsing of `docs/adr/`, rendered with the pane's built-in `Markdown`
   element (full headings/lists/code fences/links, no hand-rolled parser).
+- `context-bar/` — a persistent band above the prompt showing live
+  context-window usage (`$.session.usage()`, the status line's own figures),
+  not tied to this project or its event log.
 
-Both are read-only viewers alongside `agent-board/`'s own React app — not a
-replacement for it. `agent-board/`'s Policy Cohort charts and per-item
-flowchart have no equivalent here yet: a mod's drawing surface is
+The two board panes are read-only viewers alongside `agent-board/`'s own
+React app — not a replacement for it. `agent-board/`'s Policy Cohort charts
+and per-item flowchart have no equivalent here yet: a mod's drawing surface is
 terminal-native primitives (`Box`/`Text`/`Button`/`Markdown`), not a browser
 DOM, so recharts/`@xyflow/react` visuals don't port directly.
 

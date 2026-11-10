@@ -1,0 +1,6 @@
+{
+  "name": "context-bar",
+  "version": "0.1.0",
+  "description": "A persistent band above the prompt showing live context-window usage",
+  "types": "./types/index.d.ts"
+}
