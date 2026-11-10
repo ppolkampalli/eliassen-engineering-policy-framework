@@ -153,6 +153,28 @@ describe('App against real fixtures', () => {
     await waitFor(() => expect(screen.getByText('Body text.')).toBeTruthy());
   });
 
+  it('switches to the Overview tab and shows a rolled-up KPI for the current work items', async () => {
+    mockFetchOnce(loadFixtureResponse('events.sample.jsonl'));
+    render(<App />);
+    await waitFor(() => expect(screen.getByText('JIRA-3411')).toBeTruthy());
+
+    mockTokenUsageFetchOnce({
+      totalCostUsd: 0,
+      unpricedRecordCount: 0,
+      unattributedRecordCount: 0,
+      byWorkItem: [],
+      byWorkflow: [],
+      byStage: [],
+      byRole: [],
+      byModel: [],
+      timeSeries: [],
+    });
+    mockAdrFetchOnce({ records: [], mtimeMs: null });
+    fireEvent.click(screen.getByRole('tab', { name: 'Overview' }));
+    expect(screen.queryByText('JIRA-3411')).toBeNull();
+    await waitFor(() => expect(screen.getByText('Work items')).toBeTruthy());
+  });
+
   it('switches to the Traceability tab and loads its own matrix from the events feed', async () => {
     mockFetchOnce(loadFixtureResponse('events.sample.jsonl'));
     render(<App />);

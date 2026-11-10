@@ -1,5 +1,11 @@
 import { deriveWorkItems } from './board-model';
-import { buildTraceabilityMatrix, latestAcceptanceCriteria, mergedTestResults, mostRecentWorkItemId } from './traceability-model';
+import {
+  aggregateTestResults,
+  buildTraceabilityMatrix,
+  latestAcceptanceCriteria,
+  mergedTestResults,
+  mostRecentWorkItemId,
+} from './traceability-model';
 import type { BoardEvent, StageEvent } from './types';
 
 function stageEvent(overrides: Partial<StageEvent> & Pick<StageEvent, 'workItem' | 'timestamp'>): StageEvent {
@@ -151,6 +157,47 @@ describe('buildTraceabilityMatrix', () => {
       }),
     ];
     expect(buildTraceabilityMatrix(events)).toEqual([{ ac: { id: 'AC-1', text: 'first' }, results: [] }]);
+  });
+});
+
+describe('aggregateTestResults', () => {
+  it('returns all-zero counts for an empty work-item map', () => {
+    expect(aggregateTestResults(new Map())).toEqual({ pass: 0, fail: 0, pending: 0, total: 0 });
+  });
+
+  it('counts pass/fail/pending across every work item, not just one', () => {
+    const events: BoardEvent[] = [
+      stageEvent({
+        workItem: 'JIRA-1',
+        timestamp: '2026-01-01T00:00:00Z',
+        testResults: [
+          { acId: 'AC-1', testId: 'unit-1', testType: 'unit', status: 'pass' },
+          { acId: 'AC-1', testId: 'unit-2', testType: 'unit', status: 'fail' },
+        ],
+      }),
+      stageEvent({
+        workItem: 'JIRA-2',
+        timestamp: '2026-01-01T00:00:00Z',
+        testResults: [{ acId: 'AC-2', testId: 'e2e-1', testType: 'e2e', status: 'pending' }],
+      }),
+    ];
+    expect(aggregateTestResults(deriveWorkItems(events))).toEqual({ pass: 1, fail: 1, pending: 1, total: 3 });
+  });
+
+  it('counts only the merged (deduplicated) result for a repeated acId+testId', () => {
+    const events: BoardEvent[] = [
+      stageEvent({
+        workItem: 'JIRA-1',
+        timestamp: '2026-01-01T00:00:00Z',
+        testResults: [{ acId: 'AC-1', testId: 'unit-1', testType: 'unit', status: 'pending' }],
+      }),
+      stageEvent({
+        workItem: 'JIRA-1',
+        timestamp: '2026-01-02T00:00:00Z',
+        testResults: [{ acId: 'AC-1', testId: 'unit-1', testType: 'unit', status: 'pass' }],
+      }),
+    ];
+    expect(aggregateTestResults(deriveWorkItems(events))).toEqual({ pass: 1, fail: 0, pending: 0, total: 1 });
   });
 });
 

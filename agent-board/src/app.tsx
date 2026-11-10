@@ -4,6 +4,7 @@ import { AdrRecords } from './components/adr-records';
 import { Board } from './components/board';
 import { DetailOverlay } from './components/detail-overlay';
 import { EmptyState } from './components/empty-state';
+import { OverviewDashboard } from './components/overview-dashboard';
 import { PolicyCohort } from './components/policy-cohort';
 import { StatusBar } from './components/status-bar';
 import { Tabs } from './components/tabs';
@@ -13,6 +14,7 @@ import { useBoardEvents } from './hooks/use-board-events';
 import { deriveWorkItems, statusMessage } from './lib/board-model';
 
 const TAB_DEFS = [
+  { id: 'overview', label: 'Overview' },
   { id: 'kanban', label: 'Kanban Board' },
   { id: 'cohort', label: 'Policy Cohort' },
   { id: 'tokenCost', label: 'Token & Cost' },
@@ -35,6 +37,7 @@ export function App(): JSX.Element {
         <Tabs tabs={TAB_DEFS} active={activeTab} onChange={setActiveTab} />
       </header>
       <main className="board-root">
+        {activeTab === 'overview' && <OverviewDashboard events={events} workItems={workItems} />}
         {activeTab === 'cohort' && <PolicyCohort events={events} workItems={workItems} />}
         {activeTab === 'tokenCost' && <TokenCostDashboard />}
         {activeTab === 'adr' && <AdrRecords />}
