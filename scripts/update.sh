@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # update.sh <target-project-dir>
 #
-# Syncs configs, skills, and the policy registry from this repo into a target
+# Syncs configs, skills, board visualization mods, and the policy registry from this repo into a target
 # project. Before applying, prints a human-readable diff of any changed policies
 # INCLUDING the policy change ID and motivation for each change (read from
 # policy-changes/records/) — auditability propagates with the update
@@ -113,11 +113,12 @@ chmod +x "$TARGET/.husky/pre-commit" 2>/dev/null || true
 sync_file "$SRC/ci/github/quality.yml"           "$TARGET/.github/workflows/quality.yml"
 sync_file "$SRC/ci/github/security.yml"          "$TARGET/.github/workflows/security.yml"
 
-# Skills tree (full refresh)
+# Skills tree + board visualization mods (full refresh, same destination)
 rm -rf "$TARGET/.claude/skills"
 mkdir -p "$TARGET/.claude/skills"
 cp -R "$SRC/skills/." "$TARGET/.claude/skills/"
-echo "  updated: .claude/skills/ (full refresh)"
+cp -R "$SRC/mods/." "$TARGET/.claude/skills/"
+echo "  updated: .claude/skills/ (full refresh, skills + mods)"
 
 sync_file "$SRC/docs/standards.md"               "$TARGET/docs/standards.md"
 sync_file "$SRC/docs/testing-guide.md"           "$TARGET/docs/testing-guide.md"

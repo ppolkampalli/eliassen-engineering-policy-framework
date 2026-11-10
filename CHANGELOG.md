@@ -17,6 +17,17 @@ ratified, not rewritten to match current vocabulary.
 
 ## [Unreleased]
 
+### Added
+
+- **Board visualization mods** (`mods/agent-board-kanban`, `mods/agent-board-adr`)
+  — Claude Code panes (`/board`, `/board-adr`) showing governed-workflow
+  Kanban progress and the ADR records, beside the chat instead of in a
+  separate browser tab. Installed automatically by `scripts/install.sh` into
+  a target project's `.claude/skills/`, refreshed by `scripts/update.sh`,
+  and checked by `scripts/validate.sh` — unlike `agent-board/` itself, which
+  remains manual distribution. See
+  [ADR-0008](docs/adr/0008-claude-code-mods-for-board-visualization.md).
+
 ### Changed
 
 - **Repository renamed** from `eliassen-engineering-constitution` to

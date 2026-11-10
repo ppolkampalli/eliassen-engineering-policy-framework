@@ -4,6 +4,7 @@
 # Installs the Engineering Policy Framework building blocks into a target project:
 #   CLAUDE.md → root            configs → root           hook → .husky/
 #   CI yml → .github/workflows/ PR template → .github/   skills/ → .claude/skills/
+#   mods/ (board visualization panes) → .claude/skills/, same destination as skills/
 #   checklists + standards/testing/role guides → docs/
 #   policies/REGISTRY.md + registry.json → docs/policy-framework/   (offline citability)
 #
@@ -146,6 +147,9 @@ copy "$SRC/templates/pull_request_template.md" "$TARGET/.github/pull_request_tem
 if [ "$IDE" = "claude" ] || [ "$IDE" = "both" ]; then
   echo "Skills (roles + enforcement) → .claude/skills/"
   copy_tree "$SRC/skills" "$TARGET/.claude/skills"
+
+  echo "Board visualization mods → .claude/skills/"
+  copy_tree "$SRC/mods" "$TARGET/.claude/skills"
 fi
 
 if [ "$IDE" = "cursor" ] || [ "$IDE" = "both" ]; then
@@ -200,9 +204,17 @@ echo '   { "extends": "./tsconfig.base.json", ... }'
 echo ""
 echo "4) Run: npm run prepare   (activates the .husky/pre-commit hook — POL-6.2)"
 echo "5) Verify: $SRC/scripts/validate.sh $TARGET"
+step=6
+if [ "$IDE" = "claude" ] || [ "$IDE" = "both" ]; then
+  echo ""
+  echo "$step) Board visualization: in a Claude Code session in this project, run /board"
+  echo "   (Kanban, live from .claude/board/events.local.jsonl once a workflow has run)"
+  echo "   or /board-adr (browse docs/adr/). See mods/README.md."
+  step=$((step + 1))
+fi
 if [ "$IDE" = "cursor" ] || [ "$IDE" = "both" ]; then
   echo ""
-  echo "6) Cursor: open the project — .cursor/rules/*.mdc auto-attach by description,"
+  echo "$step) Cursor: open the project — .cursor/rules/*.mdc auto-attach by description,"
   echo "   or type /<skill-name> (e.g. /workflow-orchestrator) to invoke one explicitly."
   echo "   See docs/cursor-install.md. For the optional memory-service MCP server,"
   echo "   add its config to .cursor/mcp.json (see memory-service/README.md)."

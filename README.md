@@ -55,7 +55,9 @@ cd engineering-policy-framework
 ./scripts/install.sh /path/to/your-project
 ```
 
-The installer copies CLAUDE.md and AGENTS.md, tooling configs, the pre-commit hook, CI workflows, the PR template, all Claude skills (including roles), checklists, and the policy registry (`docs/policy-framework/`) into your project, then prints the devDependencies and package.json scripts to add.
+The installer copies CLAUDE.md and AGENTS.md, tooling configs, the pre-commit hook, CI workflows, the PR template, all Claude skills (including roles), board visualization mods, checklists, and the policy registry (`docs/policy-framework/`) into your project, then prints the devDependencies and package.json scripts to add.
+
+**Board visualization mods**: once installed, run `/board` in a Claude Code session in the target project for a live Kanban pane of governed-workflow progress, or `/board-adr` to browse ADR records — both beside the chat, no separate app to run. See [`mods/README.md`](mods/README.md) and [ADR-0008](docs/adr/0008-claude-code-mods-for-board-visualization.md).
 
 **Using Cursor instead of Claude Code?** `AGENTS.md` already works there natively — for the
 roles, workflow orchestrator, and enforcement skills, pass `--ide cursor` (or `--ide both`
