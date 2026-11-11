@@ -1,0 +1,152 @@
+# Builds, tests, and deploys user-training-onboarding/ as a static website to
+# an Azure Storage account's $web container.
+#
+# No resource names (storage account, service connection, org/project) are
+# hardcoded here: this repo is public, and those are this deployment's own
+# details, not something to publish alongside a generic policy-framework repo.
+# They live in the variable group named below instead (Azure DevOps >
+# Pipelines > Library), which this pipeline reads at run time.
+#
+# One-time setup this pipeline depends on (see docs/user-training-onboarding-deploy.md):
+#   1. A storage account with static website hosting enabled, with BOTH the
+#      index document and the 404 error document set to index.html. The
+#      404-document setting is required, not cosmetic: the app uses
+#      react-router-dom's BrowserRouter, so a direct/refreshed link to a
+#      client-side route has no matching blob — without the fallback, Azure
+#      Storage serves a bare 404 instead of the SPA shell that would
+#      otherwise resolve the route client-side.
+#   2. An Azure Resource Manager service connection, backed by a service
+#      principal granted only the "Storage Blob Data Contributor" role,
+#      scoped to that one storage account (not the resource group or
+#      subscription).
+#   3. A variable group (name matches `variableGroupName` below, or edit it
+#      to match whatever you create) with two non-secret variables:
+#      `storageAccountName` and `azureServiceConnection` (the service
+#      connection's name from step 2).
+#   4. The pipeline resource itself, created once against this file.
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - user-training-onboarding/*
+      - policies/registry.json # rendered live into the Policy Browser page at build time
+      - workflows/registry.json # rendered live into the Workflow Explorer page at build time
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - user-training-onboarding/*
+      - policies/registry.json
+      - workflows/registry.json
+
+variables:
+  - group: 'user-training-onboarding-deploy' # supplies storageAccountName, azureServiceConnection — see setup doc
+  - name: appDirectory
+    value: 'user-training-onboarding'
+  - name: webContainer
+    value: '$web'
+  - name: nodeVersion
+    value: '20.x'
+
+stages:
+  - stage: Build
+    displayName: 'Lint, type-check, test, build'
+    jobs:
+      - job: Build
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: $(nodeVersion)
+            displayName: 'Use Node $(nodeVersion)'
+
+          - script: npm ci
+            workingDirectory: $(appDirectory)
+            displayName: 'npm ci'
+
+          # POL-6.2: all three gates below must pass before a build is
+          # considered done; none has an override path.
+          - script: npm run lint
+            workingDirectory: $(appDirectory)
+            displayName: 'npm run lint'
+
+          - script: npm run type-check
+            workingDirectory: $(appDirectory)
+            displayName: 'npm run type-check'
+
+          - script: npm test -- --ci
+            workingDirectory: $(appDirectory)
+            displayName: 'npm test'
+
+          - script: npm run build
+            workingDirectory: $(appDirectory)
+            displayName: 'npm run build'
+
+          - publish: '$(appDirectory)/dist'
+            artifact: site
+            displayName: 'Publish build output'
+
+  - stage: Deploy
+    displayName: 'Deploy to Azure Storage static website'
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: Deploy
+        displayName: 'Sync dist/ to $web'
+        pool:
+          vmImage: 'ubuntu-latest'
+        environment: 'user-training-onboarding-production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: 'Clean-deploy to $web'
+                  inputs:
+                    azureSubscription: $(azureServiceConnection)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      set -euo pipefail
+
+                      # A clean deploy (delete-then-upload), not an incremental
+                      # sync: Vite content-hashes JS/CSS filenames per build, so
+                      # an incremental upload would leave every previous
+                      # build's now-unreferenced chunks behind forever. This is
+                      # a small internal training site with no CDN in front of
+                      # it, so the brief window where $web is empty mid-deploy
+                      # is an acceptable trade-off for not accumulating stale
+                      # assets; revisit (e.g. versioned prefixes + a pointer
+                      # object) if that stops being true.
+                      echo "Clearing existing \$web content..."
+                      az storage blob delete-batch \
+                        --account-name "$(storageAccountName)" \
+                        --source "$(webContainer)" \
+                        --auth-mode login
+
+                      echo "Uploading new build..."
+                      az storage blob upload-batch \
+                        --account-name "$(storageAccountName)" \
+                        --destination "$(webContainer)" \
+                        --source "$(Pipeline.Workspace)/site" \
+                        --auth-mode login \
+                        --overwrite
+
+                      # index.html must always be revalidated: it is the one
+                      # file whose name never changes between builds, so a
+                      # cached copy would keep serving old hashed asset
+                      # references after a deploy.
+                      echo "Setting no-cache on index.html..."
+                      az storage blob update \
+                        --account-name "$(storageAccountName)" \
+                        --container-name "$(webContainer)" \
+                        --name index.html \
+                        --auth-mode login \
+                        --content-cache-control "no-cache, no-store, must-revalidate"
