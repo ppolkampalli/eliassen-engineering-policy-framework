@@ -34,7 +34,7 @@ const stage: StageEvent = {
   workItem: 'JIRA-1',
   workflowId: 'WF-BUG',
   stageId: 'fix',
-  persona: 'persona-software-engineer',
+  role: 'role-software-engineer',
   status: 'entered',
   humanCheckpoint: 'none',
 };
@@ -80,7 +80,7 @@ describe('isValidEvent', () => {
     expect(isValidEvent({ ...selected, eventType: 'somethingElse' })).toBe(false);
   });
 
-  it.each(['stageId', 'persona', 'status', 'humanCheckpoint'])(
+  it.each(['stageId', 'role', 'status', 'humanCheckpoint'])(
     'rejects a stageEvent missing %s',
     (field) => {
       const broken = { ...stage } as Record<string, unknown>;
@@ -276,7 +276,7 @@ describe('stageSummary / statusDotClass / statusMessage', () => {
   });
 
   it('describes a stageEvent', () => {
-    expect(stageSummary(stage)).toBe('fix · persona-software-engineer');
+    expect(stageSummary(stage)).toBe('fix · role-software-engineer');
     expect(statusDotClass(stage)).toBe('status-entered');
   });
 

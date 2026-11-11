@@ -8,7 +8,7 @@ export function WorkflowStageNode({ data }: NodeProps<StageNode>): JSX.Element {
       <Handle type="target" position={Position.Left} />
       <div className="stage-node-head">
         <strong>{data.stageId}</strong>
-        <span className="stage-node-persona">{data.persona}</span>
+        <span className="stage-node-role">{data.role}</span>
       </div>
       <div className="stage-node-badges">
         {data.hard && <span className="badge-hard">hard</span>}

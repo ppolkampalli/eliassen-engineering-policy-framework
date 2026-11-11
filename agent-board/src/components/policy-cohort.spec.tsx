@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { ConstitutionCohort } from './constitution-cohort';
+import { PolicyCohort } from './policy-cohort';
 import { deriveWorkItems, parseLog } from '../lib/board-model';
 
 beforeAll(() => {
@@ -15,23 +15,23 @@ const FIXTURES_DIR = join(__dirname, '../../fixtures');
 const { events } = parseLog(readFileSync(join(FIXTURES_DIR, 'events.sample.jsonl'), 'utf8'));
 const workItems = deriveWorkItems(events);
 
-describe('ConstitutionCohort', () => {
+describe('PolicyCohort', () => {
   it('defaults to the workflow cohort view', () => {
-    render(<ConstitutionCohort events={events} workItems={workItems} />);
+    render(<PolicyCohort events={events} workItems={workItems} />);
     expect(screen.getByText('WF-BUG')).toBeTruthy();
     expect(screen.getByText('WF-FEATURE')).toBeTruthy();
     expect(screen.getByText('WF-REFACTOR')).toBeTruthy();
   });
 
-  it('switches to the laws bar chart when Laws is selected', () => {
-    render(<ConstitutionCohort events={events} workItems={workItems} />);
-    fireEvent.click(screen.getByRole('button', { name: 'Laws' }));
-    expect(screen.getByText('LAW-8.1')).toBeTruthy();
+  it('switches to the policies bar chart when Policies is selected', () => {
+    render(<PolicyCohort events={events} workItems={workItems} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Policies' }));
+    expect(screen.getByText('POL-8.1')).toBeTruthy();
   });
 
-  it('switches to the personas bar chart when Personas is selected', () => {
-    render(<ConstitutionCohort events={events} workItems={workItems} />);
-    fireEvent.click(screen.getByRole('button', { name: 'Personas' }));
-    expect(screen.getByText('persona-quality')).toBeTruthy();
+  it('switches to the roles bar chart when Roles is selected', () => {
+    render(<PolicyCohort events={events} workItems={workItems} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Roles' }));
+    expect(screen.getByText('role-quality')).toBeTruthy();
   });
 });

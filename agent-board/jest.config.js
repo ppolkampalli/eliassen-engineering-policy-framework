@@ -1,4 +1,4 @@
-// Enforces LAW-3.2 (coverage floors): 100% on pure domain logic (src/lib) and
+// Enforces POL-3.2 (coverage floors): 100% on pure domain logic (src/lib) and
 // the server's security boundary (server/), 90% on hooks, 70% on components —
 // mirrors crm-demo's 100%-domain convention and user-training-onboarding's
 // 70-80%-presentation convention.

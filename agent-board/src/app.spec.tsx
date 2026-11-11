@@ -105,12 +105,12 @@ describe('App against real fixtures', () => {
     await waitFor(() => expect(screen.getByText(/request failed: 500/)).toBeTruthy());
   });
 
-  it('switches to the Constitution Cohort tab and hides the Kanban board', async () => {
+  it('switches to the Policy Cohort tab and hides the Kanban board', async () => {
     mockFetchOnce(loadFixtureResponse('events.sample.jsonl'));
     render(<App />);
     await waitFor(() => expect(screen.getByText('JIRA-3411')).toBeTruthy());
 
-    fireEvent.click(screen.getByRole('tab', { name: 'Constitution Cohort' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'Policy Cohort' }));
     expect(screen.queryByText('JIRA-3411')).toBeNull();
     expect(screen.getByRole('group', { name: 'Cohort type' })).toBeTruthy();
 
@@ -130,7 +130,7 @@ describe('App against real fixtures', () => {
       byWorkItem: [],
       byWorkflow: [],
       byStage: [],
-      byPersona: [],
+      byRole: [],
       byModel: [],
       timeSeries: [],
     });
@@ -153,6 +153,28 @@ describe('App against real fixtures', () => {
     await waitFor(() => expect(screen.getByText('Body text.')).toBeTruthy());
   });
 
+  it('switches to the Overview tab and shows a rolled-up KPI for the current work items', async () => {
+    mockFetchOnce(loadFixtureResponse('events.sample.jsonl'));
+    render(<App />);
+    await waitFor(() => expect(screen.getByText('JIRA-3411')).toBeTruthy());
+
+    mockTokenUsageFetchOnce({
+      totalCostUsd: 0,
+      unpricedRecordCount: 0,
+      unattributedRecordCount: 0,
+      byWorkItem: [],
+      byWorkflow: [],
+      byStage: [],
+      byRole: [],
+      byModel: [],
+      timeSeries: [],
+    });
+    mockAdrFetchOnce({ records: [], mtimeMs: null });
+    fireEvent.click(screen.getByRole('tab', { name: 'Overview' }));
+    expect(screen.queryByText('JIRA-3411')).toBeNull();
+    await waitFor(() => expect(screen.getByText('Work items')).toBeTruthy());
+  });
+
   it('switches to the Traceability tab and loads its own matrix from the events feed', async () => {
     mockFetchOnce(loadFixtureResponse('events.sample.jsonl'));
     render(<App />);
@@ -165,7 +187,7 @@ describe('App against real fixtures', () => {
       workItem: 'JIRA-9000',
       workflowId: 'WF-FEATURE',
       stageId: 'requirements',
-      persona: 'product-owner',
+      role: 'product-owner',
       status: 'entered',
       humanCheckpoint: 'none',
       acceptanceCriteria: [{ id: 'AC-1', text: 'Traceability tab shows the matrix' }],

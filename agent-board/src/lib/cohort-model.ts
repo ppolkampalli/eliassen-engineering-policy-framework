@@ -19,30 +19,30 @@ function sortBuckets(counts: Map<string, number>): CohortBucket[] {
     .sort((a, b) => (b.count !== a.count ? b.count - a.count : a.key.localeCompare(b.key)));
 }
 
-/** Counts how many times each law is cited across every event, regardless of event type. */
-export function aggregateByLaw(events: BoardEvent[]): CohortBucket[] {
+/** Counts how many times each policy is cited across every event, regardless of event type. */
+export function aggregateByPolicy(events: BoardEvent[]): CohortBucket[] {
   const counts = new Map<string, number>();
   for (const event of events) {
-    if (!Array.isArray(event.lawCitations)) continue;
-    for (const law of event.lawCitations) {
-      counts.set(law, (counts.get(law) ?? 0) + 1);
+    if (!Array.isArray(event.policyCitations)) continue;
+    for (const policy of event.policyCitations) {
+      counts.set(policy, (counts.get(policy) ?? 0) + 1);
     }
   }
   return sortBuckets(counts);
 }
 
-/** Counts stage events per persona — the only event type that carries a persona. */
-export function aggregateByPersona(events: BoardEvent[]): CohortBucket[] {
+/** Counts stage events per role — the only event type that carries a role. */
+export function aggregateByRole(events: BoardEvent[]): CohortBucket[] {
   const counts = new Map<string, number>();
   for (const event of events) {
     if (event.eventType !== 'stageEvent') continue;
-    counts.set(event.persona, (counts.get(event.persona) ?? 0) + 1);
+    counts.set(event.role, (counts.get(event.role) ?? 0) + 1);
   }
   return sortBuckets(counts);
 }
 
 /**
- * Parses a chain string like `persona(stageId*) -> persona(stageId^+human)`
+ * Parses a chain string like `role(stageId*) -> role(stageId^+human)`
  * into its stages. A segment that doesn't match the expected shape is
  * skipped rather than failing the whole chain — the chain is descriptive
  * metadata, not the schema boundary that `parseLog` guards.
@@ -54,11 +54,11 @@ export function parseChainStages(chain: string): ChainStage[] {
     if (!match) continue;
     // Groups 1-3 are mandatory in the pattern (group 3 uses `*`, so it always
     // captures at least an empty string), so they're always defined when match succeeds.
-    const persona = match[1] as string;
+    const role = match[1] as string;
     const stageId = match[2] as string;
     const markers = match[3] as string;
     stages.push({
-      persona,
+      role,
       stageId,
       hard: markers.includes('*'),
       conditional: markers.includes('^'),

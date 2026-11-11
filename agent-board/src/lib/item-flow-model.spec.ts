@@ -29,7 +29,7 @@ describe('buildItemFlowElements', () => {
     expect(fix?.data.kind).toBe('stage');
     expect(fix?.data.status).toBe('complete'); // latest of its two events (entered, then complete)
     expect(fix?.data.history).toHaveLength(2);
-    expect(fix?.data.lawCitations).toEqual(['LAW-5.2']);
+    expect(fix?.data.policyCitations).toEqual(['POL-5.2']);
 
     const end = nodes.find((node) => node.id === 'end');
     expect(end?.data.kind).toBe('end');
@@ -74,7 +74,7 @@ describe('buildItemFlowElements', () => {
       workItem: 'JIRA-1',
       workflowId: 'WF-REFACTOR',
       stageId: 'refactor',
-      persona: 'persona-software-engineer',
+      role: 'role-software-engineer',
       status: 'entered',
       humanCheckpoint: 'none',
       note: 'Starting the extraction.',
@@ -142,7 +142,7 @@ describe('buildItemFlowElements', () => {
       workItem: 'JIRA-3',
       workflowId: 'WF-BUG',
       stageId: 'fix',
-      persona: 'persona-software-engineer',
+      role: 'role-software-engineer',
       status: 'complete',
       humanCheckpoint: 'none',
     };

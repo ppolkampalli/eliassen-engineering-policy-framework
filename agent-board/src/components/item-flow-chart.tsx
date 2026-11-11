@@ -36,9 +36,9 @@ function DetailPanel({ node }: { node: ItemFlowNode | undefined }): JSX.Element 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }}>
       <Typography variant="subtitle1">{titleFor(data)}</Typography>
-      {data.persona && (
+      {data.role && (
         <Typography variant="body2" color="text.secondary">
-          {data.persona}
+          {data.role}
         </Typography>
       )}
       {data.chain && (
@@ -71,9 +71,9 @@ function DetailPanel({ node }: { node: ItemFlowNode | undefined }): JSX.Element 
           {data.deviation.approvedBy ? ` — approved by ${data.deviation.approvedBy}` : ''}
         </Typography>
       )}
-      {data.lawCitations.length > 0 && (
+      {data.policyCitations.length > 0 && (
         <Stack direction="row" spacing={0.5} sx={{ marginTop: 1, flexWrap: 'wrap' }}>
-          {data.lawCitations.map((citation) => (
+          {data.policyCitations.map((citation) => (
             <Chip key={citation} label={citation} size="small" />
           ))}
         </Stack>

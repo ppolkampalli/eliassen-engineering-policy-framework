@@ -1,0 +1,6 @@
+{
+  "name": "agent-board-kanban",
+  "version": "0.1.0",
+  "description": "Kanban pane for governed-workflow progress, read live from .claude/board/events.local.jsonl",
+  "types": "./types/index.d.ts"
+}

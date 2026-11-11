@@ -48,9 +48,9 @@ export function ItemStageNode({ data, selected }: NodeProps<ItemFlowNode>): JSX.
         <Typography variant="subtitle2" noWrap>
           {titleFor(data)}
         </Typography>
-        {data.persona && (
+        {data.role && (
           <Typography variant="caption" color="text.secondary" noWrap>
-            {data.persona}
+            {data.role}
           </Typography>
         )}
         <StatusChip data={data} />

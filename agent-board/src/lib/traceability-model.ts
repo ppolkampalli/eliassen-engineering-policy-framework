@@ -32,6 +32,28 @@ export function buildTraceabilityMatrix(events: BoardEvent[]): AcTestRow[] {
   return acs.map((ac) => ({ ac, results: results.filter((result) => result.acId === ac.id) }));
 }
 
+export interface TestResultSummary {
+  pass: number;
+  fail: number;
+  pending: number;
+  total: number;
+}
+
+/** Tallies merged test results (pass/fail/pending) across every work item — an overview-level health signal, not a per-item one. */
+export function aggregateTestResults(workItems: Map<string, WorkItem>): TestResultSummary {
+  let pass = 0;
+  let fail = 0;
+  let pending = 0;
+  for (const item of workItems.values()) {
+    for (const result of mergedTestResults(item.events)) {
+      if (result.status === 'pass') pass += 1;
+      else if (result.status === 'fail') fail += 1;
+      else pending += 1;
+    }
+  }
+  return { pass, fail, pending, total: pass + fail + pending };
+}
+
 /** The work item whose latest event is most recent — the sensible default selection for a per-item view. */
 export function mostRecentWorkItemId(workItems: Map<string, WorkItem>): string | null {
   let bestId: string | null = null;

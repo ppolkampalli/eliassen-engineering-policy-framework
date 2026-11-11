@@ -24,7 +24,7 @@ function makeItem(): WorkItem {
         workItem: 'JIRA-1',
         workflowId: 'WF-BUG',
         stageId: 'fix',
-        persona: 'persona-software-engineer',
+        role: 'role-software-engineer',
         status: 'entered',
         humanCheckpoint: 'none',
       },

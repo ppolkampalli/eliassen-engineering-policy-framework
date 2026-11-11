@@ -15,7 +15,7 @@ const report: CostReport = {
   byWorkItem: [{ key: 'JIRA-1', count: 1.5 }],
   byWorkflow: [{ key: 'WF-BUG', count: 1.5 }],
   byStage: [{ key: 'fix', count: 1.5 }],
-  byPersona: [{ key: 'persona-software-engineer', count: 1.5 }],
+  byRole: [{ key: 'role-software-engineer', count: 1.5 }],
   byModel: [{ key: 'claude-sonnet-5', count: 1.5 }],
   timeSeries: [{ bucketStart: '2026-10-13T10:00:00.000Z', costUsd: 1.5 }],
 };
@@ -36,7 +36,7 @@ describe('TokenCostDashboard', () => {
     await waitFor(() => expect(screen.getByText('$1.50')).toBeTruthy());
     expect(screen.getByText('Up to date')).toBeTruthy();
     expect(screen.getByText('WF-BUG')).toBeTruthy();
-    expect(screen.getByText('persona-software-engineer')).toBeTruthy();
+    expect(screen.getByText('role-software-engineer')).toBeTruthy();
   });
 
   it('re-fetches when Refresh is clicked', async () => {

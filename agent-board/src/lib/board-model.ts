@@ -22,7 +22,7 @@ export function isValidEvent(value: unknown): value is BoardEvent {
   if (value.eventType === 'stageEvent') {
     return (
       value.stageId !== undefined &&
-      value.persona !== undefined &&
+      value.role !== undefined &&
       value.status !== undefined &&
       value.humanCheckpoint !== undefined
     );
@@ -119,7 +119,7 @@ export function deriveWorkItems(events: BoardEvent[]): Map<string, WorkItem> {
     }
     item.events.push(event);
     if (event.eventType === 'workflowSelected' && event.chain) item.chain = event.chain;
-    if (Array.isArray(event.lawCitations)) item.citationCount += event.lawCitations.length;
+    if (Array.isArray(event.policyCitations)) item.citationCount += event.policyCitations.length;
   }
   for (const item of map.values()) {
     item.events.sort((a, b) => (a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0));
@@ -159,7 +159,7 @@ export function statusMessage(count: number, skippedCount: number): string {
 
 export function stageSummary(latest: BoardEvent | null): string {
   if (!latest) return '';
-  if (latest.eventType === 'stageEvent') return `${latest.stageId} · ${latest.persona}`;
+  if (latest.eventType === 'stageEvent') return `${latest.stageId} · ${latest.role}`;
   if (latest.eventType === 'workflowSelected') return 'not yet started';
   if (latest.eventType === 'workflowCompleted') return 'complete';
   return '';

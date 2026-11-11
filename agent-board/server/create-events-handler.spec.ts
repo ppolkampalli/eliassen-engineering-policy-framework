@@ -85,7 +85,7 @@ describe('createEventsHandler error handling', () => {
   });
 });
 
-describe('createEventsHandler ignores request contents (LAW-5.1)', () => {
+describe('createEventsHandler ignores request contents (POL-5.1)', () => {
   it('serves the same fixed path regardless of req.url', () => {
     const handler = createEventsHandler(join(FIXTURES_DIR, 'events.sample.jsonl'));
     const { req: reqA, res: resA } = fakeReqRes('/api/events');

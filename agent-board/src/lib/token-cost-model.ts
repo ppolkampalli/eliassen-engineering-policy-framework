@@ -15,7 +15,7 @@ export interface AttributedUsageRecord extends UsageRecord {
   workItem: string | null;
   workflowId: string | null;
   stageId: string | null;
-  persona: string | null;
+  role: string | null;
 }
 
 export interface ModelRate {
@@ -40,7 +40,7 @@ export interface CostReport {
   byWorkItem: CohortBucket[];
   byWorkflow: CohortBucket[];
   byStage: CohortBucket[];
-  byPersona: CohortBucket[];
+  byRole: CohortBucket[];
   byModel: CohortBucket[];
   timeSeries: { bucketStart: string; costUsd: number }[];
 }
@@ -110,13 +110,13 @@ interface AttributionWindow {
   end: string | null; // null = open-ended, extends through "now"
   workflowId: string;
   stageId: string | null;
-  persona: string | null;
+  role: string | null;
 }
 
-function windowTags(event: BoardEvent): { stageId: string | null; persona: string | null } {
-  if (event.eventType === 'stageEvent') return { stageId: event.stageId, persona: event.persona };
-  if (event.eventType === 'deviation') return { stageId: event.stageId, persona: null };
-  return { stageId: null, persona: null };
+function windowTags(event: BoardEvent): { stageId: string | null; role: string | null } {
+  if (event.eventType === 'stageEvent') return { stageId: event.stageId, role: event.role };
+  if (event.eventType === 'deviation') return { stageId: event.stageId, role: null };
+  return { stageId: null, role: null };
 }
 
 function buildWindows(item: WorkItem): AttributionWindow[] {
@@ -165,7 +165,7 @@ export function attributeUsageToWorkItems(
       }
     }
     if (matches.length !== 1) {
-      return { ...record, workItem: null, workflowId: null, stageId: null, persona: null };
+      return { ...record, workItem: null, workflowId: null, stageId: null, role: null };
     }
     // The length check above guarantees exactly one element.
     const match = matches[0] as NonNullable<(typeof matches)[number]>;
@@ -174,7 +174,7 @@ export function attributeUsageToWorkItems(
       workItem: match.workItem,
       workflowId: match.window.workflowId,
       stageId: match.window.stageId,
-      persona: match.window.persona,
+      role: match.window.role,
     };
   });
 }
@@ -214,7 +214,7 @@ export function aggregateCostReport(records: PricedUsageRecord[]): CostReport {
   const byWorkItem = new Map<string, number>();
   const byWorkflow = new Map<string, number>();
   const byStage = new Map<string, number>();
-  const byPersona = new Map<string, number>();
+  const byRole = new Map<string, number>();
   const byModel = new Map<string, number>();
   const byHour = new Map<string, number>();
 
@@ -231,7 +231,7 @@ export function aggregateCostReport(records: PricedUsageRecord[]): CostReport {
     addToBucket(byWorkItem, record.workItem ?? UNATTRIBUTED_KEY, cost);
     addToBucket(byWorkflow, record.workflowId ?? UNATTRIBUTED_KEY, cost);
     addToBucket(byStage, record.stageId ?? UNATTRIBUTED_KEY, cost);
-    addToBucket(byPersona, record.persona ?? UNATTRIBUTED_KEY, cost);
+    addToBucket(byRole, record.role ?? UNATTRIBUTED_KEY, cost);
     addToBucket(byModel, record.model, cost);
     addToBucket(byHour, hourBucketStart(record.timestamp), cost);
   }
@@ -247,7 +247,7 @@ export function aggregateCostReport(records: PricedUsageRecord[]): CostReport {
     byWorkItem: bucketsFrom(byWorkItem),
     byWorkflow: bucketsFrom(byWorkflow),
     byStage: bucketsFrom(byStage),
-    byPersona: bucketsFrom(byPersona),
+    byRole: bucketsFrom(byRole),
     byModel: bucketsFrom(byModel),
     timeSeries,
   };

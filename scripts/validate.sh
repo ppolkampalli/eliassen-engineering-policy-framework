@@ -51,6 +51,8 @@ check_file "docs/policy-framework/REGISTRY.md"
 check_file "docs/policy-framework/registry.json"
 check_file "docs/policy-framework/workflows/registry.json"
 check_file ".claude/skills/workflow-orchestrator/SKILL.md"
+check_file ".claude/skills/agent-board-kanban/.claude-plugin/plugin.json"
+check_file ".claude/skills/agent-board-adr/.claude-plugin/plugin.json"
 
 echo ""
 echo "Configuration integrity"

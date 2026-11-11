@@ -15,8 +15,8 @@ function makeGraph(overrides: Partial<WorkflowGraph> = {}): WorkflowGraph {
   return {
     workflowId: 'WF-BUG',
     stages: [
-      { persona: 'software-engineer', stageId: 'fix', hard: true, conditional: false, humanRequired: false },
-      { persona: 'quality', stageId: 'verify', hard: true, conditional: false, humanRequired: true },
+      { role: 'software-engineer', stageId: 'fix', hard: true, conditional: false, humanRequired: false },
+      { role: 'quality', stageId: 'verify', hard: true, conditional: false, humanRequired: true },
     ],
     stageEventCounts: { fix: 2, verify: 1 },
     stageActiveCounts: { verify: 1 },

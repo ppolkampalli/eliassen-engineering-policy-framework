@@ -1,6 +1,9 @@
 # Personal Claude Code settings (machine-local)
 .claude/settings.local.json
 
+# agent-board-kanban mod's event log: generated at runtime, machine/session-specific
+.claude/board/events.local.jsonl
+
 node_modules/
 coverage/
 user-training-onboarding/dist/

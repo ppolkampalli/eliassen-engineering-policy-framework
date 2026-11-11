@@ -105,7 +105,7 @@ describe('attributeUsageToWorkItems', () => {
     workItem: 'JIRA-1',
     workflowId: 'WF-BUG',
     stageId: 'fix',
-    persona: 'persona-software-engineer',
+    role: 'role-software-engineer',
     status: 'entered',
     humanCheckpoint: 'none',
   };
@@ -116,7 +116,7 @@ describe('attributeUsageToWorkItems', () => {
     workItem: 'JIRA-1',
     workflowId: 'WF-BUG',
     stageId: 'verify',
-    persona: 'persona-quality',
+    role: 'role-quality',
     status: 'entered',
     humanCheckpoint: 'none',
   };
@@ -134,32 +134,32 @@ describe('attributeUsageToWorkItems', () => {
       workItem: null,
       workflowId: null,
       stageId: null,
-      persona: null,
+      role: null,
     };
   }
 
   it('leaves a record before the first event of any work item unattributed', () => {
     const workItems = deriveWorkItems([selected, stageFix, stageVerify]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T09:59:00.000Z')], workItems);
-    expect(result).toMatchObject({ workItem: null, workflowId: null, stageId: null, persona: null });
+    expect(result).toMatchObject({ workItem: null, workflowId: null, stageId: null, role: null });
   });
 
-  it('attributes a record in the gap between workflowSelected and the first stage to the workflow with no stage/persona yet', () => {
+  it('attributes a record in the gap between workflowSelected and the first stage to the workflow with no stage/role yet', () => {
     const workItems = deriveWorkItems([selected, stageFix, stageVerify]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T10:02:00.000Z')], workItems);
-    expect(result).toMatchObject({ workItem: 'JIRA-1', workflowId: 'WF-BUG', stageId: null, persona: null });
+    expect(result).toMatchObject({ workItem: 'JIRA-1', workflowId: 'WF-BUG', stageId: null, role: null });
   });
 
-  it('attributes a record during a stage window to that stage and persona', () => {
+  it('attributes a record during a stage window to that stage and role', () => {
     const workItems = deriveWorkItems([selected, stageFix, stageVerify]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T10:07:00.000Z')], workItems);
-    expect(result).toMatchObject({ workItem: 'JIRA-1', stageId: 'fix', persona: 'persona-software-engineer' });
+    expect(result).toMatchObject({ workItem: 'JIRA-1', stageId: 'fix', role: 'role-software-engineer' });
   });
 
   it('attributes a record after the last event to that last stage when the item is still in progress', () => {
     const workItems = deriveWorkItems([selected, stageFix, stageVerify]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T10:20:00.000Z')], workItems);
-    expect(result).toMatchObject({ workItem: 'JIRA-1', stageId: 'verify', persona: 'persona-quality' });
+    expect(result).toMatchObject({ workItem: 'JIRA-1', stageId: 'verify', role: 'role-quality' });
   });
 
   it('does not attribute anything after a work item has completed', () => {
@@ -172,21 +172,21 @@ describe('attributeUsageToWorkItems', () => {
     };
     const workItems = deriveWorkItems([selected, stageFix, stageVerify, completed]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T10:30:00.000Z')], workItems);
-    expect(result).toMatchObject({ workItem: null, workflowId: null, stageId: null, persona: null });
+    expect(result).toMatchObject({ workItem: null, workflowId: null, stageId: null, role: null });
   });
 
   it('leaves a record unattributed when it falls inside more than one work item window (ambiguous)', () => {
     const otherSelected: WorkflowSelectedEvent = { ...selected, workItem: 'JIRA-2', timestamp: '2026-10-13T09:00:00.000Z' };
     const workItems = deriveWorkItems([selected, stageFix, stageVerify, otherSelected]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T10:07:00.000Z')], workItems);
-    expect(result).toMatchObject({ workItem: null, workflowId: null, stageId: null, persona: null });
+    expect(result).toMatchObject({ workItem: null, workflowId: null, stageId: null, role: null });
   });
 
   it('returns an empty list for no records', () => {
     expect(attributeUsageToWorkItems([], new Map())).toEqual([]);
   });
 
-  it('tags a window opened by a deviation event with its stageId but no persona', () => {
+  it('tags a window opened by a deviation event with its stageId but no role', () => {
     const deviation = {
       schemaVersion: '1.0',
       timestamp: '2026-10-13T10:06:00.000Z',
@@ -199,7 +199,7 @@ describe('attributeUsageToWorkItems', () => {
     };
     const workItems = deriveWorkItems([selected, stageFix, deviation, stageVerify]);
     const [result] = attributeUsageToWorkItems([makeUsage('2026-10-13T10:08:00.000Z')], workItems);
-    expect(result).toMatchObject({ stageId: 'fix', persona: null });
+    expect(result).toMatchObject({ stageId: 'fix', role: null });
   });
 });
 
@@ -216,7 +216,7 @@ describe('priceRecord', () => {
     workItem: null,
     workflowId: null,
     stageId: null,
-    persona: null,
+    role: null,
   };
   const priceTable: PriceTable = {
     'claude-sonnet-5': { input: 2, cacheWrite5m: 2.5, cacheWrite1h: 4, cacheRead: 0.2, output: 10 },
@@ -245,7 +245,7 @@ describe('aggregateCostReport', () => {
       workItem: null,
       workflowId: null,
       stageId: null,
-      persona: null,
+      role: null,
       costUsd: 0,
       ...overrides,
     };
@@ -253,9 +253,9 @@ describe('aggregateCostReport', () => {
 
   it('sums totals, groups by dimension with an unattributed bucket, and buckets the time series by hour', () => {
     const records = [
-      makePriced({ workItem: 'JIRA-1', workflowId: 'WF-BUG', stageId: 'fix', persona: 'persona-software-engineer', costUsd: 1.5 }),
+      makePriced({ workItem: 'JIRA-1', workflowId: 'WF-BUG', stageId: 'fix', role: 'role-software-engineer', costUsd: 1.5 }),
       makePriced({ costUsd: 0.5 }),
-      makePriced({ workItem: 'JIRA-1', workflowId: 'WF-BUG', stageId: 'fix', persona: 'persona-software-engineer', model: 'unknown-model', costUsd: null }),
+      makePriced({ workItem: 'JIRA-1', workflowId: 'WF-BUG', stageId: 'fix', role: 'role-software-engineer', model: 'unknown-model', costUsd: null }),
       makePriced({ timestamp: '2026-10-13T11:15:00.000Z', costUsd: 3 }),
     ];
 
@@ -297,7 +297,7 @@ describe('aggregateCostReport', () => {
       byWorkItem: [],
       byWorkflow: [],
       byStage: [],
-      byPersona: [],
+      byRole: [],
       byModel: [],
       timeSeries: [],
     });

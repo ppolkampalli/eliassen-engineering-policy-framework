@@ -14,7 +14,7 @@ const emptyReport: CostReport = {
   byWorkItem: [],
   byWorkflow: [],
   byStage: [],
-  byPersona: [],
+  byRole: [],
   byModel: [],
   timeSeries: [],
 };
